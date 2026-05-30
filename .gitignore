@@ -14,5 +14,6 @@ build/
 !.env.example
 data/projects/*
 !data/projects/.gitkeep
+data/token_usage.jsonl
 exports/*
 !exports/.gitkeep

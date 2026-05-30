@@ -1,0 +1,120 @@
+standards_repo_local = "G:/Agenten-Standards"
+standards_repo_github = "https://github.com/d4sd1ng/Agenten-Standards"
+selection_status = "candidate_audit_required"
+
+[[agents]]
+agent_id = "token_monitoring"
+name = "Token Monitoring Agent"
+source_path = "G:/Projects/Nurtoring-Email/token-monitoring-agent"
+preferred_source_path = "G:/Projects/Nurtoring-Email/token-monitoring-agent"
+reuse_status = "candidate"
+bookwriter_role = "Tokenverbrauch und Usage-Reports"
+adapter_required = true
+approval_required = false
+must_emit_token_usage = true
+disable_domain_logic = []
+capabilities = ["track_token_usage", "generate_cost_report", "check_budget"]
+
+[[agents]]
+agent_id = "token_cost_calculator"
+name = "Token Cost Calculator Agent"
+source_path = "G:/Projects/Nurtoring-Email/token-cost-calculator-agent"
+preferred_source_path = "G:/Projects/Nurtoring-Email/token-cost-calculator-agent"
+reuse_status = "candidate"
+bookwriter_role = "Kostenberechnung pro Modell und Provider"
+adapter_required = true
+approval_required = false
+must_emit_token_usage = false
+disable_domain_logic = []
+capabilities = ["calculate_cost", "pricing_profiles", "cost_report"]
+
+[[agents]]
+agent_id = "web_scraping"
+name = "Web Scraping Agent"
+source_path = "G:/Projects/youtube_automations/web-scraping-agent"
+preferred_source_path = "G:/Projects/youtube_automations/web-scraping-agent"
+reuse_status = "candidate_needs_domain_filter"
+bookwriter_role = "Buchmarkt-, Genre-, Themen- und Titelrecherche"
+adapter_required = true
+approval_required = true
+must_emit_token_usage = true
+disable_domain_logic = ["youtube", "shorts", "social_media", "video"]
+capabilities = ["web_scraping", "rss", "trend_research", "source_collection"]
+
+[[agents]]
+agent_id = "text_analysis"
+name = "Text Analysis Agent"
+source_path = "G:/Projects/youtube_automations/text-analysis-agent"
+preferred_source_path = "G:/Projects/youtube_automations/text-analysis-agent"
+reuse_status = "candidate"
+bookwriter_role = "Leseproben, Logik, Stil, Grammatik, Konsistenz"
+adapter_required = true
+approval_required = true
+must_emit_token_usage = true
+disable_domain_logic = []
+capabilities = ["text_review", "duplication_check", "style_check", "consistency_check"]
+
+[[agents]]
+agent_id = "content_approval"
+name = "Content Approval Agent"
+source_path = "G:/Projects/Nurtoring-Email/content-approval-agent"
+preferred_source_path = "G:/Projects/Nurtoring-Email/content-approval-agent"
+reuse_status = "candidate"
+bookwriter_role = "Freigabe, Blocker und Aenderungsanforderungen"
+adapter_required = true
+approval_required = false
+must_emit_token_usage = true
+disable_domain_logic = []
+capabilities = ["approve", "block", "request_revision"]
+
+[[agents]]
+agent_id = "document_export"
+name = "Document Export Agent"
+source_path = "G:/Projects/youtube_automations/document-export-agent"
+preferred_source_path = "G:/Projects/youtube_automations/document-export-agent"
+reuse_status = "candidate"
+bookwriter_role = "Exportstruktur und Dokumentausgabe"
+adapter_required = true
+approval_required = true
+must_emit_token_usage = true
+disable_domain_logic = []
+capabilities = ["markdown_export", "docx_export", "pdf_preparation", "ebook_structure"]
+
+[[agents]]
+agent_id = "trend_analysis"
+name = "Trend Analysis Agent"
+source_path = "G:/Projects/youtube_automations/trend-analysis-agent"
+preferred_source_path = "G:/Projects/youtube_automations/trend-analysis-agent"
+reuse_status = "candidate_needs_domain_filter"
+bookwriter_role = "Buchthemen-, Genre-, Zielgruppen- und Titeltrends"
+adapter_required = true
+approval_required = true
+must_emit_token_usage = true
+disable_domain_logic = ["youtube", "shorts", "social_media", "video"]
+capabilities = ["trend_analysis", "topic_scoring", "market_signals"]
+
+[[agents]]
+agent_id = "rate_limiter"
+name = "Rate Limiter Agent"
+source_path = "G:/Projects/Nurtoring-Email/rate-limiter-agent"
+preferred_source_path = "G:/Projects/Nurtoring-Email/rate-limiter-agent"
+reuse_status = "candidate"
+bookwriter_role = "Rate Limits fuer Scraping, APIs und externe Dienste"
+adapter_required = true
+approval_required = false
+must_emit_token_usage = false
+disable_domain_logic = []
+capabilities = ["rate_limit", "quota_tracking", "backoff"]
+
+[[agents]]
+agent_id = "workflow_executor"
+name = "Workflow Executor Agent"
+source_path = "G:/Projects/youtube_automations/workflow-executor-agent"
+preferred_source_path = "G:/Projects/youtube_automations/workflow-executor-agent"
+reuse_status = "candidate"
+bookwriter_role = "Ausfuehrung freigegebener Bookwriter-Workflows"
+adapter_required = true
+approval_required = true
+must_emit_token_usage = false
+disable_domain_logic = ["youtube", "shorts", "social_media", "video"]
+capabilities = ["workflow_execution", "job_tracking", "step_status"]

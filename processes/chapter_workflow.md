@@ -10,11 +10,29 @@
 6. Quellenbedarf markieren
 7. Kapitelbriefing prüfen
 8. Rohfassung schreiben
-9. Rohfassung prüfen
-10. Redaktion
-11. Übergänge prüfen
-12. Dopplungen prüfen
-13. Kapitel freigeben
+9. Leseprobe Fehlerkorrektur
+10. Leseprobe Logikfehler
+11. Leseprobe Spannungsbogen
+12. Leseprobe Schreibstil
+13. Leseprobe Grammatik
+14. Kapitelredaktion
+15. Übergänge prüfen
+16. Dopplungen prüfen
+17. Kapitel freigeben
+
+## Pflicht-Leseproben je Kapitel
+
+Nach jeder Kapitelrohfassung muessen fuenf getrennte Leseproben laufen.
+
+Jede Leseprobe prueft genau einen Fokus:
+
+1. Fehlerkorrektur
+2. Logikfehler
+3. Spannungsbogen
+4. Schreibstil
+5. Grammatik
+
+Das naechste Kapitel darf erst begonnen werden, wenn die fuenf Leseproben des aktuellen Kapitels abgeschlossen, freigegeben oder blockiert dokumentiert sind.
 
 ## Kapitelbriefing muss enthalten
 

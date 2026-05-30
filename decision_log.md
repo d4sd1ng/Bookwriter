@@ -87,3 +87,75 @@ Export vor finaler Struktur erzeugt unnötige Nacharbeit.
 
 ### Konsequenz
 Exportvorbereitung startet erst nach finaler Gesamtprüfung.
+
+---
+
+## 2026-05-30
+
+### Entscheidung
+Der Bookwriter nutzt mehrere Ollama-Modelle je nach Aufgabe.
+
+### Begründung
+Ein einzelnes Modell ist fuer alle Schritte nicht optimal. Orchestrierung, Struktur, Bewertung und Pruefung brauchen staerkeres Reasoning und zuverlaessige strukturierte Ausgaben. Kurze Entwuerfe und Varianten koennen schneller mit einem kleineren Modell vorbereitet werden.
+
+### Konsequenz
+gpt-oss:20b ist das Primaermodell fuer Orchestrierung, Konzept, Outline, Briefings, Redaktion, Konsistenzpruefung, Verkaufschancen, Verlagsangebot und Amazon-KDP-Vorbereitung.
+
+qwen2.5:7b ist das Sekundaermodell fuer kurze Rohtextvarianten, Stilvarianten, Zusammenfassungen und einfache Umformulierungen.
+
+Modellrouting wird in model_strategy.md und config/model_profiles.toml gepflegt.
+
+---
+
+### Entscheidung
+Der Bookwriter bekommt einen Interview-Fragenkatalog als Abstimmungsentwurf.
+
+### Begründung
+Ohne abgestimmte Fragen entstehen unvollstaendige Buchprojekte, fehlende Zielgruppen, unklare Nutzenversprechen und spaetere Blocker bei Export, Verlag oder Amazon KDP.
+
+### Konsequenz
+Der Fragenkatalog wird in interview_questionnaire.md dokumentiert, in config/interview_questions.toml fuer die CLI nutzbar gemacht und bis zur gemeinsamen Freigabe als pending_review gefuehrt.
+
+---
+
+### Entscheidung
+Die fuenf Leseproben laufen nach jeder Kapitelrohfassung.
+
+### Begründung
+Wenn erst hunderte Seiten nach dem Gesamt-First-Draft geprueft werden, werden Logikfehler, Spannungsprobleme, Stilbrueche und Grammatikfehler zu spaet entdeckt. Kapitelweise Pruefung reduziert Nacharbeit und haelt die Qualitaet laufend stabil.
+
+### Konsequenz
+Jedes Kapitel muss vor Freigabe fuenf getrennte Prueflaeufe durchlaufen: Fehlerkorrektur, Logikfehler, Spannungsbogen, Schreibstil und Grammatik. Der Gesamttext erhaelt danach eine uebergreifende Konsistenz- und Finalpruefung.
+
+---
+
+### Entscheidung
+Shared Agents werden primaer aus youtube_automations wiederverwendet.
+
+### Begründung
+Die meisten generischen Agenten existieren dort bereits. Wiederverwendung verhindert doppelte Implementierungen und macht Agenten langfristig projektuebergreifend wartbar.
+
+### Konsequenz
+Bookwriter implementiert Adapter und projektspezifische Regeln, aber keine Kopien generischer Agenten. Die Registry steht in config/reusable_agents.toml.
+
+---
+
+### Entscheidung
+Token- und Kostenmonitoring wird verpflichtend.
+
+### Begründung
+Bei langen Buchprojekten entstehen viele Modelllaeufe pro Kapitel. Ohne laufende Transparenz ueber Input-Tokens, Output-Tokens und Kosten ist weder Budgetkontrolle noch Modellvergleich moeglich.
+
+### Konsequenz
+Jeder Modelllauf muss im Tokenledger dokumentiert werden. Lokale Ollama-Modelle werden mit API-Kosten 0 gefuehrt. Externe Modelle sind ohne freigegebenes Kostenprofil blockiert.
+
+---
+
+### Entscheidung
+Modellfreigaben werden nach Ausgabequalitaet enger definiert.
+
+### Begründung
+Die Modellgroesse oder ein gutes allgemeines Profil reicht fuer sachgemaesse Pruefungen nicht aus. Entscheidend ist, ob das Modell im konkreten Task vollstaendig, fokussiert, strukturiert und sprachlich sauber arbeitet.
+
+### Konsequenz
+Fuer Review- und Konsistenzaufgaben gelten Qualitaetsgates. Modelle koennen pro Task freigegeben, eingeschraenkt oder gesperrt werden.

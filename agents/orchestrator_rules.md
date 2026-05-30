@@ -47,3 +47,17 @@ Jede Übergabe braucht:
 - erwarteter Output
 - Freigabestatus
 - Prüfschritt nach Rückgabe
+
+## Shared-Agent-Regeln
+
+Der Orchestrator darf vorhandene Agenten aus anderen Projekten nutzen, wenn ein Bookwriter-Adapter definiert ist.
+
+Er muss dabei:
+
+- den Agenten ueber `config/reusable_agents.toml` identifizieren
+- Bookwriter-Regeln in den Auftrag einbetten
+- Social-Media-/Video-Funktionen deaktivieren
+- Token-Usage-Erfassung erzwingen
+- Freigabestatus in das Bookwriter-Statusmodell uebersetzen
+
+Der Orchestrator darf keinen Shared Agent direkt ohne Adaptervertrag produktiv nutzen.

@@ -18,3 +18,16 @@
 | Token Monitoring Agent | Tokenverbrauch überwachen | Inhalt |
 | Token Cost Calculator Agent | Kosten abschätzen | Budgetfreigabe |
 | Analytics Agent | spätere Auswertung von Nutzung oder Downloads | Buchtext schreiben |
+
+## Reuse-Regel
+
+Generische Agenten werden projektuebergreifend genutzt.
+
+Bookwriter implementiert dafuer Adapter, aber kopiert oder dupliziert die Agentenlogik nicht.
+
+Jeder wiederverwendete Agent muss:
+
+- ueber den Orchestrator laufen
+- Bookwriter-Statuswerte abbilden
+- Tokenverbrauch melden, wenn ein Modelllauf stattfindet
+- Social-Media-, YouTube- oder Video-Funktionen deaktivieren, falls vorhanden

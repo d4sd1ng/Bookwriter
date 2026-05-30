@@ -1,0 +1,45 @@
+[defaults]
+minimum_total_score = 4.0
+minimum_review_score = 4.3
+scale = "1-5"
+block_below_minimum = true
+requires_manual_approval_after_benchmark = true
+
+[criteria]
+structured_output = "Valid JSON or required schema compliance."
+instruction_following = "Follows task, focus, role, and blocker rules."
+coverage = "Reviews the complete approved input scope."
+specificity = "Findings are concrete, actionable, and tied to text locations."
+false_positive_rate = "Does not invent issues or facts."
+language_quality = "German output quality, grammar, tone, and clarity."
+long_context_stability = "Keeps track of long chapters without dropping context."
+
+[tasks.reading_sample_review]
+minimum_total_score = 4.4
+required_criteria = [
+  "structured_output",
+  "instruction_following",
+  "coverage",
+  "specificity",
+  "false_positive_rate",
+  "language_quality",
+  "long_context_stability",
+]
+
+[tasks.consistency_review]
+minimum_total_score = 4.5
+required_criteria = [
+  "structured_output",
+  "instruction_following",
+  "coverage",
+  "specificity",
+  "false_positive_rate",
+  "long_context_stability",
+]
+
+[tasks.short_draft]
+minimum_total_score = 3.8
+required_criteria = [
+  "instruction_following",
+  "language_quality",
+]

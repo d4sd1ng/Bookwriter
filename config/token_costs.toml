@@ -1,0 +1,37 @@
+[defaults]
+currency = "EUR"
+ledger_path = "data/token_usage.jsonl"
+local_api_cost_per_million_input_tokens = 0.0
+local_api_cost_per_million_output_tokens = 0.0
+require_cost_profile_for_external_models = true
+block_unknown_external_model_costs = true
+
+[models."gpt-oss:20b"]
+provider = "ollama"
+api_cost_per_million_input_tokens = 0.0
+api_cost_per_million_output_tokens = 0.0
+cost_note = "Local Ollama model. API token cost is 0; hardware/electricity cost is not included unless configured separately."
+
+[models."qwen2.5:7b"]
+provider = "ollama"
+api_cost_per_million_input_tokens = 0.0
+api_cost_per_million_output_tokens = 0.0
+cost_note = "Local Ollama model. API token cost is 0."
+
+[models."qwen3:14b"]
+provider = "ollama"
+api_cost_per_million_input_tokens = 0.0
+api_cost_per_million_output_tokens = 0.0
+cost_note = "Local Ollama model. API token cost is 0."
+
+[models."mistral-small3.2:24b"]
+provider = "ollama"
+api_cost_per_million_input_tokens = 0.0
+api_cost_per_million_output_tokens = 0.0
+cost_note = "Candidate local Ollama model after installation. API token cost is 0."
+
+[models."qwen3:30b"]
+provider = "ollama"
+api_cost_per_million_input_tokens = 0.0
+api_cost_per_million_output_tokens = 0.0
+cost_note = "Candidate local Ollama model after installation. API token cost is 0."

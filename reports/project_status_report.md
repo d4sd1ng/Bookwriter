@@ -6,11 +6,14 @@ Eigenständige Bookwriter-Projektstruktur erstellt.
 
 ## Enthalten
 
-- 5 Kern-Dateien
+- 7 Kern-Dateien
 - Agentenübersicht
 - Agenten-Verantwortungsmatrix
 - Orchestrator-Regeln
 - Freigabekette
+- Modellstrategie
+- Interview-Fragenkatalog als Abstimmungsentwurf
+- fuenf kapitelweise Leseproben nach jeder Kapitelrohfassung
 - Buchprojekt-Workflow
 - Kapitel-Workflow
 - Redaktions-Workflow
@@ -29,11 +32,14 @@ Eigenständige Bookwriter-Projektstruktur erstellt.
 
 ## Offene Punkte
 
-1. Konkreten Buchtyp festlegen.
-2. Zielgruppe definieren.
-3. Umfangsziel festlegen.
-4. Exportformat bestimmen.
-5. Stilvorgaben definieren.
-6. Quellenregeln konkretisieren.
-7. Kapitelstandard testen.
-8. Designvorgaben ergänzen.
+1. Fragenkatalog gemeinsam abstimmen und freigeben.
+2. Prompt-Optimierungen pruefen und freigeben.
+3. Entscheiden, ob jede kapitelweise Leseprobe manuelle Freigabe braucht.
+4. Konkreten Buchtyp festlegen.
+5. Zielgruppe definieren.
+6. Umfangsziel festlegen.
+7. Exportformat bestimmen.
+8. Stilvorgaben definieren.
+9. Quellenregeln konkretisieren.
+10. Kapitelstandard testen.
+11. Designvorgaben ergänzen.

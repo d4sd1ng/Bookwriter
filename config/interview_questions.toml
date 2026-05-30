@@ -1,0 +1,75 @@
+[_meta]
+version = "0.1"
+status = "pending_review"
+requires_approval_before_production = true
+
+[[questions]]
+field = "topic"
+label = "Thema"
+prompt = "Wie lautet das Thema des Buchs?"
+required = true
+stage = "project_basis"
+
+[[questions]]
+field = "book_type"
+label = "Buchtyp"
+prompt = "Welcher Buchtyp soll entstehen?"
+required = true
+stage = "project_basis"
+
+[[questions]]
+field = "target_audience"
+label = "Zielgruppe"
+prompt = "Wer ist die primaere Zielgruppe?"
+required = true
+stage = "target_audience"
+blocks_if_missing = true
+
+[[questions]]
+field = "reader_problem"
+label = "Leserproblem"
+prompt = "Welches konkrete Problem hat diese Zielgruppe?"
+required = true
+stage = "target_audience"
+
+[[questions]]
+field = "desired_result"
+label = "Leserergebnis"
+prompt = "Was soll die Zielgruppe nach dem Lesen koennen, wissen oder entscheiden?"
+required = true
+stage = "target_audience"
+
+[[questions]]
+field = "value_proposition"
+label = "Nutzenversprechen"
+prompt = "Welchen klaren Nutzen liefert das Buch?"
+required = true
+stage = "value_proposition"
+
+[[questions]]
+field = "tone"
+label = "Tonalitaet"
+prompt = "Soll der Stil sachlich, beratend, direkt oder erzaehlerisch sein?"
+required = true
+stage = "style"
+
+[[questions]]
+field = "length_goal"
+label = "Umfangsziel"
+prompt = "Welcher Umfang ist geplant?"
+required = true
+stage = "structure"
+
+[[questions]]
+field = "export_format"
+label = "Exportformat"
+prompt = "Welches Exportformat ist zuerst relevant?"
+required = true
+stage = "export"
+
+[[questions]]
+field = "sales_goal"
+label = "Verkaufsziel"
+prompt = "Soll eine Verkaufschancenbewertung, ein Verlagsangebot oder KDP vorbereitet werden?"
+required = false
+stage = "market"
