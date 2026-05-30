@@ -71,6 +71,44 @@ class ChapterPlan:
 
 
 @dataclass(slots=True)
+class ChapterBriefing:
+    chapter_number: int
+    title: str
+    goal: str
+    context: str
+    core_points: list[str]
+    section_structure: list[str]
+    examples: list[str]
+    source_needs: list[str]
+    previous_transition: str = ""
+    next_transition: str = ""
+    status: ApprovalStatus = ApprovalStatus.PENDING_REVIEW
+
+
+@dataclass(slots=True)
+class ChapterDraft:
+    chapter_number: int
+    title: str
+    goal: str
+    markdown: str
+    summary: str
+    next_transition: str
+    open_points: list[str]
+    status: ApprovalStatus = ApprovalStatus.PENDING_REVIEW
+
+
+@dataclass(slots=True)
+class ChapterReview:
+    chapter_number: int
+    focus: str
+    run_number: int
+    findings: list[str]
+    change_suggestions: list[str]
+    residual_risks: list[str]
+    status: ApprovalStatus = ApprovalStatus.PENDING_REVIEW
+
+
+@dataclass(slots=True)
 class BookConcept:
     working_title: str
     subtitle: str
@@ -157,6 +195,9 @@ class BookProject:
     plot: Plot | None = None
     treatment: Treatment | None = None
     outline: list[ChapterPlan] = field(default_factory=list)
+    chapter_briefings: list[ChapterBriefing] = field(default_factory=list)
+    chapter_drafts: list[ChapterDraft] = field(default_factory=list)
+    chapter_reviews: list[ChapterReview] = field(default_factory=list)
     market_assessment: MarketAssessment | None = None
     publisher_offers: list[PublisherOffer] = field(default_factory=list)
     publishing_checklists: list[PublishingChecklist] = field(default_factory=list)
@@ -182,6 +223,18 @@ class BookProject:
         outline = [
             ChapterPlan(**(item | {"status": ApprovalStatus(item["status"])}))
             for item in data.get("outline", [])
+        ]
+        chapter_briefings = [
+            ChapterBriefing(**(item | {"status": ApprovalStatus(item["status"])}))
+            for item in data.get("chapter_briefings", [])
+        ]
+        chapter_drafts = [
+            ChapterDraft(**(item | {"status": ApprovalStatus(item["status"])}))
+            for item in data.get("chapter_drafts", [])
+        ]
+        chapter_reviews = [
+            ChapterReview(**(item | {"status": ApprovalStatus(item["status"])}))
+            for item in data.get("chapter_reviews", [])
         ]
         plot_data = data.get("plot")
         if plot_data:
@@ -246,6 +299,9 @@ class BookProject:
             plot=plot,
             treatment=treatment,
             outline=outline,
+            chapter_briefings=chapter_briefings,
+            chapter_drafts=chapter_drafts,
+            chapter_reviews=chapter_reviews,
             market_assessment=market_assessment,
             publisher_offers=publisher_offers,
             publishing_checklists=publishing_checklists,

@@ -2,15 +2,21 @@ from __future__ import annotations
 
 from bookwriter.agents.concept_agent import BookConceptAgent
 from bookwriter.agents.brainstorm_agent import BrainstormAgent
+from bookwriter.agents.chapter_agent import ChapterBriefingAgent, ChapterDraftAgent, ChapterReviewAgent
 from bookwriter.agents.market_agent import MarketAssessmentAgent
 from bookwriter.agents.outline_agent import OutlineAgent
 from bookwriter.agents.plot_agent import PlotAgent, TreatmentAgent
 from bookwriter.agents.publisher_agent import PublisherOfferAgent
 from bookwriter.domain.models import BookProject, Interview
+from bookwriter.domain.review_runs import ReadingSampleFocus
 from bookwriter.domain.status import ApprovalStatus, WorkflowStage
 from bookwriter.domain.validation import (
     apply_blockers,
     validate_concept,
+    validate_chapter_approval,
+    validate_chapter_briefing_readiness,
+    validate_chapter_draft_readiness,
+    validate_chapter_review_readiness,
     validate_development_foundation,
     validate_interview,
     validate_plotting_readiness,
@@ -23,6 +29,9 @@ class Orchestrator:
     def __init__(self) -> None:
         self.concept_agent = BookConceptAgent()
         self.brainstorm_agent = BrainstormAgent()
+        self.chapter_briefing_agent = ChapterBriefingAgent()
+        self.chapter_draft_agent = ChapterDraftAgent()
+        self.chapter_review_agent = ChapterReviewAgent()
         self.outline_agent = OutlineAgent()
         self.plot_agent = PlotAgent()
         self.treatment_agent = TreatmentAgent()
@@ -162,3 +171,122 @@ class Orchestrator:
         project.stage = WorkflowStage.PUBLISHING_PREPARATION
         project.touch()
         return project
+
+    def prepare_chapter_briefing(self, project: BookProject, chapter_number: int) -> BookProject:
+        validation = validate_chapter_briefing_readiness(project, chapter_number)
+        if not validation.ok:
+            apply_blockers(project, validation)
+            return project
+        chapter = next(item for item in project.outline if item.number == chapter_number)
+        result = self.chapter_briefing_agent.run(project, chapter)
+        project.chapter_briefings = [
+            item for item in project.chapter_briefings if item.chapter_number != chapter_number
+        ]
+        project.chapter_briefings.append(result.output)
+        project.status = result.status
+        project.blockers = []
+        project.touch()
+        return project
+
+    def approve_chapter_briefing(self, project: BookProject, chapter_number: int) -> BookProject:
+        briefing = self._find_briefing(project, chapter_number)
+        if briefing is None:
+            project.status = ApprovalStatus.BLOCKED
+            project.blockers = [f"Chapter briefing not found: {chapter_number}."]
+        else:
+            briefing.status = ApprovalStatus.APPROVED
+            project.blockers = []
+        project.touch()
+        return project
+
+    def draft_chapter(self, project: BookProject, chapter_number: int) -> BookProject:
+        briefing = self._find_briefing(project, chapter_number)
+        validation = validate_chapter_draft_readiness(briefing)
+        if not validation.ok:
+            apply_blockers(project, validation)
+            return project
+        result = self.chapter_draft_agent.run(project, briefing)
+        project.chapter_drafts = [
+            item for item in project.chapter_drafts if item.chapter_number != chapter_number
+        ]
+        project.chapter_drafts.append(result.output)
+        project.status = result.status
+        project.blockers = []
+        project.touch()
+        return project
+
+    def review_chapter(
+        self,
+        project: BookProject,
+        chapter_number: int,
+        focus: ReadingSampleFocus,
+    ) -> BookProject:
+        draft = self._find_draft(project, chapter_number)
+        validation = validate_chapter_review_readiness(draft)
+        if not validation.ok:
+            apply_blockers(project, validation)
+            return project
+        result = self.chapter_review_agent.run(draft, focus)
+        project.chapter_reviews = [
+            item
+            for item in project.chapter_reviews
+            if not (item.chapter_number == chapter_number and item.focus == focus.value)
+        ]
+        project.chapter_reviews.append(result.output)
+        project.status = result.status
+        project.blockers = []
+        project.touch()
+        return project
+
+    def approve_chapter_review(
+        self,
+        project: BookProject,
+        chapter_number: int,
+        focus: ReadingSampleFocus,
+    ) -> BookProject:
+        review = next(
+            (
+                item
+                for item in project.chapter_reviews
+                if item.chapter_number == chapter_number and item.focus == focus.value
+            ),
+            None,
+        )
+        if review is None:
+            project.status = ApprovalStatus.BLOCKED
+            project.blockers = [f"Chapter review not found: {chapter_number} / {focus.value}."]
+        else:
+            review.status = ApprovalStatus.APPROVED
+            project.blockers = []
+        project.touch()
+        return project
+
+    def approve_chapter(self, project: BookProject, chapter_number: int) -> BookProject:
+        validation = validate_chapter_approval(project, chapter_number)
+        if not validation.ok:
+            apply_blockers(project, validation)
+            return project
+        draft = self._find_draft(project, chapter_number)
+        if draft:
+            draft.status = ApprovalStatus.APPROVED
+        chapter = next((item for item in project.outline if item.number == chapter_number), None)
+        if chapter:
+            chapter.status = ApprovalStatus.APPROVED
+        project.status = ApprovalStatus.APPROVED
+        project.blockers = []
+        project.touch()
+        return project
+
+    @staticmethod
+    def _find_briefing(project: BookProject, chapter_number: int):
+        return next(
+            (item for item in project.chapter_briefings if item.chapter_number == chapter_number),
+            None,
+        )
+
+    @staticmethod
+    def _find_draft(project: BookProject, chapter_number: int):
+        return next(
+            (item for item in project.chapter_drafts if item.chapter_number == chapter_number),
+            None,
+        )

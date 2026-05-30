@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from bookwriter.domain.models import BookProject
+from bookwriter.domain.models import BookProject, ChapterBriefing, ChapterDraft
+from bookwriter.domain.review_runs import READING_SAMPLE_SEQUENCE
 from bookwriter.domain.status import ApprovalStatus, WorkflowStage
 
 
@@ -108,6 +109,61 @@ def validate_treatment_readiness(project: BookProject) -> ValidationResult:
         blockers.append("Plot is required before treatment.")
     elif project.plot.status != ApprovalStatus.APPROVED:
         blockers.append("Plot must be approved before treatment.")
+    return ValidationResult(ok=not blockers, blockers=blockers)
+
+
+def validate_chapter_briefing_readiness(
+    project: BookProject,
+    chapter_number: int,
+) -> ValidationResult:
+    blockers = validate_concept(project).blockers
+    if project.stage != WorkflowStage.OUTLINE:
+        blockers.append("Project must be in outline stage before chapter briefing.")
+    if not project.outline:
+        blockers.append("Approved outline is required before chapter briefing.")
+    chapter = next((item for item in project.outline if item.number == chapter_number), None)
+    if chapter is None:
+        blockers.append(f"Chapter {chapter_number} not found in outline.")
+    elif not chapter.goal.strip():
+        blockers.append(f"Chapter {chapter_number} has no chapter goal.")
+    return ValidationResult(ok=not blockers, blockers=blockers)
+
+
+def validate_chapter_draft_readiness(briefing: ChapterBriefing | None) -> ValidationResult:
+    blockers: list[str] = []
+    if briefing is None:
+        blockers.append("Approved chapter briefing is required before drafting.")
+    elif briefing.status != ApprovalStatus.APPROVED:
+        blockers.append("Chapter briefing is not approved.")
+    return ValidationResult(ok=not blockers, blockers=blockers)
+
+
+def validate_chapter_review_readiness(draft: ChapterDraft | None) -> ValidationResult:
+    blockers: list[str] = []
+    if draft is None:
+        blockers.append("Chapter draft is required before review.")
+    elif draft.status != ApprovalStatus.PENDING_REVIEW:
+        blockers.append("Chapter draft must be pending_review before review.")
+    return ValidationResult(ok=not blockers, blockers=blockers)
+
+
+def validate_chapter_approval(project: BookProject, chapter_number: int) -> ValidationResult:
+    blockers: list[str] = []
+    draft = next(
+        (item for item in project.chapter_drafts if item.chapter_number == chapter_number),
+        None,
+    )
+    if draft is None:
+        blockers.append("Chapter draft is required before approval.")
+    required = {focus.value for focus in READING_SAMPLE_SEQUENCE}
+    completed = {
+        review.focus
+        for review in project.chapter_reviews
+        if review.chapter_number == chapter_number and review.status == ApprovalStatus.APPROVED
+    }
+    missing = sorted(required - completed)
+    if missing:
+        blockers.append(f"Missing approved chapter review runs: {', '.join(missing)}.")
     return ValidationResult(ok=not blockers, blockers=blockers)
 
 

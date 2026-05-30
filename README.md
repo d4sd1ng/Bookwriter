@@ -80,6 +80,12 @@ bookwriter plot <project_id>
 bookwriter approve-plot <project_id>
 bookwriter treatment <project_id>
 bookwriter approve-treatment <project_id> --chapters 8
+bookwriter chapter-briefing <project_id> --chapter 1
+bookwriter approve-briefing <project_id> --chapter 1
+bookwriter draft-chapter <project_id> --chapter 1
+bookwriter review-chapter <project_id> --chapter 1 --focus fehlerkorrektur
+bookwriter approve-review <project_id> --chapter 1 --focus fehlerkorrektur
+bookwriter approve-chapter <project_id> --chapter 1
 bookwriter token-log --project-id <project_id> --task reading_sample_review --model gpt-oss:20b --input-tokens 12000 --output-tokens 1800
 bookwriter usage --project-id <project_id>
 ```
@@ -111,3 +117,7 @@ Der Fragenkatalog steht als Abstimmungsentwurf in `interview_questionnaire.md` u
 Vor Plotting, Treatment und Kapitelarbeit muessen Startmodus, Buchart, Alters-/Zielgruppe, Erzaehlfokus, Perspektive, Ende, Ausgabeform, Figurenstatus und Recherchemodus feststehen. Fehlt eine eigene Idee, erzeugt `bookwriter brainstorm` einen 5-3-1-Funnel.
 
 Outline entsteht erst nach freigegebenem Konzept, freigegebenem Plot und freigegebenem Treatment.
+
+## Kapitelpipeline
+
+Jedes Kapitel laeuft ueber ein freigegebenes Kapitelbriefing, eine Rohfassung und fuenf getrennte Review-Runs. Die Kapitel-Freigabe blockiert, bis Fehlerkorrektur, Logikfehler, Spannungsbogen, Schreibstil und Grammatik als einzelne Reviews freigegeben sind.

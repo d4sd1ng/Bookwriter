@@ -170,3 +170,14 @@ Thema und Zielgruppe reichen nicht aus, um ein Buch kontrolliert zu entwickeln. 
 
 ### Konsequenz
 Ohne vollstaendiges Entwicklungsfundament blockiert der Prozess vor Outline/Plotting. Wenn keine eigene Grundidee vorhanden ist, muss ein 5-3-1-Brainstorming durchlaufen und eine Arbeitsidee ausgewaehlt werden.
+
+---
+
+### Entscheidung
+Kapitel werden nur nach Briefing, Rohfassung und fuenf freigegebenen Review-Runs freigegeben.
+
+### Begründung
+Kapitelweise Qualitaetskontrolle verhindert, dass Fehler erst im Gesamtmanuskript gefunden werden. Jeder Review-Fokus braucht einen eigenen Lauf, damit Fehlerkorrektur, Logik, Spannungsbogen, Stil und Grammatik nicht vermischt werden.
+
+### Konsequenz
+Die CLI unterstuetzt Kapitelbriefing, Briefing-Freigabe, Kapitelrohfassung, fokussierte Review-Runs, Review-Freigabe und Kapitel-Freigabe. Kapitel-Freigabe blockiert, bis alle fuenf Review-Runs approved sind.

@@ -7,6 +7,7 @@ from bookwriter.agents.orchestrator import Orchestrator
 from bookwriter.domain.interview_questions import load_interview_questions, question_by_field
 from bookwriter.domain.models import BookProject, Interview
 from bookwriter.domain.model_profiles import load_model_profiles
+from bookwriter.domain.review_runs import ReadingSampleFocus
 from bookwriter.domain.token_usage import TokenUsageLedger, TokenUsageRecord
 from bookwriter.domain.validation import validate_development_foundation
 from bookwriter.storage.json_store import JsonProjectStore
@@ -30,6 +31,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         return run_treatment(args)
     if args.command == "approve-treatment":
         return run_approve_treatment(args)
+    if args.command == "chapter-briefing":
+        return run_chapter_briefing(args)
+    if args.command == "approve-briefing":
+        return run_approve_briefing(args)
+    if args.command == "draft-chapter":
+        return run_draft_chapter(args)
+    if args.command == "review-chapter":
+        return run_review_chapter(args)
+    if args.command == "approve-review":
+        return run_approve_review(args)
+    if args.command == "approve-chapter":
+        return run_approve_chapter(args)
     if args.command == "market":
         return run_market(args)
     if args.command == "publisher-offer":
@@ -106,6 +119,40 @@ def build_parser() -> argparse.ArgumentParser:
     )
     approve_treatment.add_argument("project_id")
     approve_treatment.add_argument("--chapters", type=int)
+
+    chapter_briefing = subparsers.add_parser("chapter-briefing", help="Create chapter briefing.")
+    chapter_briefing.add_argument("project_id")
+    chapter_briefing.add_argument("--chapter", type=int, required=True)
+
+    approve_briefing = subparsers.add_parser("approve-briefing", help="Approve chapter briefing.")
+    approve_briefing.add_argument("project_id")
+    approve_briefing.add_argument("--chapter", type=int, required=True)
+
+    draft_chapter = subparsers.add_parser("draft-chapter", help="Create chapter draft.")
+    draft_chapter.add_argument("project_id")
+    draft_chapter.add_argument("--chapter", type=int, required=True)
+
+    review_chapter = subparsers.add_parser("review-chapter", help="Create one focused chapter review.")
+    review_chapter.add_argument("project_id")
+    review_chapter.add_argument("--chapter", type=int, required=True)
+    review_chapter.add_argument(
+        "--focus",
+        required=True,
+        choices=[focus.value for focus in ReadingSampleFocus],
+    )
+
+    approve_review = subparsers.add_parser("approve-review", help="Approve one chapter review.")
+    approve_review.add_argument("project_id")
+    approve_review.add_argument("--chapter", type=int, required=True)
+    approve_review.add_argument(
+        "--focus",
+        required=True,
+        choices=[focus.value for focus in ReadingSampleFocus],
+    )
+
+    approve_chapter = subparsers.add_parser("approve-chapter", help="Approve chapter after all reviews.")
+    approve_chapter.add_argument("project_id")
+    approve_chapter.add_argument("--chapter", type=int, required=True)
 
     market = subparsers.add_parser("market", help="Prepare preliminary market assessment.")
     market.add_argument("project_id")
@@ -260,6 +307,86 @@ def run_approve_treatment(args: argparse.Namespace) -> int:
         project,
         chapter_count=args.chapters,
     )
+    path = store.save(updated)
+    _print_project_summary(updated)
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
+def run_chapter_briefing(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator().prepare_chapter_briefing(project, args.chapter)
+    path = store.save(updated)
+    _print_project_summary(updated)
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
+def run_approve_briefing(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator().approve_chapter_briefing(project, args.chapter)
+    path = store.save(updated)
+    _print_project_summary(updated)
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
+def run_draft_chapter(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator().draft_chapter(project, args.chapter)
+    path = store.save(updated)
+    _print_project_summary(updated)
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
+def run_review_chapter(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator().review_chapter(
+        project,
+        args.chapter,
+        ReadingSampleFocus(args.focus),
+    )
+    path = store.save(updated)
+    _print_project_summary(updated)
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
+def run_approve_review(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator().approve_chapter_review(
+        project,
+        args.chapter,
+        ReadingSampleFocus(args.focus),
+    )
+    path = store.save(updated)
+    _print_project_summary(updated)
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
+def run_approve_chapter(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator().approve_chapter(project, args.chapter)
     path = store.save(updated)
     _print_project_summary(updated)
     print(f"Saved: {path}")
@@ -461,6 +588,12 @@ def _print_project_summary(project: BookProject) -> None:
         print(f"Treatment: {len(project.treatment.sections)} sections / {project.treatment.status}")
     if project.outline:
         print(f"Outline chapters: {len(project.outline)}")
+    if project.chapter_briefings:
+        print(f"Chapter briefings: {len(project.chapter_briefings)}")
+    if project.chapter_drafts:
+        print(f"Chapter drafts: {len(project.chapter_drafts)}")
+    if project.chapter_reviews:
+        print(f"Chapter reviews: {len(project.chapter_reviews)}")
     if project.blockers:
         print("Blockers:")
         for blocker in project.blockers:
