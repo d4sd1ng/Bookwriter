@@ -75,6 +75,11 @@ bookwriter questions
 bookwriter brainstorm --seed "Mut"
 bookwriter set-foundation <project_id> --book-category "Belletristik" --age-group "Erwachsene" --narrative-focus "charakterorientiert" --perspective "3. Person" --perspective-count "eine Perspektive" --ending-type "offenes Ende" --publication-format "Taschenbuch" --character-mode "Figuren entwickeln"
 bookwriter foundation-check <project_id>
+bookwriter approve-concept <project_id>
+bookwriter plot <project_id>
+bookwriter approve-plot <project_id>
+bookwriter treatment <project_id>
+bookwriter approve-treatment <project_id> --chapters 8
 bookwriter token-log --project-id <project_id> --task reading_sample_review --model gpt-oss:20b --input-tokens 12000 --output-tokens 1800
 bookwriter usage --project-id <project_id>
 ```
@@ -104,3 +109,5 @@ Der Fragenkatalog steht als Abstimmungsentwurf in `interview_questionnaire.md` u
 ## Entwicklungsfundament
 
 Vor Plotting, Treatment und Kapitelarbeit muessen Startmodus, Buchart, Alters-/Zielgruppe, Erzaehlfokus, Perspektive, Ende, Ausgabeform, Figurenstatus und Recherchemodus feststehen. Fehlt eine eigene Idee, erzeugt `bookwriter brainstorm` einen 5-3-1-Funnel.
+
+Outline entsteht erst nach freigegebenem Konzept, freigegebenem Plot und freigegebenem Treatment.

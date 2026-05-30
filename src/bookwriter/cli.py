@@ -22,6 +22,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         return run_status(args)
     if args.command == "approve-concept":
         return run_approve_concept(args)
+    if args.command == "plot":
+        return run_plot(args)
+    if args.command == "approve-plot":
+        return run_approve_plot(args)
+    if args.command == "treatment":
+        return run_treatment(args)
+    if args.command == "approve-treatment":
+        return run_approve_treatment(args)
     if args.command == "market":
         return run_market(args)
     if args.command == "publisher-offer":
@@ -80,9 +88,24 @@ def build_parser() -> argparse.ArgumentParser:
     status = subparsers.add_parser("status", help="Show project status.")
     status.add_argument("project_id")
 
-    approve = subparsers.add_parser("approve-concept", help="Approve concept and create outline.")
+    approve = subparsers.add_parser("approve-concept", help="Approve concept.")
     approve.add_argument("project_id")
-    approve.add_argument("--chapters", type=int)
+
+    plot = subparsers.add_parser("plot", help="Prepare plot after approved concept.")
+    plot.add_argument("project_id")
+
+    approve_plot = subparsers.add_parser("approve-plot", help="Approve plot.")
+    approve_plot.add_argument("project_id")
+
+    treatment = subparsers.add_parser("treatment", help="Prepare treatment after approved plot.")
+    treatment.add_argument("project_id")
+
+    approve_treatment = subparsers.add_parser(
+        "approve-treatment",
+        help="Approve treatment and create outline.",
+    )
+    approve_treatment.add_argument("project_id")
+    approve_treatment.add_argument("--chapters", type=int)
 
     market = subparsers.add_parser("market", help="Prepare preliminary market assessment.")
     market.add_argument("project_id")
@@ -181,7 +204,62 @@ def run_approve_concept(args: argparse.Namespace) -> int:
     project = _load_project(args.project_id, store)
     if project is None:
         return 2
-    updated = Orchestrator().approve_concept(project, chapter_count=args.chapters)
+    updated = Orchestrator().approve_concept(project)
+    path = store.save(updated)
+    _print_project_summary(updated)
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
+def run_plot(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator().prepare_plot(project)
+    path = store.save(updated)
+    _print_project_summary(updated)
+    if updated.plot:
+        print(f"Plot points: {len(updated.plot.structure)} / {updated.plot.status}")
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
+def run_approve_plot(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator().approve_plot(project)
+    path = store.save(updated)
+    _print_project_summary(updated)
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
+def run_treatment(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator().prepare_treatment(project)
+    path = store.save(updated)
+    _print_project_summary(updated)
+    if updated.treatment:
+        print(f"Treatment sections: {len(updated.treatment.sections)} / {updated.treatment.status}")
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
+def run_approve_treatment(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator().approve_treatment_and_create_outline(
+        project,
+        chapter_count=args.chapters,
+    )
     path = store.save(updated)
     _print_project_summary(updated)
     print(f"Saved: {path}")
@@ -377,6 +455,10 @@ def _print_project_summary(project: BookProject) -> None:
     print(f"Status: {project.status}")
     if project.concept:
         print(f"Concept: {project.concept.working_title} / {project.concept.status}")
+    if project.plot:
+        print(f"Plot: {len(project.plot.structure)} points / {project.plot.status}")
+    if project.treatment:
+        print(f"Treatment: {len(project.treatment.sections)} sections / {project.treatment.status}")
     if project.outline:
         print(f"Outline chapters: {len(project.outline)}")
     if project.blockers:

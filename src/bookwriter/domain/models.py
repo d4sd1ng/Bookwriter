@@ -84,6 +84,39 @@ class BookConcept:
 
 
 @dataclass(slots=True)
+class PlotPoint:
+    sequence: int
+    title: str
+    function: str
+    conflict: str
+    outcome: str
+
+
+@dataclass(slots=True)
+class Plot:
+    structure: list[PlotPoint]
+    tension_arc: str
+    turning_points: list[str]
+    logic_questions: list[str]
+    status: ApprovalStatus = ApprovalStatus.PENDING_REVIEW
+
+
+@dataclass(slots=True)
+class TreatmentSection:
+    sequence: int
+    title: str
+    summary: str
+    purpose: str
+
+
+@dataclass(slots=True)
+class Treatment:
+    sections: list[TreatmentSection]
+    open_questions: list[str]
+    status: ApprovalStatus = ApprovalStatus.PENDING_REVIEW
+
+
+@dataclass(slots=True)
 class MarketAssessment:
     positioning: str
     sales_chances: str
@@ -121,6 +154,8 @@ class BookProject:
     status: ApprovalStatus = ApprovalStatus.DRAFT
     concept: BookConcept | None = None
     brainstorming: BrainstormingFunnel | None = None
+    plot: Plot | None = None
+    treatment: Treatment | None = None
     outline: list[ChapterPlan] = field(default_factory=list)
     market_assessment: MarketAssessment | None = None
     publisher_offers: list[PublisherOffer] = field(default_factory=list)
@@ -148,6 +183,22 @@ class BookProject:
             ChapterPlan(**(item | {"status": ApprovalStatus(item["status"])}))
             for item in data.get("outline", [])
         ]
+        plot_data = data.get("plot")
+        if plot_data:
+            plot_data["status"] = ApprovalStatus(plot_data["status"])
+            plot_data["structure"] = [PlotPoint(**item) for item in plot_data.get("structure", [])]
+            plot = Plot(**plot_data)
+        else:
+            plot = None
+        treatment_data = data.get("treatment")
+        if treatment_data:
+            treatment_data["status"] = ApprovalStatus(treatment_data["status"])
+            treatment_data["sections"] = [
+                TreatmentSection(**item) for item in treatment_data.get("sections", [])
+            ]
+            treatment = Treatment(**treatment_data)
+        else:
+            treatment = None
         brainstorming_data = data.get("brainstorming")
         if brainstorming_data:
             brainstorming_data["status"] = ApprovalStatus(brainstorming_data["status"])
@@ -192,6 +243,8 @@ class BookProject:
             status=ApprovalStatus(data.get("status", ApprovalStatus.DRAFT)),
             concept=concept,
             brainstorming=brainstorming,
+            plot=plot,
+            treatment=treatment,
             outline=outline,
             market_assessment=market_assessment,
             publisher_offers=publisher_offers,

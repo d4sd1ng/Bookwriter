@@ -81,25 +81,29 @@ Jedes Objekt hat einen Status:
 9. Recherchemodus und Quellenfreigabe festlegen
 10. Nutzenversprechen erstellen
 11. Buchkonzept prüfen
-12. Inhaltsverzeichnis erstellen
-13. Inhaltsverzeichnis prüfen
-14. Kapitelziele definieren
-15. Kapitelbriefings erstellen
-16. Kapitelbriefings prüfen
-17. Rohfassung schreiben
-18. Kapitel-Leseprobe Fehlerkorrektur
-19. Kapitel-Leseprobe Logikfehler
-20. Kapitel-Leseprobe Spannungsbogen
-21. Kapitel-Leseprobe Schreibstil
-22. Kapitel-Leseprobe Grammatik
-23. Kapitel überarbeiten
-24. Kapitel freigeben
-25. First Draft aus freigegebenen Kapiteln zusammenstellen
-26. Konsistenzprüfung über mehrere Kapitel
-27. Gesamtredaktion
-28. Quellenprüfung
-29. Exportvorbereitung
-30. finale Freigabe
+12. Plotting erstellen
+13. Plotting pruefen
+14. Treatment erstellen
+15. Treatment pruefen
+16. Inhaltsverzeichnis erstellen
+17. Inhaltsverzeichnis prüfen
+18. Kapitelziele definieren
+19. Kapitelbriefings erstellen
+20. Kapitelbriefings prüfen
+21. Rohfassung schreiben
+22. Kapitel-Leseprobe Fehlerkorrektur
+23. Kapitel-Leseprobe Logikfehler
+24. Kapitel-Leseprobe Spannungsbogen
+25. Kapitel-Leseprobe Schreibstil
+26. Kapitel-Leseprobe Grammatik
+27. Kapitel überarbeiten
+28. Kapitel freigeben
+29. First Draft aus freigegebenen Kapiteln zusammenstellen
+30. Konsistenzprüfung über mehrere Kapitel
+31. Gesamtredaktion
+32. Quellenprüfung
+33. Exportvorbereitung
+34. finale Freigabe
 
 ## Pflichtprozess Kapitel
 

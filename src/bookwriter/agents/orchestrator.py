@@ -4,6 +4,7 @@ from bookwriter.agents.concept_agent import BookConceptAgent
 from bookwriter.agents.brainstorm_agent import BrainstormAgent
 from bookwriter.agents.market_agent import MarketAssessmentAgent
 from bookwriter.agents.outline_agent import OutlineAgent
+from bookwriter.agents.plot_agent import PlotAgent, TreatmentAgent
 from bookwriter.agents.publisher_agent import PublisherOfferAgent
 from bookwriter.domain.models import BookProject, Interview
 from bookwriter.domain.status import ApprovalStatus, WorkflowStage
@@ -12,6 +13,8 @@ from bookwriter.domain.validation import (
     validate_concept,
     validate_development_foundation,
     validate_interview,
+    validate_plotting_readiness,
+    validate_treatment_readiness,
 )
 from bookwriter.publishing.kdp import KdpPreparationService
 
@@ -21,6 +24,8 @@ class Orchestrator:
         self.concept_agent = BookConceptAgent()
         self.brainstorm_agent = BrainstormAgent()
         self.outline_agent = OutlineAgent()
+        self.plot_agent = PlotAgent()
+        self.treatment_agent = TreatmentAgent()
         self.market_agent = MarketAssessmentAgent()
         self.publisher_agent = PublisherOfferAgent()
         self.kdp_service = KdpPreparationService()
@@ -59,6 +64,67 @@ class Orchestrator:
             project.touch()
             return project
         project.concept.status = ApprovalStatus.APPROVED
+        plotting_validation = validate_treatment_readiness(project)
+        if not plotting_validation.ok:
+            project.status = ApprovalStatus.APPROVED
+            project.blockers = plotting_validation.blockers
+            project.touch()
+            return project
+        result = self.outline_agent.run(project, chapter_count=chapter_count)
+        project.outline = result.output
+        project.stage = WorkflowStage.OUTLINE
+        project.status = result.status
+        project.blockers = []
+        project.touch()
+        return project
+
+    def prepare_plot(self, project: BookProject) -> BookProject:
+        validation = validate_plotting_readiness(project)
+        if not validation.ok:
+            apply_blockers(project, validation)
+            return project
+        result = self.plot_agent.run(project)
+        project.plot = result.output
+        project.status = result.status
+        project.stage = WorkflowStage.CONCEPT
+        project.blockers = []
+        project.touch()
+        return project
+
+    def approve_plot(self, project: BookProject) -> BookProject:
+        if project.plot is None:
+            project.status = ApprovalStatus.BLOCKED
+            project.blockers = ["No plot available to approve."]
+            project.touch()
+            return project
+        project.plot.status = ApprovalStatus.APPROVED
+        project.blockers = []
+        project.touch()
+        return project
+
+    def prepare_treatment(self, project: BookProject) -> BookProject:
+        validation = validate_treatment_readiness(project)
+        if not validation.ok:
+            apply_blockers(project, validation)
+            return project
+        result = self.treatment_agent.run(project)
+        project.treatment = result.output
+        project.status = result.status
+        project.blockers = []
+        project.touch()
+        return project
+
+    def approve_treatment_and_create_outline(
+        self,
+        project: BookProject,
+        chapter_count: int | None = None,
+    ) -> BookProject:
+        if project.treatment is None:
+            project.status = ApprovalStatus.BLOCKED
+            project.blockers = ["No treatment available to approve."]
+            project.touch()
+            return project
+        project.treatment.status = ApprovalStatus.APPROVED
         result = self.outline_agent.run(project, chapter_count=chapter_count)
         project.outline = result.output
         project.stage = WorkflowStage.OUTLINE

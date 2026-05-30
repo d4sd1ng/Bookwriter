@@ -63,6 +63,8 @@ Nicht gültig für:
 ### Input
 
 - freigegebenes Buchkonzept
+- freigegebenes Plotting
+- freigegebenes Treatment
 - Zielgruppe
 - Nutzenversprechen
 - Buchtyp
@@ -113,6 +115,37 @@ Nicht gültig für:
 - Kein Plotting, kein Treatment und kein Kapitelbriefing ohne vollstaendiges Entwicklungsfundament.
 - Vorhandene Texte duerfen nur nach Freigabe genutzt werden.
 - Scraping darf nur mit freigegebenen Quellen und Rate-Limit-Regeln laufen.
+
+## Auftragstyp: Plotting
+
+### Input
+
+- freigegebenes Buchkonzept
+- vollstaendiges Entwicklungsfundament
+- Figurenbasis oder Sachbuchstruktur
+
+### Output
+
+- Plotstruktur
+- Wendepunkte
+- Spannungsbogen
+- offene Logikfragen
+- Freigabestatus
+
+## Auftragstyp: Treatment
+
+### Input
+
+- freigegebenes Plotting
+- vollstaendiges Entwicklungsfundament
+- Stilvorgaben
+
+### Output
+
+- Treatment
+- Kapitel- oder Szenenfolge
+- offene Fragen
+- Freigabestatus
 
 ## Auftragstyp: Kapitelbriefing
 

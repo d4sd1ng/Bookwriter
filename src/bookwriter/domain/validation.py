@@ -79,11 +79,35 @@ def validate_concept(project: BookProject) -> ValidationResult:
 
 def validate_outline(project: BookProject) -> ValidationResult:
     blockers = validate_concept(project).blockers
+    if project.plot is None:
+        blockers.append("No approved plot exists.")
+    elif project.plot.status != ApprovalStatus.APPROVED:
+        blockers.append("Plot is not approved.")
+    if project.treatment is None:
+        blockers.append("No approved treatment exists.")
+    elif project.treatment.status != ApprovalStatus.APPROVED:
+        blockers.append("Treatment is not approved.")
     if not project.outline:
         blockers.append("No outline exists.")
     for chapter in project.outline:
         if not chapter.goal.strip():
             blockers.append(f"Contract rule: chapter {chapter.number} has no chapter goal.")
+    return ValidationResult(ok=not blockers, blockers=blockers)
+
+
+def validate_plotting_readiness(project: BookProject) -> ValidationResult:
+    blockers = validate_concept(project).blockers
+    if project.concept is None or project.concept.status != ApprovalStatus.APPROVED:
+        blockers.append("Approved concept is required before plotting.")
+    return ValidationResult(ok=not blockers, blockers=blockers)
+
+
+def validate_treatment_readiness(project: BookProject) -> ValidationResult:
+    blockers = validate_plotting_readiness(project).blockers
+    if project.plot is None:
+        blockers.append("Plot is required before treatment.")
+    elif project.plot.status != ApprovalStatus.APPROVED:
+        blockers.append("Plot must be approved before treatment.")
     return ValidationResult(ok=not blockers, blockers=blockers)
 
 

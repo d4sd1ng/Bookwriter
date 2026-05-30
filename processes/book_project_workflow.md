@@ -14,17 +14,21 @@
 10. Recherchemodus und Quellenfreigabe klaeren
 11. Tonalität festlegen
 12. Buchkonzept prüfen
-13. Inhaltsverzeichnis erstellen
-14. Inhaltsverzeichnis prüfen
-15. Kapitelziele definieren
-16. Kapitelbriefings erstellen
-17. Quellenbedarf prüfen
-18. Kapitel schreiben
-19. Fuenf Leseproben je Kapitel durchfuehren
-20. Kapitel überarbeiten
-21. Dopplungen prüfen
-22. Gesamtstruktur prüfen
-23. Gesamtredaktion
-24. Quellenprüfung
-25. Export vorbereiten
-26. finale Freigabe
+13. Plotting erstellen
+14. Plotting prüfen
+15. Treatment erstellen
+16. Treatment prüfen
+17. Inhaltsverzeichnis erstellen
+18. Inhaltsverzeichnis prüfen
+19. Kapitelziele definieren
+20. Kapitelbriefings erstellen
+21. Quellenbedarf prüfen
+22. Kapitel schreiben
+23. Fuenf Leseproben je Kapitel durchfuehren
+24. Kapitel überarbeiten
+25. Dopplungen prüfen
+26. Gesamtstruktur prüfen
+27. Gesamtredaktion
+28. Quellenprüfung
+29. Export vorbereiten
+30. finale Freigabe
