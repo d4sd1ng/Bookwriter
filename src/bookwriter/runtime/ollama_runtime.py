@@ -31,7 +31,11 @@ class OllamaRuntime:
     def invoke(self, invocation: ModelInvocation) -> ModelOutput:
         profile = self.profiles.tasks[invocation.task]
         model = invocation.model or profile.model
-        input_tokens = estimate_tokens(invocation.prompt)
+        system_prompt = invocation.system_prompt or (
+            "Du bist ein Bookwriter-Agent. Antworte ausschliesslich mit validem JSON, "
+            "ohne Markdown, ohne Erklaertext und ohne Codeblock."
+        )
+        input_tokens = estimate_tokens(system_prompt + "\n" + invocation.prompt)
         context_tokens = self.profiles.model_context_tokens.get(
             model,
             profile.preferred_context_tokens
@@ -49,7 +53,10 @@ class OllamaRuntime:
 
         body = {
             "model": selection.model,
-            "prompt": invocation.prompt,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": invocation.prompt},
+            ],
             "stream": False,
             "options": {
                 "temperature": profile.temperature,
@@ -59,12 +66,13 @@ class OllamaRuntime:
         if invocation.expected_json:
             body["format"] = "json"
 
-        response = self._post_generate(body)
+        response = self._post_chat(body)
+        content = _chat_content(response)
         output = ModelOutput(
-            text=str(response.get("response", "")),
+            text=content,
             model=selection.model,
             input_tokens=int(response.get("prompt_eval_count") or input_tokens),
-            output_tokens=int(response.get("eval_count") or estimate_tokens(response.get("response", ""))),
+            output_tokens=int(response.get("eval_count") or estimate_tokens(content)),
             metadata={
                 "provider": self.profiles.provider,
                 "base_url": self.profiles.base_url,
@@ -85,8 +93,8 @@ class OllamaRuntime:
             )
         return output
 
-    def _post_generate(self, body: dict[str, object]) -> dict[str, object]:
-        url = self.profiles.base_url.rstrip("/") + "/api/generate"
+    def _post_chat(self, body: dict[str, object]) -> dict[str, object]:
+        url = self.profiles.base_url.rstrip("/") + "/api/chat"
         payload = json.dumps(body).encode("utf-8")
         req = request.Request(
             url,
@@ -102,3 +110,10 @@ def estimate_tokens(text: object) -> int:
     if text is None:
         return 0
     return max(1, math.ceil(len(str(text)) / 4))
+
+
+def _chat_content(response: dict[str, object]) -> str:
+    message = response.get("message")
+    if isinstance(message, dict):
+        return str(message.get("content", ""))
+    return str(response.get("response", ""))

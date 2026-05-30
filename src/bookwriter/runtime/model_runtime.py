@@ -8,6 +8,7 @@ from typing import Protocol
 class ModelInvocation:
     task: str
     prompt: str
+    system_prompt: str = ""
     project_id: str = ""
     agent: str = ""
     chapter_number: int | None = None
@@ -38,4 +39,3 @@ class DisabledModelRuntime:
 
     def invoke(self, invocation: ModelInvocation) -> ModelOutput:
         raise RuntimeError("Model runtime is disabled.")
-

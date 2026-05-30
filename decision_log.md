@@ -191,4 +191,4 @@ Kapitel-Leseproben erhalten eine optionale Ollama-Laufzeit mit Tokenbuchung.
 Die Platzhalterpruefung reicht fuer echte Qualitaetskontrolle nicht aus. Gleichzeitig muss die Pipeline testbar bleiben, auch wenn Ollama nicht laeuft.
 
 ### Konsequenz
-`bookwriter review-chapter` kann mit `--use-ollama` das konfigurierte Review-Modell ausfuehren. Der Lauf validiert Modell und Kontext gegen `config/model_profiles.toml`, fordert JSON-Ausgabe an und protokolliert Input-/Output-Tokens in `data/token_usage.jsonl`.
+`bookwriter review-chapter` kann mit `--use-ollama` das konfigurierte Review-Modell ausfuehren. Der Lauf validiert Modell und Kontext gegen `config/model_profiles.toml`, nutzt den Ollama-Chat-Endpunkt mit System-Anweisung, fordert JSON-Ausgabe an und protokolliert Input-/Output-Tokens in `data/token_usage.jsonl`.

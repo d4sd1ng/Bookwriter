@@ -49,4 +49,4 @@ Eigenständige Bookwriter-Projektstruktur erstellt.
 11. Designvorgaben ergänzen.
 12. Weitere Bookwriter-Adapter fuer die importierten Shared Agents aus Agenten-Standards erstellen.
 13. Modellausgaben fuer Kapitelreviews anhand echter Buchkapitel benchmarken und Qualitaetsgates schaerfen.
-14. Prompt fuer `reading_sample_review` weiter schaerfen: ein Ollama-Smoke-Test am 2026-05-30 lieferte trotz JSON-Anforderung keine verwertbare JSON-Antwort; die CLI blockiert solche Laeufe jetzt sauber.
+14. Prompt fuer `reading_sample_review` mit echten Kapitelrohfassungen benchmarken: Minimal-Smoke-Test ueber Ollama-Chat liefert valides JSON, aber der produktive Review-Prompt bleibt `needs_revision`.

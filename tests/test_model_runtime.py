@@ -50,10 +50,10 @@ class FakeOllamaRuntime(OllamaRuntime):
         super().__init__(profiles=load_model_profiles(), ledger=ledger)
         self.body: dict[str, object] | None = None
 
-    def _post_generate(self, body: dict[str, object]) -> dict[str, object]:
+    def _post_chat(self, body: dict[str, object]) -> dict[str, object]:
         self.body = body
         return {
-            "response": json.dumps({"status": "pending_review"}),
+            "message": {"content": json.dumps({"status": "pending_review"})},
             "prompt_eval_count": 12,
             "eval_count": 4,
         }
@@ -144,6 +144,9 @@ def test_ollama_runtime_logs_measured_tokens(tmp_path) -> None:
     assert records[0].run_focus == "grammatik"
     assert runtime.body is not None
     assert runtime.body["format"] == "json"
+    messages = runtime.body["messages"]
+    assert isinstance(messages, list)
+    assert messages[0]["role"] == "system"
 
 
 def test_ollama_runtime_blocks_forbidden_review_model(tmp_path) -> None:
