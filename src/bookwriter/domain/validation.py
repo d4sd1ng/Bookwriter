@@ -16,7 +16,6 @@ def validate_interview(project: BookProject) -> ValidationResult:
     interview = project.interview
     blockers: list[str] = []
     required_fields = {
-        "topic": interview.topic,
         "target_audience": interview.target_audience,
         "book_type": interview.book_type,
         "desired_result": interview.desired_result,
@@ -26,6 +25,8 @@ def validate_interview(project: BookProject) -> ValidationResult:
         "reader_problem": interview.reader_problem,
         "value_proposition": interview.value_proposition,
     }
+    if interview.start_mode != "brainstorming":
+        required_fields["topic"] = interview.topic
     for field_name, value in required_fields.items():
         if not value.strip():
             blockers.append(f"Missing required interview input: {field_name}")
@@ -38,8 +39,34 @@ def validate_interview(project: BookProject) -> ValidationResult:
     return ValidationResult(ok=not blockers, blockers=blockers)
 
 
+def validate_development_foundation(project: BookProject) -> ValidationResult:
+    interview = project.interview
+    blockers: list[str] = []
+    required_fields = {
+        "book_category": interview.book_category,
+        "age_group": interview.age_group,
+        "narrative_focus": interview.narrative_focus,
+        "perspective": interview.perspective,
+        "perspective_count": interview.perspective_count,
+        "ending_type": interview.ending_type,
+        "publication_format": interview.publication_format,
+        "character_mode": interview.character_mode,
+    }
+    for field_name, value in required_fields.items():
+        if not value.strip():
+            blockers.append(f"Missing required development foundation input: {field_name}")
+    if interview.start_mode == "brainstorming" and not interview.selected_idea.strip():
+        blockers.append("Brainstorming mode requires one selected idea before plotting.")
+    if interview.existing_text_status == "provided_unapproved":
+        blockers.append("Existing text must be approved before use.")
+    if interview.research_mode == "scraping" and not interview.research_sources_approved:
+        blockers.append("Scraping requires approved sources before research can run.")
+    return ValidationResult(ok=not blockers, blockers=blockers)
+
+
 def validate_concept(project: BookProject) -> ValidationResult:
     blockers = validate_interview(project).blockers
+    blockers.extend(validate_development_foundation(project).blockers)
     if project.concept is None:
         blockers.append("No book concept exists.")
     else:

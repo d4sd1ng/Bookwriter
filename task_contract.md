@@ -31,6 +31,9 @@ Nicht gültig für:
 15. Kein produktives Interview ohne freigegebenen Fragenkatalog.
 16. Kein Kapitelabschluss ohne fuenf getrennte Leseproben nach der Kapitelrohfassung.
 17. Jede Leseprobe hat genau einen Fokus: Fehlerkorrektur, Logikfehler, Spannungsbogen, Schreibstil oder Grammatik.
+18. Kein Plotting ohne vollstaendiges Entwicklungsfundament.
+19. Kein Scraping ohne freigegebene Quellen.
+20. Wenn keine Grundidee vorhanden ist, muss ein 5-3-1-Brainstorming abgeschlossen sein.
 
 ## Auftragstyp: Buchkonzept
 
@@ -75,6 +78,41 @@ Nicht gültig für:
 - mögliche Dopplungen
 - offene Strukturfragen
 - Freigabestatus
+
+## Auftragstyp: Entwicklungsfundament
+
+### Input
+
+- Startmodus
+- eigene Idee, vorhandener Text oder konkrete Vorgabe
+- Buchart
+- Alters- und Zielgruppe
+- Erzaehlfokus
+- Perspektive
+- Anzahl Perspektiven
+- Ende-Typ
+- Ausgabeform
+- Figurenstatus
+- Recherchemodus
+
+### Output
+
+- ausgewaehlte Grundidee
+- Buchart
+- Zielalter und Zielgruppe
+- Erzaehlparameter
+- Ausgabeform
+- Figurenbasis
+- Recherchefreigabe
+- Blocker
+- Freigabestatus
+
+### Regeln
+
+- Wenn keine eigene Grundidee vorhanden ist, startet Brainstorming mit 5 Vorschlaegen, dann 3, dann 1.
+- Kein Plotting, kein Treatment und kein Kapitelbriefing ohne vollstaendiges Entwicklungsfundament.
+- Vorhandene Texte duerfen nur nach Freigabe genutzt werden.
+- Scraping darf nur mit freigegebenen Quellen und Rate-Limit-Regeln laufen.
 
 ## Auftragstyp: Kapitelbriefing
 

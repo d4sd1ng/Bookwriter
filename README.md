@@ -72,6 +72,9 @@ bookwriter publisher-offer <project_id> --publisher "Beispiel Verlag"
 bookwriter kdp-checklist <project_id>
 bookwriter models
 bookwriter questions
+bookwriter brainstorm --seed "Mut"
+bookwriter set-foundation <project_id> --book-category "Belletristik" --age-group "Erwachsene" --narrative-focus "charakterorientiert" --perspective "3. Person" --perspective-count "eine Perspektive" --ending-type "offenes Ende" --publication-format "Taschenbuch" --character-mode "Figuren entwickeln"
+bookwriter foundation-check <project_id>
 bookwriter token-log --project-id <project_id> --task reading_sample_review --model gpt-oss:20b --input-tokens 12000 --output-tokens 1800
 bookwriter usage --project-id <project_id>
 ```
@@ -97,3 +100,7 @@ Bookwriter nutzt Adapter und projektspezifische Regeln, statt generische Agenten
 ## Interview
 
 Der Fragenkatalog steht als Abstimmungsentwurf in `interview_questionnaire.md` und `config/interview_questions.toml`. Die CLI kann ihn mit `bookwriter questions` anzeigen und nutzt die konfigurierten Fragen fuer das interaktive Interview; fuer produktive Buchprojekte muss der Fragenkatalog vorher freigegeben werden.
+
+## Entwicklungsfundament
+
+Vor Plotting, Treatment und Kapitelarbeit muessen Startmodus, Buchart, Alters-/Zielgruppe, Erzaehlfokus, Perspektive, Ende, Ausgabeform, Figurenstatus und Recherchemodus feststehen. Fehlt eine eigene Idee, erzeugt `bookwriter brainstorm` einen 5-3-1-Funnel.

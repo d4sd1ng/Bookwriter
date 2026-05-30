@@ -14,6 +14,8 @@ Eigenständige Bookwriter-Projektstruktur erstellt.
 - Modellstrategie
 - Interview-Fragenkatalog als Abstimmungsentwurf
 - fuenf kapitelweise Leseproben nach jeder Kapitelrohfassung
+- Entwicklungsfundament mit Startmodus, Buchart, Altersgruppe, Erzaehlform, Ausgabeform und Figurenstatus
+- 5-3-1-Brainstorming fuer fehlende Grundideen
 - Buchprojekt-Workflow
 - Kapitel-Workflow
 - Redaktions-Workflow
@@ -43,3 +45,4 @@ Eigenständige Bookwriter-Projektstruktur erstellt.
 9. Quellenregeln konkretisieren.
 10. Kapitelstandard testen.
 11. Designvorgaben ergänzen.
+12. Bookwriter-Adapter fuer die importierten Shared Agents aus Agenten-Standards erstellen.

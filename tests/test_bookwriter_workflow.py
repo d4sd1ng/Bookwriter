@@ -18,6 +18,14 @@ def interview(**overrides: str) -> Interview:
         "value_proposition": "A clear offer-building path for consultants.",
         "reader_problem": "They know AI matters but cannot package it.",
         "sales_goal": "Validate ebook potential.",
+        "book_category": "Sachbuch",
+        "age_group": "Erwachsene",
+        "narrative_focus": "handlungsorientiert",
+        "perspective": "3. Person",
+        "perspective_count": "eine Perspektive",
+        "ending_type": "offenes Ende",
+        "publication_format": "E-Book",
+        "character_mode": "keine Figuren",
     }
     data.update(overrides)
     return Interview(**data)
@@ -41,6 +49,16 @@ def test_concept_approval_creates_outline_with_goals() -> None:
     assert updated.status == ApprovalStatus.PENDING_REVIEW
     assert len(updated.outline) == 5
     assert all(chapter.goal for chapter in updated.outline)
+
+
+def test_concept_approval_blocks_without_development_foundation() -> None:
+    orchestrator = Orchestrator()
+    project = orchestrator.create_project("Guide", interview(book_category=""))
+
+    updated = orchestrator.approve_concept(project, chapter_count=5)
+
+    assert updated.status == ApprovalStatus.BLOCKED
+    assert any("book_category" in blocker for blocker in updated.blockers)
 
 
 def test_market_and_publisher_prepare_after_concept_approval() -> None:
@@ -77,3 +95,14 @@ def test_json_store_roundtrip(tmp_path) -> None:
     assert loaded.project_id == project.project_id
     assert loaded.concept is not None
     assert loaded.concept.status == ApprovalStatus.PENDING_REVIEW
+
+
+def test_brainstorming_funnel_creates_5_3_1_options() -> None:
+    project = Orchestrator().create_project("Guide", interview(start_mode="brainstorming"))
+
+    updated = Orchestrator().prepare_brainstorming(project, seed="Mut")
+
+    assert updated.brainstorming is not None
+    assert len(updated.brainstorming.proposals_5) == 5
+    assert len(updated.brainstorming.proposals_3) == 3
+    assert updated.brainstorming.selected_1 is not None

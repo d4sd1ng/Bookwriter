@@ -1,18 +1,25 @@
 from __future__ import annotations
 
 from bookwriter.agents.concept_agent import BookConceptAgent
+from bookwriter.agents.brainstorm_agent import BrainstormAgent
 from bookwriter.agents.market_agent import MarketAssessmentAgent
 from bookwriter.agents.outline_agent import OutlineAgent
 from bookwriter.agents.publisher_agent import PublisherOfferAgent
 from bookwriter.domain.models import BookProject, Interview
 from bookwriter.domain.status import ApprovalStatus, WorkflowStage
-from bookwriter.domain.validation import apply_blockers, validate_concept, validate_interview
+from bookwriter.domain.validation import (
+    apply_blockers,
+    validate_concept,
+    validate_development_foundation,
+    validate_interview,
+)
 from bookwriter.publishing.kdp import KdpPreparationService
 
 
 class Orchestrator:
     def __init__(self) -> None:
         self.concept_agent = BookConceptAgent()
+        self.brainstorm_agent = BrainstormAgent()
         self.outline_agent = OutlineAgent()
         self.market_agent = MarketAssessmentAgent()
         self.publisher_agent = PublisherOfferAgent()
@@ -31,8 +38,18 @@ class Orchestrator:
         project.touch()
         return project
 
+    def prepare_brainstorming(self, project: BookProject, seed: str = "") -> BookProject:
+        result = self.brainstorm_agent.create_funnel(seed or project.interview.topic)
+        project.brainstorming = result.output
+        project.status = result.status
+        project.touch()
+        return project
+
     def approve_concept(self, project: BookProject, chapter_count: int | None = None) -> BookProject:
         validation = validate_interview(project)
+        foundation_validation = validate_development_foundation(project)
+        validation.blockers.extend(foundation_validation.blockers)
+        validation = type(validation)(ok=not validation.blockers, blockers=validation.blockers)
         if not validation.ok:
             apply_blockers(project, validation)
             return project

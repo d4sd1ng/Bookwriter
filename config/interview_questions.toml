@@ -73,3 +73,80 @@ label = "Verkaufsziel"
 prompt = "Soll eine Verkaufschancenbewertung, ein Verlagsangebot oder KDP vorbereitet werden?"
 required = false
 stage = "market"
+
+[[questions]]
+field = "start_mode"
+label = "Startmodus"
+prompt = "Startet das Projekt mit eigener Idee, vorhandenem Text, konkreter Vorgabe oder Brainstorming?"
+required = true
+stage = "development_foundation"
+
+[[questions]]
+field = "selected_idea"
+label = "Ausgewaehlte Idee"
+prompt = "Welche Idee ist nach Vorgabe oder 5-3-1-Brainstorming ausgewaehlt?"
+required = true
+stage = "development_foundation"
+
+[[questions]]
+field = "book_category"
+label = "Buchart"
+prompt = "Ist es Belletristik, Sachbuch, Fachbuch, Kinderbuch, Jugendbuch oder Young Adult?"
+required = true
+stage = "development_foundation"
+
+[[questions]]
+field = "age_group"
+label = "Altersgruppe"
+prompt = "Welche Alters- und Zielgruppe gilt?"
+required = true
+stage = "development_foundation"
+
+[[questions]]
+field = "narrative_focus"
+label = "Erzaehlfokus"
+prompt = "Ist das Buch handlungsorientiert, charakterorientiert oder beides?"
+required = true
+stage = "development_foundation"
+
+[[questions]]
+field = "perspective"
+label = "Perspektive"
+prompt = "Wird aus Ich-Perspektive, dritter Person oder anders erzaehlt?"
+required = true
+stage = "development_foundation"
+
+[[questions]]
+field = "perspective_count"
+label = "Perspektivenzahl"
+prompt = "Gibt es eine oder mehrere Erzaehlperspektiven?"
+required = true
+stage = "development_foundation"
+
+[[questions]]
+field = "ending_type"
+label = "Ende"
+prompt = "Hat das Buch ein Happy End, offenes Ende, bittersuesses Ende oder anderes Ende?"
+required = true
+stage = "development_foundation"
+
+[[questions]]
+field = "publication_format"
+label = "Ausgabeform"
+prompt = "Welche Ausgabeform ist geplant: Hardcover, Softcover, Broschur, E-Book oder Taschenbuch?"
+required = true
+stage = "development_foundation"
+
+[[questions]]
+field = "character_mode"
+label = "Figurenstatus"
+prompt = "Gibt es Figurenvorgaben oder sollen Figuren entwickelt werden?"
+required = true
+stage = "development_foundation"
+
+[[questions]]
+field = "research_mode"
+label = "Recherchemodus"
+prompt = "Soll ohne Recherche, mit manueller Recherche oder mit freigegebenem Scraping gearbeitet werden?"
+required = true
+stage = "development_foundation"

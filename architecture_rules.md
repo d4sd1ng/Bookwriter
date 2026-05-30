@@ -71,29 +71,35 @@ Jedes Objekt hat einen Status:
 ## Pflichtprozess Buchprojekt
 
 1. Projektziel klären
-2. Buchtyp festlegen
-3. Zielgruppe definieren
-4. Nutzenversprechen erstellen
-5. Buchkonzept prüfen
-6. Inhaltsverzeichnis erstellen
-7. Inhaltsverzeichnis prüfen
-8. Kapitelziele definieren
-9. Kapitelbriefings erstellen
-10. Kapitelbriefings prüfen
-11. Rohfassung schreiben
-12. Kapitel-Leseprobe Fehlerkorrektur
-13. Kapitel-Leseprobe Logikfehler
-14. Kapitel-Leseprobe Spannungsbogen
-15. Kapitel-Leseprobe Schreibstil
-16. Kapitel-Leseprobe Grammatik
-17. Kapitel überarbeiten
-18. Kapitel freigeben
-19. First Draft aus freigegebenen Kapiteln zusammenstellen
-20. Konsistenzprüfung über mehrere Kapitel
-21. Gesamtredaktion
-22. Quellenprüfung
-23. Exportvorbereitung
-24. finale Freigabe
+2. Startmodus klaeren: Idee, vorhandener Text, konkrete Vorgabe oder Brainstorming
+3. Wenn noetig 5-3-1-Brainstorming durchfuehren
+4. Buchart festlegen
+5. Alters- und Zielgruppe festlegen
+6. Erzaehlfokus, Perspektive, Perspektivenzahl und Ende festlegen
+7. Ausgabeform festlegen
+8. Figurenbasis oder Figurenentwicklung festlegen
+9. Recherchemodus und Quellenfreigabe festlegen
+10. Nutzenversprechen erstellen
+11. Buchkonzept prüfen
+12. Inhaltsverzeichnis erstellen
+13. Inhaltsverzeichnis prüfen
+14. Kapitelziele definieren
+15. Kapitelbriefings erstellen
+16. Kapitelbriefings prüfen
+17. Rohfassung schreiben
+18. Kapitel-Leseprobe Fehlerkorrektur
+19. Kapitel-Leseprobe Logikfehler
+20. Kapitel-Leseprobe Spannungsbogen
+21. Kapitel-Leseprobe Schreibstil
+22. Kapitel-Leseprobe Grammatik
+23. Kapitel überarbeiten
+24. Kapitel freigeben
+25. First Draft aus freigegebenen Kapiteln zusammenstellen
+26. Konsistenzprüfung über mehrere Kapitel
+27. Gesamtredaktion
+28. Quellenprüfung
+29. Exportvorbereitung
+30. finale Freigabe
 
 ## Pflichtprozess Kapitel
 
@@ -125,6 +131,8 @@ Ein Prozess stoppt, wenn:
 - Stilvorgaben fehlen
 - Orchestrator keine Freigabe hat
 - eine der fuenf Leseproben des aktuellen Kapitels fehlt
+- das Entwicklungsfundament unvollstaendig ist
+- Scraping ohne Quellenfreigabe gefordert wird
 
 ## Kapitelweise Leseproben-Architektur
 

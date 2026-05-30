@@ -24,6 +24,41 @@ class Interview:
     value_proposition: str = ""
     reader_problem: str = ""
     sales_goal: str = ""
+    start_mode: str = "idea"
+    existing_text_status: str = "none"
+    selected_idea: str = ""
+    book_category: str = ""
+    age_group: str = ""
+    narrative_focus: str = ""
+    perspective: str = ""
+    perspective_count: str = ""
+    ending_type: str = ""
+    publication_format: str = ""
+    character_mode: str = ""
+    character_brief: str = ""
+    research_mode: str = "none"
+    research_sources_approved: bool = False
+    manual_approval_after_each_review: bool = True
+
+
+@dataclass(slots=True)
+class IdeaProposal:
+    title: str
+    category: str
+    target_audience: str
+    premise: str
+    what_if: str
+    conflict: str
+    format_hint: str
+
+
+@dataclass(slots=True)
+class BrainstormingFunnel:
+    seed: str
+    proposals_5: list[IdeaProposal] = field(default_factory=list)
+    proposals_3: list[IdeaProposal] = field(default_factory=list)
+    selected_1: IdeaProposal | None = None
+    status: ApprovalStatus = ApprovalStatus.DRAFT
 
 
 @dataclass(slots=True)
@@ -85,6 +120,7 @@ class BookProject:
     stage: WorkflowStage = WorkflowStage.INTERVIEW
     status: ApprovalStatus = ApprovalStatus.DRAFT
     concept: BookConcept | None = None
+    brainstorming: BrainstormingFunnel | None = None
     outline: list[ChapterPlan] = field(default_factory=list)
     market_assessment: MarketAssessment | None = None
     publisher_offers: list[PublisherOffer] = field(default_factory=list)
@@ -112,6 +148,20 @@ class BookProject:
             ChapterPlan(**(item | {"status": ApprovalStatus(item["status"])}))
             for item in data.get("outline", [])
         ]
+        brainstorming_data = data.get("brainstorming")
+        if brainstorming_data:
+            brainstorming_data["status"] = ApprovalStatus(brainstorming_data["status"])
+            if brainstorming_data.get("selected_1"):
+                brainstorming_data["selected_1"] = IdeaProposal(**brainstorming_data["selected_1"])
+            brainstorming_data["proposals_5"] = [
+                IdeaProposal(**item) for item in brainstorming_data.get("proposals_5", [])
+            ]
+            brainstorming_data["proposals_3"] = [
+                IdeaProposal(**item) for item in brainstorming_data.get("proposals_3", [])
+            ]
+            brainstorming = BrainstormingFunnel(**brainstorming_data)
+        else:
+            brainstorming = None
         market_data = data.get("market_assessment")
         if market_data:
             market_data["status"] = ApprovalStatus(market_data["status"])
@@ -141,6 +191,7 @@ class BookProject:
             stage=WorkflowStage(data.get("stage", WorkflowStage.INTERVIEW)),
             status=ApprovalStatus(data.get("status", ApprovalStatus.DRAFT)),
             concept=concept,
+            brainstorming=brainstorming,
             outline=outline,
             market_assessment=market_assessment,
             publisher_offers=publisher_offers,

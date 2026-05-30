@@ -15,6 +15,11 @@ PROMPTS = [
     "publisher_offer_prompt.md",
     "kdp_preparation_prompt.md",
     "reading_sample_review_prompt.md",
+    "brainstorming_prompt.md",
+    "character_development_prompt.md",
+    "plotting_prompt.md",
+    "treatment_prompt.md",
+    "research_scraping_prompt.md",
 ]
 
 

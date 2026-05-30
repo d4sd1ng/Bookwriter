@@ -159,3 +159,14 @@ Die Modellgroesse oder ein gutes allgemeines Profil reicht fuer sachgemaesse Pru
 
 ### Konsequenz
 Fuer Review- und Konsistenzaufgaben gelten Qualitaetsgates. Modelle koennen pro Task freigegeben, eingeschraenkt oder gesperrt werden.
+
+---
+
+### Entscheidung
+Bookwriter bekommt ein verpflichtendes Entwicklungsfundament vor Plotting und Schreiben.
+
+### Begründung
+Thema und Zielgruppe reichen nicht aus, um ein Buch kontrolliert zu entwickeln. Buchart, Altersgruppe, Erzaehlform, Perspektive, Ende, Ausgabeform, Figurenstatus und Recherchemodus muessen feststehen, damit Plotting, Treatment und Kapitelarbeit nicht auf unklaren Annahmen aufbauen.
+
+### Konsequenz
+Ohne vollstaendiges Entwicklungsfundament blockiert der Prozess vor Outline/Plotting. Wenn keine eigene Grundidee vorhanden ist, muss ein 5-3-1-Brainstorming durchlaufen und eine Arbeitsidee ausgewaehlt werden.
