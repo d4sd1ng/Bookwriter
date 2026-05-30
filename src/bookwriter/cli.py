@@ -10,6 +10,7 @@ from bookwriter.domain.model_profiles import load_model_profiles
 from bookwriter.domain.review_runs import ReadingSampleFocus
 from bookwriter.domain.token_usage import TokenUsageLedger, TokenUsageRecord
 from bookwriter.domain.validation import validate_development_foundation
+from bookwriter.runtime.ollama_runtime import OllamaRuntime
 from bookwriter.storage.json_store import JsonProjectStore
 from bookwriter.workflows.book_project import BookProjectWorkflow
 
@@ -139,6 +140,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--focus",
         required=True,
         choices=[focus.value for focus in ReadingSampleFocus],
+    )
+    review_chapter.add_argument(
+        "--use-ollama",
+        action="store_true",
+        help="Run the review through the configured local Ollama model and log tokens.",
     )
 
     approve_review = subparsers.add_parser("approve-review", help="Approve one chapter review.")
@@ -354,7 +360,7 @@ def run_review_chapter(args: argparse.Namespace) -> int:
     project = _load_project(args.project_id, store)
     if project is None:
         return 2
-    updated = Orchestrator().review_chapter(
+    updated = Orchestrator(model_runtime=_model_runtime(args)).review_chapter(
         project,
         args.chapter,
         ReadingSampleFocus(args.focus),
@@ -557,6 +563,12 @@ def _print_foundation_validation(project: BookProject) -> int:
     for blocker in validation.blockers:
         print(f"- {blocker}")
     return 2
+
+
+def _model_runtime(args: argparse.Namespace):
+    if getattr(args, "use_ollama", False):
+        return OllamaRuntime.from_config()
+    return None
 
 
 def _value(current: str | None, field: str) -> str:

@@ -66,3 +66,17 @@ Wenn ein Kapitel oder Pruefabschnitt nicht vollstaendig in den verfuegbaren Kont
 4. Ob `qwen2.5:7b` fuer kurze Rohfassungen freigegeben wird.
 5. Welche Pruef-Agenten final Freigabestatus setzen duerfen.
 6. Ob fuer Verlag und KDP weitere rechtliche Checklisten noetig sind.
+## Update: Ollama-Smoke-Test 2026-05-30
+
+### Reading Sample Review Prompt
+
+Status: needs_revision
+
+Ein minimaler Ollama-Smoke-Test mit `gpt-oss:20b` hat gezeigt, dass eine JSON-Anforderung allein nicht verlaesslich genug ist. Die Laufzeit blockiert ungueltige JSON-Antworten jetzt sauber, aber der Prompt muss vor produktiver Nutzung weiter geschaerft und mit echten Kapitelrohfassungen benchmarked werden.
+
+Naechste Pruefpunkte:
+
+- System-/Rollenanweisung strenger formulieren.
+- Schema kleiner und eindeutiger machen.
+- Beispielantwort nur als Schema, nicht als interpretierbarer Inhalt.
+- Pro Fokus echte Testkapitel gegen `gpt-oss:20b` und `qwen3:14b` vergleichen.

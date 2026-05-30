@@ -181,3 +181,14 @@ Kapitelweise Qualitaetskontrolle verhindert, dass Fehler erst im Gesamtmanuskrip
 
 ### Konsequenz
 Die CLI unterstuetzt Kapitelbriefing, Briefing-Freigabe, Kapitelrohfassung, fokussierte Review-Runs, Review-Freigabe und Kapitel-Freigabe. Kapitel-Freigabe blockiert, bis alle fuenf Review-Runs approved sind.
+
+---
+
+### Entscheidung
+Kapitel-Leseproben erhalten eine optionale Ollama-Laufzeit mit Tokenbuchung.
+
+### Begründung
+Die Platzhalterpruefung reicht fuer echte Qualitaetskontrolle nicht aus. Gleichzeitig muss die Pipeline testbar bleiben, auch wenn Ollama nicht laeuft.
+
+### Konsequenz
+`bookwriter review-chapter` kann mit `--use-ollama` das konfigurierte Review-Modell ausfuehren. Der Lauf validiert Modell und Kontext gegen `config/model_profiles.toml`, fordert JSON-Ausgabe an und protokolliert Input-/Output-Tokens in `data/token_usage.jsonl`.

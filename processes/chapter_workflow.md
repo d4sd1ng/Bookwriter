@@ -34,6 +34,18 @@ Jede Leseprobe prueft genau einen Fokus:
 
 Das naechste Kapitel darf erst begonnen werden, wenn die fuenf Leseproben des aktuellen Kapitels abgeschlossen, freigegeben oder blockiert dokumentiert sind.
 
+## Modellgestuetzte Leseproben
+
+`bookwriter review-chapter` kann mit `--use-ollama` die lokale Ollama-Laufzeit aktivieren.
+
+Regeln:
+
+- Taskprofil ist `reading_sample_review`.
+- Standardmodell ist `gpt-oss:20b`.
+- `qwen2.5:7b` ist fuer Review-Laeufe blockiert.
+- Die Antwort muss als JSON auswertbar sein.
+- Gemessene Input- und Output-Tokens werden im Tokenledger gespeichert.
+
 ## Kapitelbriefing muss enthalten
 
 - Kapitelnummer

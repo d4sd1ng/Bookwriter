@@ -84,6 +84,7 @@ bookwriter chapter-briefing <project_id> --chapter 1
 bookwriter approve-briefing <project_id> --chapter 1
 bookwriter draft-chapter <project_id> --chapter 1
 bookwriter review-chapter <project_id> --chapter 1 --focus fehlerkorrektur
+bookwriter review-chapter <project_id> --chapter 1 --focus fehlerkorrektur --use-ollama
 bookwriter approve-review <project_id> --chapter 1 --focus fehlerkorrektur
 bookwriter approve-chapter <project_id> --chapter 1
 bookwriter token-log --project-id <project_id> --task reading_sample_review --model gpt-oss:20b --input-tokens 12000 --output-tokens 1800
@@ -101,6 +102,8 @@ Die Routing-Regeln stehen in `model_strategy.md` und `config/model_profiles.toml
 ## Token und Kosten
 
 Tokenverbrauch und geschaetzte API-Kosten werden im Ledger `data/token_usage.jsonl` protokolliert. Lokale Ollama-Modelle haben API-Kosten von 0. Externe Modelle brauchen vor Nutzung ein freigegebenes Kostenprofil in `config/token_costs.toml`.
+
+Kapitel-Leseproben koennen mit `--use-ollama` gegen das konfigurierte Review-Modell ausgefuehrt werden. Der Lauf nutzt das Taskprofil `reading_sample_review`, blockiert ungeeignete Review-Modelle und schreibt gemessene Input-/Output-Tokens automatisch ins Ledger.
 
 ## Shared Agents
 

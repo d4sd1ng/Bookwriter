@@ -287,6 +287,8 @@ Ein Auftrag ist abgeschlossen, wenn:
 11. Kosten muessen jederzeit ueber das Tokenledger einsehbar sein.
 12. Externe Modelle ohne freigegebenes Kostenprofil sind blockiert.
 13. Modelle koennen nach Ausgabequalitaet enger freigegeben oder gesperrt werden.
+14. Modellgestuetzte Kapitel-Leseproben laufen ueber das Taskprofil `reading_sample_review`.
+15. Ein Modelllauf darf nur als vollstaendig gelten, wenn Modellantwort und Tokenmessung vorliegen.
 
 ## Token- und Kostenregeln
 
@@ -297,6 +299,7 @@ Ein Auftrag ist abgeschlossen, wenn:
 5. Lokale Ollama-Modelle haben API-Kosten von 0, solange kein anderes Kostenprofil gesetzt ist.
 6. Cloud- oder API-Modelle duerfen nur mit aktuellem Kostenprofil genutzt werden.
 7. Wenn Tokenverbrauch oder Kosten nicht ermittelt werden koennen, muss der Lauf als unvollstaendig markiert werden.
+8. Ollama-Laeufe nutzen gemessene `prompt_eval_count` und `eval_count`, falls der Server diese Werte liefert.
 
 ## Qualitaetsregeln fuer Modelle
 

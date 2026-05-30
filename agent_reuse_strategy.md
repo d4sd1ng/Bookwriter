@@ -98,3 +98,8 @@ Beispiele:
 - Text Analysis Agent: nur fuer Kapitel- und Gesamttextpruefung.
 - Token Monitoring Agent: alle Modelllaeufe, alle Kapitel, alle Leseproben.
 - Content Approval Agent: Freigabestatus aus Bookwriter-Statusmodell.
+
+## Aktueller Adapterstand
+
+- Text Analysis: Kapitel-Leseproben koennen ueber `--use-ollama` modellgestuetzt laufen. Der Adapter uebersetzt Bookwriter-Projekt, Kapitelrohfassung und Fokus in den Prompt `reading_sample_review_prompt.md` und speichert Tokenusage.
+- Token Monitoring: Bookwriter nutzt aktuell ein internes Ledger-kompatibles Token-Usage-Format. Die weitere Anbindung an den Shared Agent bleibt offen.

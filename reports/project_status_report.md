@@ -17,6 +17,7 @@ Eigenständige Bookwriter-Projektstruktur erstellt.
 - Entwicklungsfundament mit Startmodus, Buchart, Altersgruppe, Erzaehlform, Ausgabeform und Figurenstatus
 - 5-3-1-Brainstorming fuer fehlende Grundideen
 - Kapitelpipeline mit Briefing, Draft, fuenf Review-Runs und Kapitel-Freigabe
+- optionale Ollama-Ausfuehrung fuer kapitelweise Leseproben mit Modellrouting und Tokenledger
 - Buchprojekt-Workflow
 - Kapitel-Workflow
 - Redaktions-Workflow
@@ -46,5 +47,6 @@ Eigenständige Bookwriter-Projektstruktur erstellt.
 9. Quellenregeln konkretisieren.
 10. Kapitelstandard testen.
 11. Designvorgaben ergänzen.
-12. Bookwriter-Adapter fuer die importierten Shared Agents aus Agenten-Standards erstellen.
-13. Kapitelreview-Ausgaben an echte Review-Modelle und Tokenledger anbinden.
+12. Weitere Bookwriter-Adapter fuer die importierten Shared Agents aus Agenten-Standards erstellen.
+13. Modellausgaben fuer Kapitelreviews anhand echter Buchkapitel benchmarken und Qualitaetsgates schaerfen.
+14. Prompt fuer `reading_sample_review` weiter schaerfen: ein Ollama-Smoke-Test am 2026-05-30 lieferte trotz JSON-Anforderung keine verwertbare JSON-Antwort; die CLI blockiert solche Laeufe jetzt sauber.

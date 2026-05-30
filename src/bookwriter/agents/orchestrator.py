@@ -23,15 +23,16 @@ from bookwriter.domain.validation import (
     validate_treatment_readiness,
 )
 from bookwriter.publishing.kdp import KdpPreparationService
+from bookwriter.runtime.model_runtime import ModelRuntime
 
 
 class Orchestrator:
-    def __init__(self) -> None:
+    def __init__(self, model_runtime: ModelRuntime | None = None) -> None:
         self.concept_agent = BookConceptAgent()
         self.brainstorm_agent = BrainstormAgent()
         self.chapter_briefing_agent = ChapterBriefingAgent()
         self.chapter_draft_agent = ChapterDraftAgent()
-        self.chapter_review_agent = ChapterReviewAgent()
+        self.chapter_review_agent = ChapterReviewAgent(model_runtime=model_runtime)
         self.outline_agent = OutlineAgent()
         self.plot_agent = PlotAgent()
         self.treatment_agent = TreatmentAgent()
@@ -226,7 +227,7 @@ class Orchestrator:
         if not validation.ok:
             apply_blockers(project, validation)
             return project
-        result = self.chapter_review_agent.run(draft, focus)
+        result = self.chapter_review_agent.run(project, draft, focus)
         project.chapter_reviews = [
             item
             for item in project.chapter_reviews
@@ -234,7 +235,7 @@ class Orchestrator:
         ]
         project.chapter_reviews.append(result.output)
         project.status = result.status
-        project.blockers = []
+        project.blockers = result.output.residual_risks if result.status == ApprovalStatus.BLOCKED else []
         project.touch()
         return project
 

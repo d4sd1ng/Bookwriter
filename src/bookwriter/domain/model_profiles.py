@@ -37,6 +37,7 @@ class ModelProfiles:
     preferred_review_context_tokens: int
     forbid_secondary_model_for_reviews: bool
     allow_secondary_review_model_for_short_reviews: bool
+    model_context_tokens: dict[str, int]
     tasks: dict[str, ModelTaskProfile]
 
 
@@ -63,6 +64,13 @@ def load_model_profiles(path: Path | str = "config/model_profiles.toml") -> Mode
             requires_approved_market_data=bool(profile.get("requires_approved_market_data", False)),
             requires_final_approval=bool(profile.get("requires_final_approval", False)),
         )
+    model_context_tokens: dict[str, int] = {
+        default["primary_model"]: int(default["preferred_review_context_tokens"]),
+        default["review_model"]: int(default["preferred_review_context_tokens"]),
+    }
+    for candidate in data.get("candidate_models", []):
+        if candidate.get("context_tokens"):
+            model_context_tokens[str(candidate["name"])] = int(candidate["context_tokens"])
     return ModelProfiles(
         provider=default["provider"],
         base_url=default["base_url"],
@@ -76,5 +84,6 @@ def load_model_profiles(path: Path | str = "config/model_profiles.toml") -> Mode
         allow_secondary_review_model_for_short_reviews=bool(
             default["allow_secondary_review_model_for_short_reviews"]
         ),
+        model_context_tokens=model_context_tokens,
         tasks=tasks,
     )
