@@ -192,3 +192,14 @@ Die Platzhalterpruefung reicht fuer echte Qualitaetskontrolle nicht aus. Gleichz
 
 ### Konsequenz
 `bookwriter review-chapter` kann mit `--use-ollama` das konfigurierte Review-Modell ausfuehren. Der Lauf validiert Modell und Kontext gegen `config/model_profiles.toml`, nutzt den Ollama-Chat-Endpunkt mit System-Anweisung, fordert JSON-Ausgabe an und protokolliert Input-/Output-Tokens in `data/token_usage.jsonl`.
+
+---
+
+### Entscheidung
+Lokale Modell-Health-Checks blockieren aktuell alle Review-Kandidaten.
+
+### Begründung
+Ein installiertes Modell reicht nicht. `gpt-oss:20b` ist lokal nicht lauffaehig, `qwen3:14b` laeuft fuer Review-Prompts zu langsam und `mistral-small3.2:24b` ist auf CPU fuer interaktive Nutzung nicht tragbar.
+
+### Konsequenz
+`config/model_profiles.toml` enthaelt lokale Health-Blocker. Kapitel-Leseproben duerfen erst mit einem Modell laufen, das den Health-Check und anschliessend den fuenfteiligen Leseproben-Benchmark besteht.

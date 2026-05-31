@@ -1,0 +1,29 @@
+[[cases]]
+case_id = "consulting_practical_guide_chapter_1"
+book_name = "KI-Angebote fuer Berater"
+topic = "KI-Beratung als wiederholbares Angebot"
+target_audience = "selbststaendige Berater und kleine Beratungsfirmen"
+book_type = "Praxisleitfaden"
+book_category = "Sachbuch"
+age_group = "Erwachsene"
+narrative_focus = "handlungsorientiert"
+perspective = "3. Person"
+tone = "direkt, praktisch, ohne Marketingfloskeln"
+chapter_number = 1
+chapter_title = "Vom Bauchgefuehl zum Angebot"
+chapter_goal = "Der Leser versteht, warum ein KI-Angebot ein klares Ergebnis statt eine lose Toolsammlung braucht."
+chapter_markdown = """
+# Vom Bauchgefuehl zum Angebot
+
+Viele Berater starten mit KI, weil Kunden danach fragen. Sie sammeln Tools, lesen drei Newsletter und bauen daraus sofort ein Angebot. Das funktioniert gut, weil niemand ein Ergebnis erwartet. Gleichzeitig scheitert es, weil Kunden sehr wohl ein Ergebnis erwarten.
+
+Ein Angebot beginnt deshalb nicht mit Tools, sondern mit einem messbaren Ziel. Der Berater sollte zuerst klaeren, welches Problem beim Kunden kleiner werden soll: weniger manuelle Recherche, schnellere Angebotsvorbereitung oder bessere Auswertung von Kundendaten.
+
+Nehmen wir eine kleine Beratung fuer Handwerksbetriebe. Am Montag sagt die Inhaberin, sie habe keine Zeit fuer KI. Am Dienstag kauft sie trotzdem ein komplexes Automatisierungspaket fuer 9.000 Euro, obwohl sie vorher ein Budget von 500 Euro festgelegt hat. Diese Entscheidung wird spaeter nicht mehr erwaehnt.
+
+Der wichtigste Punkt ist der wichtigste Punkt: Ein gutes Angebot ist gut, weil es gut ist. Es sollte klar sein. Es sollte nicht unklar sein. Der Leser merkt dann, dass Klarheit klarer ist.
+
+Wenn der Berater das Ergebnis formuliert hat, kann er daraus drei Bausteine ableiten: Analyse, Umsetzung und Begleitung. Diese Reihenfolge hilft, weil der Kunde nicht sofort alle technischen Details verstehen muss.
+
+Am Ende dieses Kapitels sollte jeder Leser eine erste Angebotsformel haben: Wir helfen Zielgruppe X dabei, Ergebnis Y in Zeitraum Z zu erreichen.
+"""

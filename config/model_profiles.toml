@@ -38,12 +38,28 @@ review_limit = "short_chapters_only"
 [[candidate_models]]
 name = "mistral-small3.2:24b"
 role = "optional_instruction_following_review_candidate"
-status = "not_installed"
+status = "installed_but_not_runtime_approved"
 size_gb = 15
 context_tokens = 131072
 has_thinking = false
-allowed_for_reviews = "candidate_after_local_test"
-review_limit = "requires benchmark before approval"
+allowed_for_reviews = false
+review_limit = "minimal local run timed out after 180 seconds on CPU"
+
+[model_health."gpt-oss:20b"]
+approved_for_runtime = false
+reason = "Local Ollama health check failed on 2026-05-31: `ollama run gpt-oss:20b` returns EOF and API reports unsupported chat/generate."
+
+[model_health."qwen3:14b"]
+approved_for_runtime = false
+reason = "Local reading_sample_review benchmark timed out after 120 and 180 seconds on 2026-05-31."
+
+[model_health."mistral-small3.2:24b"]
+approved_for_runtime = false
+reason = "Installed on 2026-05-31, but even minimal local run timed out after 180 seconds on CPU."
+
+[model_health."qwen2.5:7b"]
+approved_for_runtime = true
+reason = "Local smoke test completed, but model remains forbidden for review tasks."
 
 [[candidate_models]]
 name = "qwen3:30b"

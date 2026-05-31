@@ -4,7 +4,7 @@
 
 Der Bookwriter nutzt mehrere Ollama-Modelle je nach Aufgabe.
 
-Primaermodell:
+Geplantes Primaermodell:
 
 - `gpt-oss:20b`
 
@@ -22,7 +22,7 @@ Optional bei ausreichend Hardware:
 
 ## Begruendung
 
-`gpt-oss:20b` ist lokal vorhanden und eignet sich als Hauptmodell fuer:
+`gpt-oss:20b` war als Hauptmodell vorgesehen fuer:
 
 - Orchestrierung
 - Interviewauswertung
@@ -61,6 +61,8 @@ Optional bei ausreichend Hardware:
 | Verlagsangebot | `gpt-oss:20b` | Pitch und Risiken brauchen klare Struktur |
 | Amazon KDP | `gpt-oss:20b` fuer Checkliste | kein automatischer Upload ohne finale Freigabe |
 
+Wichtig: Lokale Health-Checks vom 2026-05-31 blockieren `gpt-oss:20b` aktuell fuer Runtime-Nutzung, weil `ollama run gpt-oss:20b` mit `EOF` endet und die API fuer dieses Modell weder Chat noch Generate akzeptiert. Das Modell bleibt als Zielprofil dokumentiert, ist aber lokal nicht freigegeben.
+
 ## Review-Modellregeln
 
 Pruefungen sind qualitaetskritisch und duerfen nicht mit einem schnellen Nebenmodell laufen.
@@ -68,6 +70,8 @@ Pruefungen sind qualitaetskritisch und duerfen nicht mit einem schnellen Nebenmo
 Review-Pflichtmodell:
 
 - `gpt-oss:20b`
+
+Aktueller lokaler Runtime-Status: blockiert, bis das Modell repariert oder ersetzt ist.
 
 Gilt fuer:
 
@@ -80,13 +84,14 @@ Gilt fuer:
 - Gesamtredaktion
 - Konsistenzpruefung
 
-Lokale Modellmetadaten am 2026-05-30:
+Lokale Modellmetadaten und Health-Status am 2026-05-31:
 
-| Modell | Parameter | Kontext | Thinking | Einsatz |
-|---|---:|---:|---|---|
-| `gpt-oss:20b` | 20.9B | 131072 | ja | Pflichtmodell fuer Pruefungen |
-| `qwen2.5:7b` | 7.6B | 32768 | nein | nur kurze Entwuerfe, Varianten, Umformulierungen |
-| `qwen3:14b` | 14.8B | 40960 | ja | sekundäres Review-Modell fuer kurze Kapitel nach Freigabe |
+| Modell | Parameter | Kontext | Thinking | Runtime-Status | Einsatz |
+|---|---:|---:|---|---|---|
+| `gpt-oss:20b` | 20.9B | 131072 | ja | blockiert: EOF/API nicht nutzbar | Zielprofil, aber lokal defekt |
+| `qwen2.5:7b` | 7.6B | 32768 | nein | lauffaehig | nur kurze Entwuerfe, Varianten, Umformulierungen |
+| `qwen3:14b` | 14.8B | 40960 | ja | blockiert: Review-Timeout | Kandidat, aber auf dieser Hardware zu langsam |
+| `mistral-small3.2:24b` | 24.0B | 131072 | nein | blockiert: Minimalaufruf >180s | installiert, aber nicht freigegeben |
 
 ## Lokales Hardwareprofil
 
@@ -120,8 +125,8 @@ Kandidaten:
 
 | Modell | Status | Rolle | Grund |
 |---|---|---|---|
-| `qwen3:14b` | installiert | sekundäre Review-Pruefung kurzer Kapitel | Thinking vorhanden, 40k Kontext |
-| `mistral-small3.2:24b` | nicht installiert | optionaler Review-Kandidat | laut Ollama 128k Kontext, gutes Instruction Following |
+| `qwen3:14b` | installiert, blockiert | sekundäre Review-Pruefung kurzer Kapitel | Review-Benchmark laeuft auf CPU nicht in 180 Sekunden fertig |
+| `mistral-small3.2:24b` | installiert, blockiert | optionaler Review-Kandidat | 128k Kontext, aber Minimalaufruf laeuft auf CPU nicht in 180 Sekunden fertig |
 | `qwen3:30b` | nicht installiert | optionaler Long-Context-Kandidat | laut Ollama 256k Kontext, aber voraussichtlich langsam auf diesem System |
 
 ## Lange Texte
@@ -184,9 +189,11 @@ Externe Modelle duerfen erst genutzt werden, wenn ein aktuelles Preisprofil in `
 
 ## Aktueller lokaler Stand
 
-Am 2026-05-30 lokal verfuegbar:
+Am 2026-05-31 lokal verfuegbar:
 
 - `gpt-oss:20b`
 - `qwen2.5:7b`
+- `qwen3:14b`
+- `mistral-small3.2:24b`
 
-Diese Entscheidung basiert auf lokaler Verfuegbarkeit und aktueller Ollama-Dokumentation. Laut Ollama ist `gpt-oss` fuer Reasoning, agentische Aufgaben und strukturierte Ausgaben ausgelegt; `qwen2.5` bietet mehrsprachige Faehigkeiten, lange Kontexte und strukturierte Ausgaben.
+Fuer produktive Review-Aufgaben ist aktuell kein lokales Modell freigegeben. Naechster Schritt ist entweder `gpt-oss:20b` reparieren/neu ziehen oder ein schnelleres Review-Modell mit mindestens 32k Kontext testen.

@@ -27,12 +27,19 @@ from bookwriter.runtime.model_runtime import ModelRuntime
 
 
 class Orchestrator:
-    def __init__(self, model_runtime: ModelRuntime | None = None) -> None:
+    def __init__(
+        self,
+        model_runtime: ModelRuntime | None = None,
+        review_model: str | None = None,
+    ) -> None:
         self.concept_agent = BookConceptAgent()
         self.brainstorm_agent = BrainstormAgent()
         self.chapter_briefing_agent = ChapterBriefingAgent()
         self.chapter_draft_agent = ChapterDraftAgent()
-        self.chapter_review_agent = ChapterReviewAgent(model_runtime=model_runtime)
+        self.chapter_review_agent = ChapterReviewAgent(
+            model_runtime=model_runtime,
+            requested_model=review_model,
+        )
         self.outline_agent = OutlineAgent()
         self.plot_agent = PlotAgent()
         self.treatment_agent = TreatmentAgent()

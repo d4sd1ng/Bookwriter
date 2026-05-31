@@ -1,0 +1,84 @@
+{
+  "results": [
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "fehlerkorrektur",
+      "status": "blocked",
+      "findings": 0,
+      "change_suggestions": 0,
+      "residual_risks": [
+        "Ollama request failed: HTTP 400: {\"error\":\"\\\"gpt-oss:20b\\\" does not support generate\"}"
+      ],
+      "model": "",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "notes": [
+        "Model-backed review blocked by model routing rules."
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "logikfehler",
+      "status": "blocked",
+      "findings": 0,
+      "change_suggestions": 0,
+      "residual_risks": [
+        "Ollama request failed: HTTP 400: {\"error\":\"\\\"gpt-oss:20b\\\" does not support generate\"}"
+      ],
+      "model": "",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "notes": [
+        "Model-backed review blocked by model routing rules."
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "spannungsbogen",
+      "status": "blocked",
+      "findings": 0,
+      "change_suggestions": 0,
+      "residual_risks": [
+        "Ollama request failed: HTTP 400: {\"error\":\"\\\"gpt-oss:20b\\\" does not support generate\"}"
+      ],
+      "model": "",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "notes": [
+        "Model-backed review blocked by model routing rules."
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "schreibstil",
+      "status": "blocked",
+      "findings": 0,
+      "change_suggestions": 0,
+      "residual_risks": [
+        "Ollama request failed: HTTP 400: {\"error\":\"\\\"gpt-oss:20b\\\" does not support generate\"}"
+      ],
+      "model": "",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "notes": [
+        "Model-backed review blocked by model routing rules."
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "grammatik",
+      "status": "blocked",
+      "findings": 0,
+      "change_suggestions": 0,
+      "residual_risks": [
+        "Ollama request failed: HTTP 400: {\"error\":\"\\\"gpt-oss:20b\\\" does not support generate\"}"
+      ],
+      "model": "",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "notes": [
+        "Model-backed review blocked by model routing rules."
+      ]
+    }
+  ]
+}

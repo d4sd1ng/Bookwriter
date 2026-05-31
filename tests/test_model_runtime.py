@@ -1,15 +1,25 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from bookwriter.agents.orchestrator import Orchestrator
+from bookwriter.benchmarks.reading_sample import (
+    load_reading_sample_cases,
+    run_reading_sample_benchmark,
+    write_benchmark_report,
+)
 from bookwriter.domain.models import Interview
 from bookwriter.domain.model_profiles import load_model_profiles
 from bookwriter.domain.review_runs import READING_SAMPLE_SEQUENCE
 from bookwriter.domain.status import ApprovalStatus
 from bookwriter.domain.token_usage import TokenUsageLedger
 from bookwriter.runtime.model_runtime import ModelInvocation, ModelOutput
-from bookwriter.runtime.ollama_runtime import ModelRuntimeBlocked, OllamaRuntime
+from bookwriter.runtime.ollama_runtime import (
+    ModelRuntimeBlocked,
+    OllamaRuntime,
+    runtime_context_window,
+)
 
 
 class FakeReviewRuntime:
@@ -47,7 +57,9 @@ class FakeReviewRuntime:
 
 class FakeOllamaRuntime(OllamaRuntime):
     def __init__(self, ledger: TokenUsageLedger) -> None:
-        super().__init__(profiles=load_model_profiles(), ledger=ledger)
+        profiles = load_model_profiles()
+        profiles.blocked_models.clear()
+        super().__init__(profiles=profiles, ledger=ledger)
         self.body: dict[str, object] | None = None
 
     def _post_chat(self, body: dict[str, object]) -> dict[str, object]:
@@ -56,6 +68,19 @@ class FakeOllamaRuntime(OllamaRuntime):
             "message": {"content": json.dumps({"status": "pending_review"})},
             "prompt_eval_count": 12,
             "eval_count": 4,
+        }
+
+
+class FakeGenerateFallbackRuntime(FakeOllamaRuntime):
+    def _post_chat(self, body: dict[str, object]) -> dict[str, object]:
+        raise ModelRuntimeBlocked(['Ollama request failed: HTTP 400: {"error":"gpt-oss:20b does not support chat"}'])
+
+    def _post_generate(self, body: dict[str, object]) -> dict[str, object]:
+        self.body = body
+        return {
+            "response": json.dumps({"status": "pending_review"}),
+            "prompt_eval_count": 14,
+            "eval_count": 5,
         }
 
 
@@ -122,6 +147,25 @@ def test_invalid_model_review_json_blocks_project() -> None:
     assert updated.blockers == ["Model response was not valid JSON for reading_sample_review."]
 
 
+def test_reading_sample_benchmark_runs_all_five_focuses(tmp_path) -> None:
+    cases = load_reading_sample_cases()
+    runtime = FakeReviewRuntime()
+    results = run_reading_sample_benchmark(runtime, cases[:1], model="qwen3:14b")
+    report_path = write_benchmark_report(results, tmp_path / "benchmark.json")
+
+    assert runtime.invocation is not None
+    assert runtime.invocation.model == "qwen3:14b"
+    assert len(results) == 5
+    assert {item["focus"] for item in results} == {
+        "fehlerkorrektur",
+        "logikfehler",
+        "spannungsbogen",
+        "schreibstil",
+        "grammatik",
+    }
+    assert Path(report_path).exists()
+
+
 def test_ollama_runtime_logs_measured_tokens(tmp_path) -> None:
     ledger = TokenUsageLedger(path=tmp_path / "usage.jsonl")
     runtime = FakeOllamaRuntime(ledger)
@@ -147,6 +191,32 @@ def test_ollama_runtime_logs_measured_tokens(tmp_path) -> None:
     messages = runtime.body["messages"]
     assert isinstance(messages, list)
     assert messages[0]["role"] == "system"
+
+
+def test_ollama_runtime_falls_back_to_generate_when_chat_is_unsupported(tmp_path) -> None:
+    runtime = FakeGenerateFallbackRuntime(TokenUsageLedger(path=tmp_path / "usage.jsonl"))
+
+    output = runtime.invoke(
+        ModelInvocation(
+            task="reading_sample_review",
+            prompt="Bitte pruefen.",
+            project_id="project-1",
+            agent="text_analysis",
+            chapter_number=2,
+            run_focus="grammatik",
+        )
+    )
+
+    assert output.metadata["endpoint"] == "generate"
+    assert output.input_tokens == 14
+    assert runtime.body is not None
+    assert "prompt" in runtime.body
+
+
+def test_runtime_context_window_uses_prompt_sized_context() -> None:
+    assert runtime_context_window(available_context_tokens=40960, input_tokens=1200) == 4096
+    assert runtime_context_window(available_context_tokens=40960, input_tokens=8000) == 10048
+    assert runtime_context_window(available_context_tokens=40960, input_tokens=50000) == 40960
 
 
 def test_ollama_runtime_blocks_forbidden_review_model(tmp_path) -> None:

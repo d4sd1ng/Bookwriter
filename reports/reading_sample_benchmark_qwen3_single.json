@@ -1,0 +1,20 @@
+{
+  "results": [
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "fehlerkorrektur",
+      "status": "blocked",
+      "findings": 0,
+      "change_suggestions": 0,
+      "residual_risks": [
+        "Ollama request timed out after 180 seconds."
+      ],
+      "model": "",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "notes": [
+        "Model-backed review blocked by model routing rules."
+      ]
+    }
+  ]
+}

@@ -46,7 +46,7 @@ def test_secondary_model_is_blocked_for_review_tasks() -> None:
     assert result.blockers
 
 
-def test_secondary_review_model_is_allowed_for_short_chapter_reviews() -> None:
+def test_secondary_review_model_profile_allows_short_chapter_reviews_but_health_blocks_runtime() -> None:
     profiles = load_model_profiles()
 
     result = select_model_for_task(
@@ -57,8 +57,9 @@ def test_secondary_review_model_is_allowed_for_short_chapter_reviews() -> None:
         requested_model=profiles.secondary_review_model,
     )
 
-    assert result.ok is True
+    assert result.ok is False
     assert result.model == "qwen3:14b"
+    assert any("health check" in blocker for blocker in result.blockers)
 
 
 def test_secondary_review_model_blocks_long_chapter_reviews() -> None:
@@ -87,3 +88,17 @@ def test_review_task_blocks_when_context_is_too_small() -> None:
 
     assert result.ok is False
     assert any("context" in blocker.lower() for blocker in result.blockers)
+
+
+def test_broken_primary_review_model_is_blocked_by_local_health_check() -> None:
+    profiles = load_model_profiles()
+
+    result = select_model_for_task(
+        profiles,
+        "reading_sample_review",
+        available_context_tokens=131072,
+        requested_model="gpt-oss:20b",
+    )
+
+    assert result.ok is False
+    assert any("gpt-oss:20b" in blocker and "health check" in blocker for blocker in result.blockers)

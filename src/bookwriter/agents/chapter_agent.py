@@ -83,8 +83,14 @@ class ChapterDraftAgent:
 class ChapterReviewAgent:
     name = "Chapter Review Agent"
 
-    def __init__(self, model_runtime: ModelRuntime | None = None) -> None:
+    def __init__(
+        self,
+        model_runtime: ModelRuntime | None = None,
+        requested_model: str | None = None,
+    ) -> None:
         self.model_runtime = model_runtime or DisabledModelRuntime()
+        self.requested_model = requested_model
+        self.last_model_output = None
 
     def run(
         self,
@@ -127,9 +133,11 @@ class ChapterReviewAgent:
                     agent="text_analysis",
                     chapter_number=draft.chapter_number,
                     run_focus=focus.value,
+                    model=self.requested_model,
                     expected_json=True,
                 )
             )
+            self.last_model_output = output
         except ModelRuntimeBlocked as error:
             review = ChapterReview(
                 chapter_number=draft.chapter_number,

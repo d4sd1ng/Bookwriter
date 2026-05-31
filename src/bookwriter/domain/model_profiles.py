@@ -38,6 +38,7 @@ class ModelProfiles:
     forbid_secondary_model_for_reviews: bool
     allow_secondary_review_model_for_short_reviews: bool
     model_context_tokens: dict[str, int]
+    blocked_models: dict[str, str]
     tasks: dict[str, ModelTaskProfile]
 
 
@@ -71,6 +72,11 @@ def load_model_profiles(path: Path | str = "config/model_profiles.toml") -> Mode
     for candidate in data.get("candidate_models", []):
         if candidate.get("context_tokens"):
             model_context_tokens[str(candidate["name"])] = int(candidate["context_tokens"])
+    blocked_models = {
+        model: str(health.get("reason", "Model is not approved for runtime."))
+        for model, health in data.get("model_health", {}).items()
+        if not bool(health.get("approved_for_runtime", True))
+    }
     return ModelProfiles(
         provider=default["provider"],
         base_url=default["base_url"],
@@ -85,5 +91,6 @@ def load_model_profiles(path: Path | str = "config/model_profiles.toml") -> Mode
             default["allow_secondary_review_model_for_short_reviews"]
         ),
         model_context_tokens=model_context_tokens,
+        blocked_models=blocked_models,
         tasks=tasks,
     )

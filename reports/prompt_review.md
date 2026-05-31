@@ -76,9 +76,12 @@ Ein erster Ollama-Smoke-Test mit dem Generate-Endpunkt hat gezeigt, dass eine JS
 
 Nach Umstellung auf den Chat-Endpunkt mit System-Anweisung lieferte `gpt-oss:20b` fuer einen Minimalauftrag valides JSON und gemessene Tokenwerte. Der Prompt muss trotzdem vor produktiver Nutzung mit echten Kapitelrohfassungen benchmarked werden.
 
+Update 2026-05-31: Der spaetere lokale Health-Check zeigte, dass `gpt-oss:20b` auf diesem Ollama-Setup nicht stabil lauffaehig ist (`EOF`, API meldet unsupported chat/generate). `qwen3:14b` und `mistral-small3.2:24b` liefen fuer Review- bzw. Minimaltests auf CPU in 120/180 Sekunden nicht fertig. Damit ist aktuell kein lokales Review-Modell freigegeben; Prompt-Optimierung allein reicht nicht, solange kein lauffaehiges Review-Modell vorhanden ist.
+
 Naechste Pruefpunkte:
 
 - System-/Rollenanweisung fuer echte Kapitelreviews weiter benchmarken.
 - Schema kleiner und eindeutiger machen.
 - Beispielantwort nur als Schema, nicht als interpretierbarer Inhalt.
 - Pro Fokus echte Testkapitel gegen `gpt-oss:20b` und `qwen3:14b` vergleichen.
+- Naechstes lauffaehiges Review-Modell erst per Health-Check freigeben, dann Promptqualitaet bewerten.

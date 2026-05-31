@@ -25,13 +25,22 @@ def select_model_for_task(
 ) -> ModelSelectionResult:
     profile = profiles.tasks[task]
     model = requested_model or profile.model
-    blockers = _validate_review_model(profiles, profile, model, available_context_tokens, input_tokens)
+    blockers = _validate_model_health(profiles, model)
+    blockers.extend(
+        _validate_review_model(profiles, profile, model, available_context_tokens, input_tokens)
+    )
     return ModelSelectionResult(
         ok=not blockers,
         model=model,
         blockers=blockers,
         long_text_strategy=profile.long_text_strategy,
     )
+
+
+def _validate_model_health(profiles: ModelProfiles, model: str) -> list[str]:
+    if model not in profiles.blocked_models:
+        return []
+    return [f"Model is blocked by local health check: {model}: {profiles.blocked_models[model]}"]
 
 
 def _validate_review_model(

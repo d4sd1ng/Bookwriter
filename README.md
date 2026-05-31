@@ -89,6 +89,7 @@ bookwriter approve-review <project_id> --chapter 1 --focus fehlerkorrektur
 bookwriter approve-chapter <project_id> --chapter 1
 bookwriter token-log --project-id <project_id> --task reading_sample_review --model gpt-oss:20b --input-tokens 12000 --output-tokens 1800
 bookwriter usage --project-id <project_id>
+bookwriter benchmark-reading-sample --use-ollama --model qwen3:14b --focus fehlerkorrektur
 ```
 
 Die KDP- und Verlagsfunktionen bereiten nur pruefpflichtige Unterlagen vor. Ein Upload oder Versand wird nicht automatisch ausgefuehrt.
@@ -104,6 +105,8 @@ Die Routing-Regeln stehen in `model_strategy.md` und `config/model_profiles.toml
 Tokenverbrauch und geschaetzte API-Kosten werden im Ledger `data/token_usage.jsonl` protokolliert. Lokale Ollama-Modelle haben API-Kosten von 0. Externe Modelle brauchen vor Nutzung ein freigegebenes Kostenprofil in `config/token_costs.toml`.
 
 Kapitel-Leseproben koennen mit `--use-ollama` gegen das konfigurierte Review-Modell ausgefuehrt werden. Der Lauf nutzt das Taskprofil `reading_sample_review`, blockiert ungeeignete Review-Modelle und schreibt gemessene Input-/Output-Tokens automatisch ins Ledger.
+
+Lokale Modell-Health-Checks koennen Modelle trotz Installation blockieren. Am 2026-05-31 ist kein lokales Review-Modell freigegeben; Details stehen in `model_strategy.md` und `reports/model_benchmark_summary.md`.
 
 ## Shared Agents
 

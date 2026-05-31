@@ -4,6 +4,11 @@ import argparse
 from collections.abc import Sequence
 
 from bookwriter.agents.orchestrator import Orchestrator
+from bookwriter.benchmarks.reading_sample import (
+    load_reading_sample_cases,
+    run_reading_sample_benchmark,
+    write_benchmark_report,
+)
 from bookwriter.domain.interview_questions import load_interview_questions, question_by_field
 from bookwriter.domain.models import BookProject, Interview
 from bookwriter.domain.model_profiles import load_model_profiles
@@ -64,6 +69,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return run_set_foundation(args)
     if args.command == "foundation-check":
         return run_foundation_check(args)
+    if args.command == "benchmark-reading-sample":
+        return run_benchmark_reading_sample(args)
     parser.print_help()
     return 1
 
@@ -146,6 +153,7 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Run the review through the configured local Ollama model and log tokens.",
     )
+    review_chapter.add_argument("--model", help="Override the configured review model.")
 
     approve_review = subparsers.add_parser("approve-review", help="Approve one chapter review.")
     approve_review.add_argument("project_id")
@@ -207,6 +215,20 @@ def build_parser() -> argparse.ArgumentParser:
 
     foundation_check = subparsers.add_parser("foundation-check", help="Validate book foundation.")
     foundation_check.add_argument("project_id")
+
+    benchmark = subparsers.add_parser(
+        "benchmark-reading-sample",
+        help="Run reading-sample prompt benchmarks against Ollama.",
+    )
+    benchmark.add_argument("--use-ollama", action="store_true", required=True)
+    benchmark.add_argument("--case-file", default="benchmarks/reading_sample_cases.toml")
+    benchmark.add_argument(
+        "--focus",
+        choices=[focus.value for focus in ReadingSampleFocus],
+    )
+    benchmark.add_argument("--model", help="Override the configured benchmark model.")
+    benchmark.add_argument("--timeout-seconds", type=int, default=180)
+    benchmark.add_argument("--output", default="reports/reading_sample_benchmark.json")
     return parser
 
 
@@ -360,7 +382,10 @@ def run_review_chapter(args: argparse.Namespace) -> int:
     project = _load_project(args.project_id, store)
     if project is None:
         return 2
-    updated = Orchestrator(model_runtime=_model_runtime(args)).review_chapter(
+    updated = Orchestrator(
+        model_runtime=_model_runtime(args),
+        review_model=args.model,
+    ).review_chapter(
         project,
         args.chapter,
         ReadingSampleFocus(args.focus),
@@ -554,6 +579,28 @@ def run_foundation_check(args: argparse.Namespace) -> int:
     return _print_foundation_validation(project)
 
 
+def run_benchmark_reading_sample(args: argparse.Namespace) -> int:
+    runtime = _model_runtime(args)
+    if runtime is None:
+        print("Benchmark requires --use-ollama.")
+        return 2
+    cases = load_reading_sample_cases(args.case_file)
+    focus = ReadingSampleFocus(args.focus) if args.focus else None
+    results = run_reading_sample_benchmark(runtime, cases, focus=focus, model=args.model)
+    output_path = write_benchmark_report(results, args.output)
+    blocked = [item for item in results if item["status"] == "blocked"]
+    print(f"Benchmark cases: {len(cases)}")
+    print(f"Runs: {len(results)}")
+    print(f"Blocked: {len(blocked)}")
+    print(f"Saved: {output_path}")
+    for item in results:
+        print(
+            f"- {item['case_id']} / {item['focus']}: {item['status']} "
+            f"({item['input_tokens']} in, {item['output_tokens']} out)"
+        )
+    return 2 if blocked else 0
+
+
 def _print_foundation_validation(project: BookProject) -> int:
     validation = validate_development_foundation(project)
     if validation.ok:
@@ -567,6 +614,11 @@ def _print_foundation_validation(project: BookProject) -> int:
 
 def _model_runtime(args: argparse.Namespace):
     if getattr(args, "use_ollama", False):
+        timeout_seconds = getattr(args, "timeout_seconds", None)
+        if timeout_seconds:
+            runtime = OllamaRuntime.from_config()
+            runtime.timeout_seconds = timeout_seconds
+            return runtime
         return OllamaRuntime.from_config()
     return None
 
