@@ -61,7 +61,7 @@ Optional bei ausreichend Hardware:
 | Verlagsangebot | `gpt-oss:20b` | Pitch und Risiken brauchen klare Struktur |
 | Amazon KDP | `gpt-oss:20b` fuer Checkliste | kein automatischer Upload ohne finale Freigabe |
 
-Wichtig: Lokale Health-Checks vom 2026-05-31 blockieren `gpt-oss:20b` aktuell fuer Runtime-Nutzung, weil `ollama run gpt-oss:20b` mit `EOF` endet und die API fuer dieses Modell weder Chat noch Generate akzeptiert. Das Modell bleibt als Zielprofil dokumentiert, ist aber lokal nicht freigegeben.
+Wichtig: `gpt-oss:20b` wurde am 2026-05-31 neu gezogen und ist wieder lauffaehig. Fuer die Review-Pipeline bleibt es trotzdem blockiert, weil ein einzelner echter Leseproben-Fokus nach 300 Sekunden nicht fertig wurde. Das Modell bleibt als Zielprofil dokumentiert, ist aber lokal nicht fuer Reviews freigegeben.
 
 ## Review-Modellregeln
 
@@ -88,7 +88,7 @@ Lokale Modellmetadaten und Health-Status am 2026-05-31:
 
 | Modell | Parameter | Kontext | Thinking | Runtime-Status | Einsatz |
 |---|---:|---:|---|---|---|
-| `gpt-oss:20b` | 20.9B | 131072 | ja | blockiert: EOF/API nicht nutzbar | Zielprofil, aber lokal defekt |
+| `gpt-oss:20b` | 20.9B | 131072 | ja | blockiert: Review-Timeout | Zielprofil, aber lokal zu langsam |
 | `qwen2.5:7b` | 7.6B | 32768 | nein | lauffaehig | nur kurze Entwuerfe, Varianten, Umformulierungen |
 | `qwen3:14b` | 14.8B | 40960 | ja | blockiert: Review-Timeout | Kandidat, aber auf dieser Hardware zu langsam |
 | `mistral-small3.2:24b` | 24.0B | 131072 | nein | blockiert: Minimalaufruf >180s | installiert, aber nicht freigegeben |
@@ -196,4 +196,4 @@ Am 2026-05-31 lokal verfuegbar:
 - `qwen3:14b`
 - `mistral-small3.2:24b`
 
-Fuer produktive Review-Aufgaben ist aktuell kein lokales Modell freigegeben. Naechster Schritt ist entweder `gpt-oss:20b` reparieren/neu ziehen oder ein schnelleres Review-Modell mit mindestens 32k Kontext testen.
+Fuer produktive Review-Aufgaben ist aktuell kein lokales Modell freigegeben. Naechster Schritt ist ein schnelleres Review-Modell mit mindestens 32k Kontext oder ein externer Reviewpfad mit Kostenprofil.

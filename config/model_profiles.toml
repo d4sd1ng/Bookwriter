@@ -47,7 +47,7 @@ review_limit = "minimal local run timed out after 180 seconds on CPU"
 
 [model_health."gpt-oss:20b"]
 approved_for_runtime = false
-reason = "Local Ollama health check failed on 2026-05-31: `ollama run gpt-oss:20b` returns EOF and API reports unsupported chat/generate."
+reason = "Re-pulled successfully on 2026-05-31 and minimal run works, but reading_sample_review benchmark timed out after 300 seconds on local CPU."
 
 [model_health."qwen3:14b"]
 approved_for_runtime = false

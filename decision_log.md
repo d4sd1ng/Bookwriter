@@ -199,7 +199,7 @@ Die Platzhalterpruefung reicht fuer echte Qualitaetskontrolle nicht aus. Gleichz
 Lokale Modell-Health-Checks blockieren aktuell alle Review-Kandidaten.
 
 ### Begründung
-Ein installiertes Modell reicht nicht. `gpt-oss:20b` ist lokal nicht lauffaehig, `qwen3:14b` laeuft fuer Review-Prompts zu langsam und `mistral-small3.2:24b` ist auf CPU fuer interaktive Nutzung nicht tragbar.
+Ein installiertes Modell reicht nicht. `gpt-oss:20b` ist nach Neu-Pull wieder lauffaehig, laeuft fuer Review-Prompts aber zu langsam. `qwen3:14b` laeuft fuer Review-Prompts ebenfalls zu langsam und `mistral-small3.2:24b` ist auf CPU fuer interaktive Nutzung nicht tragbar.
 
 ### Konsequenz
 `config/model_profiles.toml` enthaelt lokale Health-Blocker. Kapitel-Leseproben duerfen erst mit einem Modell laufen, das den Health-Check und anschliessend den fuenfteiligen Leseproben-Benchmark besteht.

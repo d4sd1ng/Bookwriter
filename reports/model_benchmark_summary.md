@@ -13,7 +13,7 @@
 
 | Modell | Status | Ergebnis |
 |---|---|---|
-| `gpt-oss:20b` | installiert, blockiert | `ollama run gpt-oss:20b` endet mit `EOF`; API meldet unsupported chat/generate |
+| `gpt-oss:20b` | installiert, blockiert | nach Neu-Pull wieder lauffaehig; Minimaltest braucht ca. 81 Sekunden, Review-Benchmark laeuft nicht in 300 Sekunden fertig |
 | `qwen2.5:7b` | installiert, lauffaehig | Minimaltest gibt `OK` zurueck; bleibt fuer Review-Aufgaben gesperrt |
 | `qwen3:14b` | installiert, blockiert | einfacher JSON-Smoke-Test funktioniert nach Modell-Ladezeit, aber Review-Benchmark laeuft nicht in 120/180 Sekunden fertig |
 | `mistral-small3.2:24b` | installiert, blockiert | 24B, 128K Kontext, 15 GB; Minimalaufruf laeuft auf CPU nicht in 180 Sekunden fertig |
@@ -22,6 +22,7 @@
 
 - `reports/reading_sample_benchmark.json`: fuenf Review-Foki mit `gpt-oss:20b`, alle blockiert.
 - `reports/reading_sample_benchmark_qwen3_single.json`: einzelner Fokus `fehlerkorrektur` mit `qwen3:14b`, blockiert durch Timeout.
+- `reports/reading_sample_benchmark_gptoss_single.json`: einzelner Fokus `fehlerkorrektur` mit neu gezogenem `gpt-oss:20b`, blockiert durch 300-Sekunden-Timeout.
 
 ### Entscheidung
 
@@ -29,6 +30,6 @@ Aktuell ist kein lokales Modell fuer produktive Kapitel-Leseproben freigegeben.
 
 Naechste Optionen:
 
-1. `gpt-oss:20b` neu ziehen oder reparieren und danach Health-Check wiederholen.
-2. Kleineres Reviewmodell mit mindestens 32K Kontext testen.
+1. Kleineres Reviewmodell mit mindestens 32K Kontext testen.
+2. Prompt fuer Benchmark-Ausgaben weiter reduzieren und mit hartem Output-Limit testen.
 3. Externes Reviewmodell nur mit Kostenprofil und Tokenmonitoring freigeben.
