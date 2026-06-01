@@ -124,6 +124,24 @@ def test_json_store_roundtrip(tmp_path) -> None:
     assert loaded.concept.status == ApprovalStatus.PENDING_REVIEW
 
 
+def test_json_store_roundtrip_preserves_chapter_revision_number(tmp_path) -> None:
+    store = JsonProjectStore(tmp_path)
+    orchestrator = Orchestrator()
+    project = _outlined_project(orchestrator)
+    project = orchestrator.prepare_chapter_briefing(project, 1)
+    project = orchestrator.approve_chapter_briefing(project, 1)
+    project = orchestrator.draft_chapter(project, 1)
+    for focus in READING_SAMPLE_SEQUENCE:
+        project = orchestrator.review_chapter(project, 1, focus)
+        project = orchestrator.approve_chapter_review(project, 1, focus)
+    project = orchestrator.revise_chapter(project, 1)
+    store.save(project)
+
+    loaded = store.load(project.project_id)
+
+    assert loaded.chapter_drafts[0].revision_number == 1
+
+
 def test_brainstorming_funnel_creates_5_3_1_options() -> None:
     project = Orchestrator().create_project("Guide", interview(start_mode="brainstorming"))
 
@@ -159,12 +177,29 @@ def test_chapter_pipeline_approves_after_five_reviews() -> None:
     for focus in READING_SAMPLE_SEQUENCE:
         project = orchestrator.review_chapter(project, 1, focus)
         project = orchestrator.approve_chapter_review(project, 1, focus)
+    project = orchestrator.revise_chapter(project, 1)
 
     updated = orchestrator.approve_chapter(project, 1)
 
     assert updated.status == ApprovalStatus.APPROVED
     assert updated.chapter_drafts[0].status == ApprovalStatus.APPROVED
     assert updated.outline[0].status == ApprovalStatus.APPROVED
+
+
+def test_chapter_approval_blocks_until_revision_after_five_reviews() -> None:
+    orchestrator = Orchestrator()
+    project = _outlined_project(orchestrator)
+    project = orchestrator.prepare_chapter_briefing(project, 1)
+    project = orchestrator.approve_chapter_briefing(project, 1)
+    project = orchestrator.draft_chapter(project, 1)
+    for focus in READING_SAMPLE_SEQUENCE:
+        project = orchestrator.review_chapter(project, 1, focus)
+        project = orchestrator.approve_chapter_review(project, 1, focus)
+
+    updated = orchestrator.approve_chapter(project, 1)
+
+    assert updated.status == ApprovalStatus.BLOCKED
+    assert any("must be revised" in blocker for blocker in updated.blockers)
 
 
 def test_chapter_revision_blocks_until_all_reviews_are_approved() -> None:
@@ -196,6 +231,7 @@ def test_chapter_revision_creates_revised_draft_after_five_reviews() -> None:
 
     assert updated.status == ApprovalStatus.PENDING_REVIEW
     assert "## Ueberarbeitungshinweise" in updated.chapter_drafts[0].markdown
+    assert updated.chapter_drafts[0].revision_number == 1
 
 
 def _outlined_project(orchestrator: Orchestrator):

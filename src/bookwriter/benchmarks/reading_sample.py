@@ -126,4 +126,5 @@ def _draft_from_case(case: ReadingSampleBenchmarkCase) -> ChapterDraft:
         summary=case.chapter_goal,
         next_transition="Benchmark",
         open_points=[],
+        revision_number=0,
     )

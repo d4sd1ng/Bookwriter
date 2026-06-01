@@ -155,6 +155,8 @@ def validate_chapter_approval(project: BookProject, chapter_number: int) -> Vali
     )
     if draft is None:
         blockers.append("Chapter draft is required before approval.")
+    elif draft.revision_number < 1:
+        blockers.append("Chapter must be revised after approved review runs before approval.")
     required = {focus.value for focus in READING_SAMPLE_SEQUENCE}
     completed = {
         review.focus

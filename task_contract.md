@@ -309,6 +309,7 @@ Ein Auftrag ist abgeschlossen, wenn:
 15. `gpt-5-mini` ist fuer externe Leseproben standardmaessig nutzbar, aber Grammatikbefunde ersetzen keine finale menschliche oder toolgestuetzte Sprachkorrektur.
 16. Nach fuenf Review-Laeufen muss ein separater Ueberarbeitungsschritt die freigegebenen Befunde in eine neue Kapitelversion umsetzen.
 17. Der Ueberarbeitungsschritt darf nicht starten, bevor alle fuenf Review-Foki fuer das Kapitel freigegeben sind.
+18. Kapitel-Freigabe blockiert, wenn die aktuelle Kapitelversion noch `revision_number = 0` hat.
 
 ## Qualitaetsregeln fuer Modelle
 

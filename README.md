@@ -138,3 +138,5 @@ Jedes Kapitel laeuft ueber ein freigegebenes Kapitelbriefing, eine Rohfassung un
 Nach den fuenf freigegebenen Review-Runs erzeugt `revise-chapter` eine ueberarbeitete Kapitelversion aus Rohfassung und Reviewbefunden. Dieser Schritt ist getrennt von der Reviewbewertung.
 
 Fuer externe Kapitelrevisionen nutzt der Adapter ein groesseres Completion-Limit (`8192`), weil eine vollstaendige Kapitelversion erzeugt wird. Der erste Revisions-Smoke-Test mit `gpt-5-mini` kostete `0.004073 USD`.
+
+Kapitel-Freigabe blockiert, solange nur die Rohfassung (`revision_number = 0`) vorhanden ist. Erst eine ueberarbeitete Version aus `revise-chapter` kann approved werden.

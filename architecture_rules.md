@@ -158,6 +158,7 @@ Regeln:
 - Der Orchestrator startet den naechsten Prueflauf erst nach dokumentiertem Abschluss des vorherigen.
 - Das naechste Kapitel startet erst nach Abschluss der fuenf Prueflaeufe des aktuellen Kapitels.
 - Nach den fuenf freigegebenen Prueflaeufen erzeugt ein separater Revisionslauf die ueberarbeitete Kapitelversion.
+- Kapitel-Freigabe ist erst erlaubt, wenn die aktuelle Kapitelversion eine Revision nach den fuenf freigegebenen Prueflaeufen ist.
 - Exportvorbereitung darf erst starten, wenn alle Kapitel ihre fuenf Prueflaeufe und die Gesamtpruefung abgeschlossen haben.
 
 ## Modellarchitektur

@@ -71,6 +71,7 @@ class ChapterDraftAgent:
             next_transition=briefing.next_transition,
             open_points=["Needs five focused reading sample reviews before approval."],
             status=ApprovalStatus.PENDING_REVIEW,
+            revision_number=0,
         )
         return AgentResult(
             agent=self.name,
@@ -115,6 +116,7 @@ class ChapterRevisionAgent:
             next_transition=draft.next_transition,
             open_points=["Placeholder revision requires model-backed rewrite before final use."],
             status=ApprovalStatus.PENDING_REVIEW,
+            revision_number=draft.revision_number + 1,
         )
         return AgentResult(
             agent=self.name,
@@ -152,6 +154,7 @@ class ChapterRevisionAgent:
                 next_transition=draft.next_transition,
                 open_points=error.blockers,
                 status=ApprovalStatus.BLOCKED,
+                revision_number=draft.revision_number,
             )
             return AgentResult(
                 agent=self.name,
@@ -171,6 +174,7 @@ class ChapterRevisionAgent:
                 next_transition=draft.next_transition,
                 open_points=["Model response was not valid JSON for chapter_revision."],
                 status=ApprovalStatus.BLOCKED,
+                revision_number=draft.revision_number,
             )
             return AgentResult(
                 agent=self.name,
@@ -188,6 +192,7 @@ class ChapterRevisionAgent:
             next_transition=str(payload.get("naechster_uebergang") or draft.next_transition),
             open_points=_as_string_list(payload.get("offene_punkte", blockers)),
             status=ApprovalStatus.BLOCKED if blockers else ApprovalStatus.PENDING_REVIEW,
+            revision_number=draft.revision_number + 1,
         )
         return AgentResult(
             agent=self.name,

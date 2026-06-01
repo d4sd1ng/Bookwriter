@@ -250,6 +250,8 @@ Begruendung: Review und Ueberarbeitung sind unterschiedliche Aufgaben. Die fuenf
 
 Folge: `revise-chapter` blockiert, bis alle fuenf Review-Foki fuer das Kapitel approved sind. Der Revisionsagent erzeugt eine neue Kapitelversion und ersetzt nicht die Review-Freigaben.
 
+Update: Kapitel-Freigabe blockiert jetzt, wenn nur die Rohfassung mit `revision_number = 0` vorhanden ist. Erst eine ueberarbeitete Kapitelversion mit `revision_number >= 1` kann freigegeben werden.
+
 ## 2026-06-01 - Kapitelrevision Smoke-Test erfolgreich
 
 Entscheidung: Der Revisionspfad nutzt fuer GPT-5-Modelle ein separates Completion-Limit von 8192 Tokens und das Full-Chapter-Budget.

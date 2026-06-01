@@ -95,6 +95,7 @@ class ChapterDraft:
     next_transition: str
     open_points: list[str]
     status: ApprovalStatus = ApprovalStatus.PENDING_REVIEW
+    revision_number: int = 0
 
 
 @dataclass(slots=True)

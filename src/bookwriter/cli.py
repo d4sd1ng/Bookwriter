@@ -720,6 +720,11 @@ def _print_project_summary(project: BookProject) -> None:
         print(f"Chapter briefings: {len(project.chapter_briefings)}")
     if project.chapter_drafts:
         print(f"Chapter drafts: {len(project.chapter_drafts)}")
+        latest_draft = max(project.chapter_drafts, key=lambda item: item.chapter_number)
+        print(
+            "Latest draft revision: "
+            f"chapter {latest_draft.chapter_number} / revision {latest_draft.revision_number}"
+        )
     if project.chapter_reviews:
         print(f"Chapter reviews: {len(project.chapter_reviews)}")
     if project.blockers:
