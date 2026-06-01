@@ -122,3 +122,18 @@ def test_openai_runtime_blocks_when_estimated_cost_exceeds_limit(tmp_path, monke
         assert "exceeds configured run limit" in str(error)
     else:
         raise AssertionError("Estimated cost limit was not enforced.")
+
+
+def test_openai_runtime_uses_default_review_budget(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    runtime = FakeOpenAIRuntime(TokenUsageLedger(path=tmp_path / "usage.jsonl"))
+
+    runtime.invoke(
+        ModelInvocation(
+            task="reading_sample_review",
+            prompt="Bitte JSON pruefen.",
+            model="gpt-5-mini",
+        )
+    )
+
+    assert runtime.body is not None

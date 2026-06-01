@@ -224,5 +224,13 @@ Regeln:
 - Gemessene API-Tokens werden im Ledger gespeichert.
 - Ohne `OPENAI_API_KEY` blockiert der Lauf.
 
+## 2026-06-01 - Realistische Standardbudgets fuer externe Reviews
+
+Entscheidung: Externe Review-Laeufe erhalten ein Standardlimit von `0.02 USD` pro Lauf und ein Planungsbudget von `0.10 USD` fuer die fuenf Leseproben eines Kapitels.
+
+Begruendung: `0.01 USD` pro Kapitel ist fuer kurze Benchmarktexte erreichbar, aber fuer echte Kapitel zu knapp. Normale Kapitel koennen mehrere tausend Woerter umfassen und werden fuenfmal mit unterschiedlichem Fokus geprueft.
+
+Folge: Ohne explizites `--max-estimated-cost` blockiert der OpenAI-Adapter erst oberhalb des konfigurierten Reviewlauf-Limits. Fuer laengere Kapitel kann das Limit bewusst mit `--max-estimated-cost 0.05` oder `0.10` pro Lauf erhoeht werden.
+
 ### Konsequenz
 `config/model_profiles.toml` enthaelt lokale Health-Blocker. Kapitel-Leseproben duerfen erst mit einem Modell laufen, das den Health-Check und anschliessend den fuenfteiligen Leseproben-Benchmark besteht.

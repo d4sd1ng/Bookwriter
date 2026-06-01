@@ -108,7 +108,7 @@ Tokenverbrauch und geschaetzte API-Kosten werden im Ledger `data/token_usage.jso
 
 Kapitel-Leseproben koennen mit `--use-ollama` gegen das konfigurierte lokale Review-Modell oder mit `--use-openai` gegen den externen OpenAI-Runtime-Adapter ausgefuehrt werden. Der Lauf nutzt das Taskprofil `reading_sample_review`, blockiert ungeeignete lokale Review-Modelle und schreibt gemessene Input-/Output-Tokens automatisch ins Ledger.
 
-Externe Reviews erfordern `OPENAI_API_KEY` in der Umgebung oder in `.env`. Jeder externe Lauf prueft vorab das Kostenprofil in `config/token_costs.toml`; unbekannte externe Modelle oder ein ueberschrittenes `--max-estimated-cost` blockieren vor dem API-Aufruf.
+Externe Reviews erfordern `OPENAI_API_KEY` in der Umgebung oder in `.env`. Jeder externe Lauf prueft vorab das Kostenprofil in `config/token_costs.toml`; unbekannte externe Modelle oder ein ueberschrittenes `--max-estimated-cost` blockieren vor dem API-Aufruf. Ohne explizites Limit gilt fuer externe Reviewlaeufe ein Standardlimit von `0.02 USD` pro Lauf; fuer ein Kapitel mit fuenf Reviews sind `0.10 USD` als realistisches Standardbudget dokumentiert.
 
 Lokale Modell-Health-Checks koennen Modelle trotz Installation blockieren. Am 2026-05-31 ist kein lokales Review-Modell freigegeben; Details stehen in `model_strategy.md` und `reports/model_benchmark_summary.md`.
 

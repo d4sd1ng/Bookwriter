@@ -5,6 +5,10 @@ local_api_cost_per_million_input_tokens = 0.0
 local_api_cost_per_million_output_tokens = 0.0
 require_cost_profile_for_external_models = true
 block_unknown_external_model_costs = true
+default_external_review_run_limit = 0.02
+default_external_chapter_review_limit = 0.10
+default_external_full_chapter_limit = 0.15
+external_review_budget_note = "Realistic default for 5 chapter review runs with gpt-5-mini: about 0.02-0.10 USD depending on chapter length."
 
 [models."gpt-oss:20b"]
 provider = "ollama"

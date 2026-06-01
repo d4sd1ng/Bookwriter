@@ -23,6 +23,7 @@ class OpenAIChatRuntime:
     timeout_seconds: int = 180
     max_completion_tokens: int | None = None
     max_estimated_cost: float | None = None
+    use_default_review_budget: bool = True
     enabled: bool = True
 
     @classmethod
@@ -102,11 +103,14 @@ class OpenAIChatRuntime:
             estimated_cost = catalog.estimate_cost(model, input_tokens_estimate, output_limit)
         except KeyError as missing_profile:
             raise ModelRuntimeBlocked([str(missing_profile)]) from missing_profile
-        if self.max_estimated_cost is not None and estimated_cost > self.max_estimated_cost:
+        cost_limit = self.max_estimated_cost
+        if cost_limit is None and self.use_default_review_budget:
+            cost_limit = catalog.default_external_review_run_limit()
+        if cost_limit is not None and estimated_cost > cost_limit:
             raise ModelRuntimeBlocked(
                 [
                     "Estimated external model cost exceeds configured run limit: "
-                    f"{estimated_cost:.6f} > {self.max_estimated_cost:.6f} "
+                    f"{estimated_cost:.6f} > {cost_limit:.6f} "
                     f"{catalog.profile_for(model).currency}."
                 ]
             )

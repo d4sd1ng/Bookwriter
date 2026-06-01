@@ -501,12 +501,19 @@ def run_questions() -> int:
 
 
 def run_usage(args: argparse.Namespace) -> int:
-    summary = TokenUsageLedger().summary(project_id=args.project_id)
+    ledger = TokenUsageLedger()
+    summary = ledger.summary(project_id=args.project_id)
     print(f"Records: {summary.records}")
     print(f"Input tokens: {summary.input_tokens}")
     print(f"Output tokens: {summary.output_tokens}")
     print(f"Total tokens: {summary.total_tokens}")
     print(f"Estimated API cost: {summary.estimated_cost:.6f} {summary.currency}")
+    catalog = ledger.catalog
+    print(f"Default external review run limit: {catalog.default_external_review_run_limit():.2f} {summary.currency}")
+    print(
+        "Default external chapter review budget: "
+        f"{catalog.default_external_chapter_review_limit():.2f} {summary.currency}"
+    )
     return 0
 
 

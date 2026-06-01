@@ -197,6 +197,14 @@ Externe Modelle duerfen erst genutzt werden, wenn ein aktuelles Preisprofil in `
 
 Der OpenAI-Adapter nutzt Chat Completions mit JSON-Ausgabe, setzt ein hartes Completion-Limit aus dem Taskprofil und schreibt gemessene `prompt_tokens` und `completion_tokens` in denselben Ledger wie lokale Ollama-Laeufe. Ein optionales `--max-estimated-cost` blockiert den Lauf vor dem API-Aufruf, wenn die Schaetzung das Limit ueberschreitet.
 
+Budgetannahmen fuer `gpt-5-mini`:
+
+- Standardlimit pro externem Reviewlauf: `0.02 USD`
+- Standardbudget fuer fuenf Leseproben eines Kapitels: `0.10 USD`
+- grobes Komplettbudget fuer Schreiben plus Reviews eines normalen Kapitels: `0.15 USD`
+
+Diese Werte sind bewusst hoeher als der kurze Benchmarkfall, weil echte Kapitel laenger sind und jeder der fuenf Prueflaeufe eigenen Input und Output erzeugt.
+
 ## Aktueller lokaler Stand
 
 Am 2026-05-31 lokal verfuegbar:

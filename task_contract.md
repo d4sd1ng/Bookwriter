@@ -304,6 +304,8 @@ Ein Auftrag ist abgeschlossen, wenn:
 10. Externe Review-Laeufe muessen vor dem API-Aufruf gegen `--max-estimated-cost` pruefbar sein.
 11. OpenAI-Review-Laeufe protokollieren gemessene `prompt_tokens` und `completion_tokens` im gemeinsamen Token-Ledger.
 12. Fehlt `OPENAI_API_KEY`, wird der Lauf blockiert und nicht simuliert.
+13. Ohne explizites Kostenlimit gilt fuer externe Review-Laeufe das Standardlimit aus `config/token_costs.toml`.
+14. Fuer ein Kapitel mit fuenf externen Review-Laeufen gilt `default_external_chapter_review_limit` als Planungsbudget.
 
 ## Qualitaetsregeln fuer Modelle
 
