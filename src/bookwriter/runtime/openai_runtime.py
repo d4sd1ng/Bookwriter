@@ -41,6 +41,7 @@ class OpenAIChatRuntime:
         catalog = TokenCostCatalog()
         output_limit = self.max_completion_tokens or _default_output_limit(
             model,
+            invocation.task,
             profile.max_output_tokens,
             catalog,
         )
@@ -49,7 +50,7 @@ class OpenAIChatRuntime:
             "ohne Markdown, ohne Erklaertext und ohne Codeblock."
         )
         input_tokens_estimate = estimate_tokens(system_prompt + "\n" + invocation.prompt)
-        self._validate_cost_profile(model, input_tokens_estimate, output_limit, catalog)
+        self._validate_cost_profile(model, invocation.task, input_tokens_estimate, output_limit, catalog)
 
         body: dict[str, object] = {
             "model": model,
@@ -104,6 +105,7 @@ class OpenAIChatRuntime:
     def _validate_cost_profile(
         self,
         model: str,
+        task: str,
         input_tokens_estimate: int,
         output_limit: int,
         catalog: TokenCostCatalog,
@@ -114,7 +116,7 @@ class OpenAIChatRuntime:
             raise ModelRuntimeBlocked([str(missing_profile)]) from missing_profile
         cost_limit = self.max_estimated_cost
         if cost_limit is None and self.use_default_review_budget:
-            cost_limit = catalog.default_external_review_run_limit()
+            cost_limit = _default_cost_limit(task, catalog)
         if cost_limit is not None and estimated_cost > cost_limit:
             raise ModelRuntimeBlocked(
                 [
@@ -184,7 +186,20 @@ def _reasoning_effort(model: str) -> str:
     return ""
 
 
-def _default_output_limit(model: str, task_limit: int, catalog: TokenCostCatalog) -> int:
+def _default_output_limit(
+    model: str,
+    task: str,
+    task_limit: int,
+    catalog: TokenCostCatalog,
+) -> int:
     if model.startswith("gpt-5"):
+        if task == "chapter_revision":
+            return max(task_limit, catalog.default_external_revision_completion_tokens())
         return max(task_limit, catalog.default_external_review_completion_tokens())
     return task_limit
+
+
+def _default_cost_limit(task: str, catalog: TokenCostCatalog) -> float:
+    if task == "chapter_revision":
+        return catalog.default_external_full_chapter_limit()
+    return catalog.default_external_review_run_limit()

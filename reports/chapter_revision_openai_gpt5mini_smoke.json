@@ -1,0 +1,24 @@
+{
+  "case_id": "consulting_practical_guide_chapter_1",
+  "status": "pending_review",
+  "chapter_number": 1,
+  "title": "Vom Bauchgefuehl zum Angebot",
+  "summary": "Kapitel überarbeitet: Einleitung geschärft mit Unterscheidung, warum Tool-Sammlungen kurzfristig wirken können, aber ohne messbares Ergebnis scheitern. Handwerksbeispiel plausibel erklärt und Folgen für Angebotserstellung dargestellt. Tautologische Passage entfernt und durch ein klares Leitprinzip ersetzt. Drei Bausteine (Analyse, Umsetzung, Begleitung) um je einen konkreten Nutzen erweitert und Reihenfolge begründet. Angebotsformel mit Beispiel ergänzt und eine kurze Mini-Aufgabe zur direkten Anwendung eingefügt. Tempus und Pronomen vereinheitlicht; redundante Formulierungen reduziert.",
+  "open_points": [],
+  "markdown": "# Vom Bauchgefuehl zum Angebot\n\nViele Berater starten mit KI, weil Kunden danach fragen. Sie sammeln einzelne Tools, lesen Newsletter und erstellen daraus schnell ein Angebot. Das kann kurzfristig Aufmerksamkeit bringen, wenn das Paket gut klingt; langfristig scheitern solche Angebote jedoch häufig, weil sie kein klar definiertes Ergebnis liefern, das sich messen lässt. Ohne dieses Ergebnis fehlt dem Kunden eine Entscheidungsgrundlage und damit ein Kriterium für Erfolg.\n\nEin Angebot beginnt deshalb nicht mit Tools, sondern mit einem messbaren Ziel. Klären Sie zunächst, welches Problem beim Kunden kleiner werden soll: weniger manuelle Recherche, schnellere Angebotsvorbereitung oder bessere Auswertung von Kundendaten. Prüfen Sie dabei konkret: Wer profitiert? Welches messbare Kriterium wird verbessert? In welchem Zeitraum soll das passieren?\n\nBeispiel: Eine kleine Beratungsfirma arbeitet mit Handwerksbetrieben. Am Montag sagt die Inhaberin, sie habe keine Zeit für KI. Am Dienstag unterschreibt die Inhaberin trotzdem ein vorgeschlagenes Automatisierungspaket für 9.000 Euro — nach einer überzeugenden Demonstration des Anbieters und weil das Angebot versprochen hatte, Angebotszeiten erheblich zu reduzieren. Später arbeitet die Beratung mit dem Paket, stellt aber fest, dass ohne vorher definierte Erfolgskriterien die Umsetzung nicht zielgerichtet verlief: Funktionen wurden bezahlt, ohne dass klar war, welche konkreten Kennzahlen sich verbessern sollten. Folge: Budget wurde überschritten, das erwartete Ergebnis blieb unklar und der Kunde war unzufrieden.\n\nLeitprinzip: Ein gutes Angebot beschreibt ein konkretes, messbares Ergebnis. Klarheit bedeutet, dass Erwartungen, Messgrößen und Verantwortlichkeiten von Anfang an definiert sind. Das minimiert Fehlinvestitionen und vermeidet, dass Kunden technische Pakete kaufen, ohne zu wissen, welchen Nutzen sie tatsächlich bringen.\n\nAus dem formulierten Ergebnis lassen sich drei Bausteine ableiten: Analyse, Umsetzung und Begleitung.\n- Analyse: Identifizieren Sie die relevanten Probleme und die Kennzahlen (KPIs). Nur so lässt sich ein realistisches Ziel Y formulieren. Beispiel: Angebotszeit in Minuten, Anzahl erforderlicher Eingaben, Fehlerquote bei Datenimporten.\n- Umsetzung: Setzen Sie technische Lösungen zielgerichtet ein, basierend auf den Ergebnissen der Analyse. So vermeiden Sie unnötige Funktionen und halten das Budget ein.\n- Begleitung: Stellen Sie sicher, dass die Lösung beim Kunden genutzt wird und die definierten Kennzahlen tatsächlich verbessert werden; begleitende Anpassungen sichern Nachhaltigkeit.\n\nDiese Reihenfolge hilft, weil erst die Analyse die richtige Zielgröße liefert, die Umsetzung gezielt Ressourcen einsetzt und die Begleitung Adoption und Wirkung stabilisiert. Ohne diese Reihenfolge besteht die Gefahr, dass Technik vor Zweck angeschafft wird.\n\nAm Ende dieses Kapitels haben Sie eine einfache Angebotsformel: Wir helfen Zielgruppe X dabei, Ergebnis Y in Zeitraum z zu erreichen. Beispiel: ‚Wir helfen Malerbetrieben, die Zeit für Angebotsvorbereitung um 30 % in drei Monaten zu reduzieren.‘\n\nMini-Aufgabe: Nehmen Sie einen aktuellen Kundenfall und füllen Sie die Formel aus. Notieren Sie kurz (1) die Zielgruppe, (2) das messbare Ergebnis mit KPI, (3) den Zeitraum. Diese drei Angaben sind die Basis für ein zielorientiertes Angebot.\n",
+  "notes": [
+    "Model-backed chapter revision created with gpt-5-mini-2025-08-07.",
+    "Tokens logged: 6932.",
+    "Estimated cost: 0.004073 USD"
+  ],
+  "model": "gpt-5-mini-2025-08-07",
+  "input_tokens": 5595,
+  "output_tokens": 1337,
+  "metadata": {
+    "provider": "openai",
+    "base_url": "https://api.openai.com/v1",
+    "endpoint": "chat_completions",
+    "estimated_cost": "0.004073",
+    "currency": "USD"
+  }
+}

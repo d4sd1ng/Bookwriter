@@ -1,0 +1,182 @@
+{
+  "results": [
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "fehlerkorrektur",
+      "status": "pending_review",
+      "findings": 6,
+      "finding_details": [
+        "Absatz mit Montag/ Dienstag (Beispiel Handwerksbetrieb) | Widerspruch / fehlende Fortführung: Die Inhaberin lehnt KI ab, kauft dann ein teures Paket trotz vorher genanntem Budget; die Folge oder Erklärung fehlt und widerspricht dem Kapitelziel, zudem wird die Entscheidung später nicht aufgegriffen. | Ergänze eine kurze Erklärung für den Kauf (z. B. neuer Bedarf, Verkaufsgespräch, Druck durch Anbieter) oder entferne den Widerspruch; stelle sicher, dass die Folge (Konsequenz für Angebotserstellung) erwähnt wird. | hoch",
+        "Absatz 'Viele Berater starten mit KI...' | Behauptung ohne Präzision: 'Das funktioniert gut, weil niemand ein Ergebnis erwartet.' Allgemeine Aussage wirkt pauschal und gefährdet Glaubwürdigkeit. | Präzisiere oder belege die Aussage kurz (z. B. 'manchmal' oder 'in vielen Fällen, wenn Angebot als Toolsammlung präsentiert wird'). | mittel",
+        "Absatz 'Der wichtigste Punkt ist der wichtigste Punkt...' | Platzhalterhafte, tautologische Formulierung und inkonsistente Tonalität; Satz bietet keinen Informationswert. | Formuliere klar und konkret: z. B. 'Klarheit ist entscheidend: das Angebot muss ein konkretes, messbares Ergebnis kommunizieren.' | hoch",
+        "Letzter Absatz (Angebotsformel) | Formel wirkt abrupt; fehlende Anweisung, wie Leser diese konkret für ihr Projekt ausfüllen sollen. | Füge ein kurzes Beispiel für die Formel (z. B. 'Wir helfen Malerbetrieben, Angebotszeiten um 30% in 3 Monaten zu reduzieren') oder eine Handlungsanweisung zum Ausfüllen hinzu. | mittel",
+        "Aufbau: Reihenfolge Analyse, Umsetzung und Begleitung | Keine Erklärung, warum diese Reihenfolge besser ist als alternative Reihenfolgen; könnte als Behauptung stehen bleiben. | Ergänze einen kurzen Satz, warum diese Reihenfolge für Kundenführung sinnvoll ist (z. B. Priorisierung von Klärung vor Umsetzung zur Vermeidung unnötiger Technikkosten). | niedrig",
+        "Mehrere Abschnitte (allgemein) | Wiederholungen und unpräzise Formulierungen ('klar', 'gut') schwächen die Aussagekraft. | Ersetze redundante Wörter durch konkrete Beschreibungen (z. B. 'klar' → 'konkret messbar, nachprüfbar'). | mittel"
+      ],
+      "change_suggestions": 5,
+      "change_suggestion_details": [
+        "Überarbeite das Handwerksbeispiel: erkläre den Kauf oder passe das Beispiel so an, dass es das Kapitelziel unterstützt (z. B. Inhaberin kauft, weil Verkäufer Ergebnis versprach; Folge: Angebotsschaden wegen fehlender Zielklärung).",
+        "Streiche oder ersetze die tautologische Passage ('Der wichtigste Punkt ist der wichtigste Punkt') durch eine konkrete Leitregel zur Ergebnisformulierung.",
+        "Füge ein konkretes Beispiel zur Angebotsformel ein und eine Mini-Anleitung (3 kurze Bullet-Punkte) zum Ausfüllen für die Zielgruppe.",
+        "Präzisiere pauschale Aussagen zu Beratern (ersetze 'Das funktioniert gut' durch 'Das kann kurzfristig funktionieren, wenn...') und belege oder nuanciere Behauptungen.",
+        "Kurz begründen, warum die Reihenfolge Analyse → Umsetzung → Begleitung gewählt wird (ein Satz mit direktem Nutzen für den Kunden)."
+      ],
+      "residual_risks": [
+        "Ohne Klärung des Handwerksbeispiels bleibt ein Verständniskonflikt, der Leser verwirren kann.",
+        "Tautologische/unspezifische Formulierungen können die Glaubwürdigkeit bei erfahrenen Beratern schwächen."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2037,
+      "output_tokens": 1070,
+      "estimated_cost": "0.002649",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 1 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3107.",
+        "Estimated cost: 0.002649 USD"
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "logikfehler",
+      "status": "pending_review",
+      "findings": 5,
+      "finding_details": [
+        "Absatz mit der Handwerksinhaberin (\"Am Montag...\" bis \"...wird spaeter nicht mehr erwaehnt.\") | Ungerechtfertigte, nicht aufgeklärte Entscheidung: Der Wechsel von 'kein Interesse' zu einem 9.000‑Euro-Kauf widerspricht dem vorher genannten Budget von 500 Euro und wird nicht erklärt. Die Szene schwächt die Argumentation zum Kapitelziel, weil sie inkonsistente Kundenentscheidung ohne Ursache zeigt. | Ergänze eine kurze Ursache oder Kontext: z. B. eine dringende Frist, überzeugende Demo, externe Empfehlung oder Fehlverständnis über Umfang des Pakets. Alternativ entferne oder passe Zahlen/Entscheidung an, damit sie plausibel zum vorherigen Budget passt. | hoch",
+        "Absatz: \"Viele Berater starten mit KI, weil Kunden danach fragen... Das funktioniert gut, weil niemand ein Ergebnis erwartet. Gleichzeitig scheitert es, weil Kunden sehr wohl ein Ergebnis erwarten.\" | Widersprüchliche Behauptung ohne Differenzierung: Erst wird gesagt, 'es funktioniert gut', dann 'gleichzeitig scheitert es' — Ursache-Wirkungs-Beziehung und Bedingungen fehlen, sodass die Logik unklar bleibt. | Präzisiere Bedingungen: Nenne für welche Situationen die lose Toolsammlung 'funktioniert' (z. B. kurzfristige Marketingwirkung) und in welchen sie scheitert (z. B. bei nachhaltigen Ergebnissen). Füge ein kurzes Beispiel oder Folge ein, das die Unterscheidung erklärt. | mittel",
+        "Absatz: \"Der wichtigste Punkt ist der wichtigste Punkt: Ein gutes Angebot ist gut, weil es gut ist...\" | Zirkuläre, tautologische Aussage ohne belegende Logik: Die Aussage erklärt nicht, warum Klarheit zum gewünschten Ergebnis führt und bietet keine Verbindung zum Kapitelziel. | Formuliere konkret: Ersetze Tautologie durch eine Aussage, die Ursache-Wirkung zeigt (z. B. 'Klarheit stellt sicher, dass Erwartungen, Messgrößen und Verantwortlichkeiten definiert sind, wodurch Projekterfolg und Kundenzufriedenheit steigen'). | hoch",
+        "Absatz über die drei Bausteine: \"Analyse, Umsetzung und Begleitung. Diese Reihenfolge hilft, weil der Kunde nicht sofort alle technischen Details verstehen muss.\" | Unzureichende Begründung für Reihenfolge: Es wird behauptet, die Reihenfolge helfe, aber es fehlt rationale Verbindung zu Ziel (messbares Ergebnis) und zu Kundenbedürfnis. | Füge je 1–2 Sätze hinzu, die erklären, wie jeder Baustein konkret zum messbaren Ergebnis beiträgt und warum die Reihenfolge notwendig ist (z. B. Analyse identifiziert KPI, Umsetzung liefert Tools, Begleitung sichert Adoption). | mittel",
+        "Schlussabsatz: Angebotsformel 'Wir helfen Zielgruppe X...' | Keine Verknüpfung zur vorherigen Analyse oder Beispielszenen: Formel erscheint abrupt und nicht logisch aus den bisherigen Ausführungen abgeleitet. | Ergänze ein kurzes Satzpaar, das zeigt, wie aus der vorherigen Klarheit/Analyse genau diese Formel entsteht (z. B. 'Aus den identifizierten Problemen (Analyse) leiten Sie das Ergebnis Y ab, das in der Formel steht'). | mittel"
+      ],
+      "change_suggestions": 5,
+      "change_suggestion_details": [
+        "Erkläre die Ursache für die inkonsistente Kundentscheidung in der Handwerks-Illustration oder passe die Zahlen, damit die Szene plausibel bleibt.",
+        "Präzisiere die Aussage zur anfänglichen 'Funktionierens' von Tool-Sammlungen: wann sie kurzfristig wirken vs. wann sie scheitern.",
+        "Ersetze die tautologische Passage ('Der wichtigste Punkt ist der wichtigste Punkt...') durch eine klare Ursache-Wirkung-Aussage, die Klarheit mit messbaren Ergebnissen verbindet.",
+        "Erweitere die Beschreibung der drei Bausteine um je einen konkreten Nutzenbeitrag zum messbaren Ergebnis und begründe die Reihenfolge.",
+        "Füge eine kurze Überleitungslogik zur Angebotsformel ein, damit der Leser sieht, wie Analyse und Ergebnisformulierung zusammenhängen."
+      ],
+      "residual_risks": [
+        "Wenn die Handwerks-Szene nicht plausibel gemacht wird, könnten Leser das Kapitel als inkonsistent einschätzen und das Kapitelziel (Warum Ergebnis statt Tools) schwächen.",
+        "Unklare Ursache-Wirkungs-Aussagen könnten dazu führen, dass Leser die empfohlenen Schritte nicht als zwingend oder priorisiert ansehen."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2035,
+      "output_tokens": 1202,
+      "estimated_cost": "0.002913",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 2 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3237.",
+        "Estimated cost: 0.002913 USD"
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "spannungsbogen",
+      "status": "pending_review",
+      "findings": 7,
+      "finding_details": [
+        "Einleitung (Absatz 1) | Fehlender Hook: Der Einstieg ist informativ, aber bietet keinen starken Konflikt oder neugierig machenden Haken, der Leser sofort bindet. | Beginne mit einer konkreten, überraschenden Anekdote oder einer prägnanten Frage (z. B. ein klares Beispiel eines gescheiterten KI-Angebots mit Folgen für den Kunden), um Dringlichkeit zu erzeugen. | hoch",
+        "Beispiel Handwerksbetrieb (Absatz 4) | Die Szene bricht Spannung ab: Die Entscheidung der Inhaberin wird eingeführt, aber die Folgen oder Erklärung fehlen, sodass die Anekdote keinen narrativen Zweck erfüllt. | Entweder die Szene kürzer fassen und klar mit dem Kapitelziel verbinden (z. B. zeigen, wie fehlende Ergebnisorientierung zur Überbudgetierung führt) oder die Entscheidung und ihre Folgen konkret nachzeichnen (Ziel verfehlt, Umsetzung gescheitert oder Folgekosten). | hoch",
+        "Absatz \"Der wichtigste Punkt ist der wichtigste Punkt\" | Floskelhafte Wiederholung unterbricht Rhythmus und Spannung; bringt keine neue Erkenntnis und wirkt wie Fülltext. | Streiche oder ersetze durch ein knappes, konkretes Statement mit Beispiel: z. B. 'Klarheit über das Ergebnis ist das Kriterium für ein behandelbares Angebot' + kurzes Mini-Beispiel. | mittel",
+        "Übergang zu den drei Bausteinen (Absatz 6) | Übergang wirkt abrupt; die drei Bausteine werden eingeführt, aber ihre Rolle im Spannungsaufbau (Warum diese Reihenfolge wichtig ist) bleibt vage. | Füge einen kurzen Satz hinzu, der erklärt, welche Spannungskurven jede Phase bedient (z. B. Analyse schafft Klarheit, Umsetzung liefert erstes Ergebnis, Begleitung sichert Nachhaltigkeit) und wie das den Kunden überzeugt. | mittel",
+        "Schluss/Ende (Absatz 7) | Das Kapitel endet didaktisch mit einer Formel, aber ohne abschließende Belohnung oder Aufforderung (Call-to-action) — die Spannung löst sich nicht zufriedenstellend auf. | Füge ein kurzes Abschlussszenario oder eine Mini-Aufgabe hinzu (z. B. 'Formuliere jetzt Ihre Angebotsformel in einem Satz'), um den Leser aktiv einzubinden und Abschlussbefriedigung zu erzeugen. | hoch",
+        "Gesamtlänge einzelner Abschnitte | Tempo schwankt: Einige Abschnitte sind sehr knapp (Bausteine, Fazit), andere stellen abrupt neue Informationen vor, was den Fluss hemmt. | Gleiche das Tempo aus: Entweder eine kurze illustrative Erweiterung der Bausteine oder Straffung der Einführung, damit jede Szene klar Fortschritt zeigt. | mittel",
+        "Narrative Konsistenz (durch Kapitel) | Kein durchgehender Leitfaden/roter Faden: Es gibt mehrere Punkte (Tools vs. Ergebnis, Beispiel, Bausteine, Formel), aber ihre Verbindung bleibt stellenweise locker. | Verknüpfe Abschnitte explizit mit Phrasen wie 'Deshalb...', 'Darauf aufbauend...' oder kurzen Rückbezügen zum Kapitelziel, damit jeder Absatz die Spannung Richtung Abschluss treibt. | mittel"
+      ],
+      "change_suggestions": 5,
+      "change_suggestion_details": [
+        "Ersetze die Einleitung durch eine kurze, konkrete Mini-Geschichte (1–2 Sätze) mit einem klaren Konflikt/Fehler und Beginn der Konsequenz für den Kunden.",
+        "Vervollständige das Handwerksbeispiel: nenne kurz, was das teure Paket konkret versprach, welches Ergebnis ausblieb und wie das Budgetziel verletzt wurde, damit Szene und Lehre verbunden sind.",
+        "Entferne die tautologische Passage ('Der wichtigste Punkt...') und formuliere stattdessen ein prägnantes Leitprinzip mit einem Mini-Beispiel.",
+        "Erweitere den Übergang zu Analyse/Umsetzung/Begleitung um je einen knappen Nutzen-Satz (1 Satz pro Baustein), der zeigt, wie Spannung/Vertrauen beim Kunden wächst.",
+        "Füge am Kapitelende eine aktive Mini-Aufgabe (1 Satz) ein, die den Leser auffordert, die Angebotsformel zu schreiben — das schafft Closure und Handlungsmotivation."
+      ],
+      "residual_risks": [
+        "Wenn die vorgeschlagenen Ergänzungen zu ausführlich werden, könnte die Kapitellänge steigen; bewusst kurze Sätze/Beispiele verwenden.",
+        "Konkrete Ergänzungen zum Handwerksbeispiel dürfen keine neuen Logiklücken erzeugen (-> späterer Logik-Run notwendig)."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2034,
+      "output_tokens": 1275,
+      "estimated_cost": "0.003059",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 3 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3309.",
+        "Estimated cost: 0.003059 USD"
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "schreibstil",
+      "status": "pending_review",
+      "findings": 6,
+      "finding_details": [
+        "Absatz 3 (Beispiel Handwerksbetrieb, Montag/ Dienstag) | Bruch in Erzaehldistanz und fehlende Aufloesung: Die Entscheidung der Inhaberin (Kauf trotz Budget) wird eingefuehrt, aber nicht erklaert oder mit dem Kapitelziel verknuepft, wirkt wie ein Fremdkorpus. | Erklaere kurz die Motivation und relevanten Konsequenzen: warum kaufte sie das Paket (z. B. Druck durch Verkaufsargumente) und wie beeinflusst das Angebotsergebnis; verknuepfe mit dem Leitgedanken, dass ein klares Ergebnis Budget- und Entscheidungsfallen verhindert. | hoch",
+        "Absatz 4 („Der wichtigste Punkt ist der wichtigste Punkt...\") | Tonbruch und unnötige Tautologie: Wiederholungen wirken ironisch/verwässert den direkten, praktischen Stil. | Formuliere prägnant und konkret: z. B. ‚Klarheit ist entscheidend: das Angebot beschreibt ein konkretes, messbares Ergebnis.‘ Entferne spielerische Wiederholungen. | mittel",
+        "Einleitung (Absatz 1) | Stil: allgemeine Aussagen und passive Verben ('Das funktioniert gut, weil niemand ein Ergebnis erwartet.') klingen wertend und vage, nicht direkt-praktisch. | Nutze aktive, handlungsorientierte Sätze und konkrete Konsequenzen: z. B. ‚Viele Berater starten mit Tools. Ohne klares Ergebnis entstehen Angebote, die Kunden nicht nutzen.‘ | mittel",
+        "Absatz 2 (Definition Angebotsbeginn mit messbarem Ziel) | Ton und Zielgruppenfit: Formulierungen sind korrekt, aber zu abstrakt; fehlt direkt umsetzbarer Hinweis fuer Berater. | Füge eine kurze, konkrete Frage-/Checkliste hinzu (z. B. 2–3 prägnante Fragen: Wer profitiert? Welches messbare Kriterium? In welchem Zeitraum?) in einem einzeiligen Satz. | mittel",
+        "Absatz 6 (Abschluss mit Angebotsformel) | Abschluss wirkt abrupt; Stil könnte motivierender und anleitender sein, ohne Marketingfloskeln. | Leite kurz an, wie Leser die Formel sofort anwenden: ‚Fülle X/Y/Z mit einem aktuellen Kundenfall aus.‘ Ein Satz reichte. | niedrig",
+        "Allgemein (Wortwahl und Redundanzen) | Wiederholungen ('klar', 'gut') und redundante Formulierungen vermindern Prägnanz. | Variiere Kernbegriffe konkret (z. B. 'konkret', 'messbar', 'zielorientiert') und streiche überflüssige Synonyme. | niedrig"
+      ],
+      "change_suggestions": 5,
+      "change_suggestion_details": [
+        "Beim Handwerksbeispiel: Ergaenze 1–2 Sätze, die Motivation des Kaufs und die Folge (z. B. fehlende Nutzenprüfung, Budgetsprengung) klar machen und direkte Lehre ziehen.",
+        "Ersetze Absatz 4 durch einen einzigen klaren Leitgedanken: ‚Ein gutes Angebot beschreibt ein konkretes, messbares Ergebnis.‘",
+        "Überarbeite Einleitung in aktivem Stil; nenne kurz die negative Folge unklarer Angebote (z. B. keine Entscheidungsgrundlage fuer Kunde).",
+        "Füge nach dem Zielsatz eine Mini-Checkliste (3 Fragen) ein, die der Berater sofort beim Kunden anwendet.",
+        "Am Kapitelende eine Handlungsanweisung: Leser soll die Angebotsformel an einem realen Kundenfall ausfüllen (1–2 Zeilen Anleitung)."
+      ],
+      "residual_risks": [
+        "Wenn stilistische Straffungen zu stark sind, gehen Beispiele oder Tonfall verloren; Balance zwischen Direktheit und konkreten Illustrationen beachten."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2033,
+      "output_tokens": 1064,
+      "estimated_cost": "0.002636",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 4 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3097.",
+        "Estimated cost: 0.002636 USD"
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "grammatik",
+      "status": "pending_review",
+      "findings": 5,
+      "finding_details": [
+        "Absatz 1, Satz 3 | Kongruenz/Tempus: 'bauen daraus sofort ein Angebot' wirkt unpräzise; Stilbruch durch Präsens-Mischung. | Formuliere konsistent im Präsens: 'und bauen daraus sofort ein Angebot.' → 'und erstellen daraus sofort ein Angebot.' | niedrig",
+        "Absatz 2, Satz 1 | Kommafehler/Lesefluss: Aufzählung ohne Komma vor 'oder' ist akzeptabel, aber Satz könnte klarer mit Kommas. | Setze Kommas zur Gliederung: '...welches Problem beim Kunden kleiner werden soll: weniger manuelle Recherche, schnellere Angebotsvorbereitung oder bessere Auswertung von Kundendaten.' → '...soll: weniger manuelle Recherche, schnellere Angebotsvorbereitung, oder bessere Auswertung von Kundendaten.' | niedrig",
+        "Absatz 3 (Handwerksbetrieb-Beispiel), gesamte Szene | Kohärenz Tempus/Kongruenz: Wechsel zwischen Präteritum/Perfekt/Präsens und fehlende klare Bezugspersonen ('sie' unklar ob Inhaberin). | Vereinheitliche Tempus (Präsens empfohlen) und nenne die Inhaberin einmal mit Namen oder Bezeichnung zur Klarheit: 'Am Montag sagt die Inhaberin, sie habe keine Zeit für KI. Am Dienstag kauft sie trotzdem...' → 'Am Montag sagt die Inhaberin, sie habe keine Zeit für KI. Am Dienstag kauft die Inhaberin trotzdem ein komplexes Automatisierungspaket für 9.000 Euro, obwohl sie zuvor ein Budget von 500 Euro festgelegt hatte.' | mittel",
+        "Absatz 4 ('Der wichtigste Punkt ist der wichtigste Punkt' bis 'Klarheit klarer ist') | Stilistische und grammatische Redundanz; Satzbau wirkt fehlerhaft und tautologisch. | Glätte die Sätze, entferne Tautologie: 'Der wichtigste Punkt ist der wichtigste Punkt: Ein gutes Angebot ist gut, weil es gut ist. Es sollte klar sein. Es sollte nicht unklar sein. Der Leser merkt dann, dass Klarheit klarer ist.' → 'Der wichtigste Punkt: Ein gutes Angebot ist klar und präzise. Unklare Formulierungen vermeiden den Nutzen für den Kunden.' | hoch",
+        "Absatz 6 (Schlussformel) | Zeichensetzung: Doppelpunkt-Formel wirkt korrekt, aber 'Zeitraum Z' mit großem Z uneinheitlich gegenüber vorherigen Kleinschreibungen. | Schreibe Variablen einheitlich klein oder setze Anführungszeichen: 'Wir helfen Zielgruppe X dabei, Ergebnis Y in Zeitraum Z zu erreichen.' → 'Wir helfen Zielgruppe X dabei, Ergebnis Y in Zeitraum z zu erreichen.' oder 'Wir helfen Zielgruppe X dabei, Ergebnis Y in Zeitraum Z zu erreichen.' (wenn Variablen groß bleiben, dann konsistent im ganzen Kapitel). | niedrig"
+      ],
+      "change_suggestions": 5,
+      "change_suggestion_details": [
+        "Vereinheitliche das Tempus im Kapitel (Präsens empfohlen) und passe alle Sätze an dieses Tempus an.",
+        "Streiche tautologische/unsinnige Sätze (Absatz 4) und ersetze sie durch klare, prägnante Formulierungen ohne Wiederholungen.",
+        "Nenne Personen eindeutiger (z. B. 'die Inhaberin' statt 'sie') in Beispielen, um Pronomenbezüge grammatisch und inhaltlich klar zu halten.",
+        "Überprüfe und vereinheitliche die Schreibweise von Platzhaltern/Variablen (X, Y, Z) durch das gesamte Kapitel.",
+        "Setze fehlende oder optionale Kommas zur besseren Lesbarkeit in komplexen Aufzählungen."
+      ],
+      "residual_risks": [
+        "Wenn Tempus und Pronomenbezüge nicht einheitlich korrigiert werden, bleiben Verständnisschwächen und stilistische Holprigkeiten bestehen.",
+        "Ersatzformulierungen (z. B. für den tautologischen Absatz) müssen inhaltlich zur didaktischen Zielsetzung passen, sonst verliert der Text Klarheit."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2032,
+      "output_tokens": 1124,
+      "estimated_cost": "0.002756",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 5 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3156.",
+        "Estimated cost: 0.002756 USD"
+      ]
+    }
+  ]
+}

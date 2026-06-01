@@ -19,6 +19,7 @@ def test_external_openai_model_cost_profile_is_configured() -> None:
     assert catalog.default_external_review_run_limit() == 0.02
     assert catalog.default_external_chapter_review_limit() == 0.10
     assert catalog.default_external_review_completion_tokens() == 4096
+    assert catalog.default_external_revision_completion_tokens() == 8192
 
 
 def test_token_usage_ledger_summarizes_project_usage(tmp_path) -> None:
@@ -60,3 +61,4 @@ def test_usage_command_shows_default_external_review_budgets(capsys) -> None:
     assert "Default external review run limit: 0.02 USD" in output
     assert "Default external chapter review budget: 0.10 USD" in output
     assert "Default external review completion tokens: 4096" in output
+    assert "Default external revision completion tokens: 8192" in output

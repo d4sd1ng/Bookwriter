@@ -101,6 +101,16 @@ reasoning_effort = "medium"
 temperature = 0.3
 requires_structured_output = true
 
+[tasks.chapter_revision]
+model = "gpt-oss:20b"
+reasoning_effort = "medium"
+temperature = 0.35
+requires_structured_output = true
+max_output_tokens = 4096
+minimum_context_tokens = 32768
+preferred_context_tokens = 131072
+long_text_strategy = "single_chapter_plus_approved_review_findings"
+
 [tasks.brainstorming]
 model = "gpt-oss:20b"
 reasoning_effort = "high"

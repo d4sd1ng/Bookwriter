@@ -163,6 +163,10 @@ def test_reading_sample_benchmark_runs_all_five_focuses(tmp_path) -> None:
         "schreibstil",
         "grammatik",
     }
+    assert results[0]["finding_details"] == [
+        "Absatz 1 | Doppelte Aussage | Einen Satz streichen | mittel"
+    ]
+    assert results[0]["change_suggestion_details"] == ["Absatz verdichten."]
     assert Path(report_path).exists()
 
 

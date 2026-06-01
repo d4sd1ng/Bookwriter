@@ -80,6 +80,127 @@ class ChapterDraftAgent:
         )
 
 
+class ChapterRevisionAgent:
+    name = "Chapter Revision Agent"
+
+    def __init__(
+        self,
+        model_runtime: ModelRuntime | None = None,
+        requested_model: str | None = None,
+    ) -> None:
+        self.model_runtime = model_runtime or DisabledModelRuntime()
+        self.requested_model = requested_model
+        self.last_model_output = None
+
+    def run(
+        self,
+        project: BookProject,
+        draft: ChapterDraft,
+        reviews: list[ChapterReview],
+    ) -> AgentResult[ChapterDraft]:
+        if self.model_runtime.enabled:
+            return self._run_model_backed(project, draft, reviews)
+        review_notes = "\n".join(
+            f"- {review.focus}: " + "; ".join(review.change_suggestions)
+            for review in reviews
+        )
+        revised = ChapterDraft(
+            chapter_number=draft.chapter_number,
+            title=draft.title,
+            goal=draft.goal,
+            markdown=draft.markdown
+            + "\n\n## Ueberarbeitungshinweise\n\n"
+            + (review_notes or "- Keine freigegebenen Aenderungsvorschlaege gefunden."),
+            summary=f"Ueberarbeitete Fassung fuer Kapitel {draft.chapter_number}: {draft.goal}",
+            next_transition=draft.next_transition,
+            open_points=["Placeholder revision requires model-backed rewrite before final use."],
+            status=ApprovalStatus.PENDING_REVIEW,
+        )
+        return AgentResult(
+            agent=self.name,
+            output=revised,
+            status=revised.status,
+            notes=["Placeholder chapter revision created from approved review suggestions."],
+        )
+
+    def _run_model_backed(
+        self,
+        project: BookProject,
+        draft: ChapterDraft,
+        reviews: list[ChapterReview],
+    ) -> AgentResult[ChapterDraft]:
+        try:
+            output = self.model_runtime.invoke(
+                ModelInvocation(
+                    task="chapter_revision",
+                    prompt=_revision_prompt(project, draft, reviews),
+                    project_id=project.project_id,
+                    agent="content_management",
+                    chapter_number=draft.chapter_number,
+                    model=self.requested_model,
+                    expected_json=True,
+                )
+            )
+            self.last_model_output = output
+        except ModelRuntimeBlocked as error:
+            blocked = ChapterDraft(
+                chapter_number=draft.chapter_number,
+                title=draft.title,
+                goal=draft.goal,
+                markdown=draft.markdown,
+                summary=draft.summary,
+                next_transition=draft.next_transition,
+                open_points=error.blockers,
+                status=ApprovalStatus.BLOCKED,
+            )
+            return AgentResult(
+                agent=self.name,
+                output=blocked,
+                status=blocked.status,
+                notes=["Model-backed chapter revision blocked by model runtime."],
+            )
+        try:
+            payload = _load_json_object(output.text)
+        except ValueError:
+            blocked = ChapterDraft(
+                chapter_number=draft.chapter_number,
+                title=draft.title,
+                goal=draft.goal,
+                markdown=draft.markdown,
+                summary=draft.summary,
+                next_transition=draft.next_transition,
+                open_points=["Model response was not valid JSON for chapter_revision."],
+                status=ApprovalStatus.BLOCKED,
+            )
+            return AgentResult(
+                agent=self.name,
+                output=blocked,
+                status=blocked.status,
+                notes=["Model-backed chapter revision blocked because structured output was invalid."],
+            )
+        blockers = _as_string_list(payload.get("blocker", payload.get("blockers", [])))
+        revised = ChapterDraft(
+            chapter_number=int(payload.get("kapitelnummer") or draft.chapter_number),
+            title=str(payload.get("kapiteltitel") or draft.title),
+            goal=str(payload.get("kapitelziel") or draft.goal),
+            markdown=str(payload.get("ueberarbeitete_fassung_markdown") or draft.markdown),
+            summary=str(payload.get("zusammenfassung") or draft.summary),
+            next_transition=str(payload.get("naechster_uebergang") or draft.next_transition),
+            open_points=_as_string_list(payload.get("offene_punkte", blockers)),
+            status=ApprovalStatus.BLOCKED if blockers else ApprovalStatus.PENDING_REVIEW,
+        )
+        return AgentResult(
+            agent=self.name,
+            output=revised,
+            status=revised.status,
+            notes=[
+                f"Model-backed chapter revision created with {output.model}.",
+                f"Tokens logged: {output.input_tokens + output.output_tokens}.",
+                _cost_note(output.metadata),
+            ],
+        )
+
+
 class ChapterReviewAgent:
     name = "Chapter Review Agent"
 
@@ -242,6 +363,42 @@ def _review_prompt(
         "stilvorgaben": interview.tone,
         "vorherige_leseproben": previous_reviews,
         "kapitelrohfassung_markdown": draft.markdown,
+    }
+    return template + "\n\n## Konkreter Auftrag\n\n" + json.dumps(
+        payload,
+        ensure_ascii=False,
+        indent=2,
+    )
+
+
+def _revision_prompt(
+    project: BookProject,
+    draft: ChapterDraft,
+    reviews: list[ChapterReview],
+) -> str:
+    template = Path("prompts/chapter_revision_prompt.md").read_text(encoding="utf-8")
+    payload = {
+        "auftrag_id": f"{project.project_id}-{draft.chapter_number}-revision",
+        "kapitelnummer": draft.chapter_number,
+        "kapiteltitel": draft.title,
+        "kapitelziel": draft.goal,
+        "buchtyp": project.interview.book_type,
+        "buchkategorie": project.interview.book_category,
+        "zielgruppe": project.interview.target_audience,
+        "altersgruppe": project.interview.age_group,
+        "perspektive": project.interview.perspective,
+        "erzaehlfokus": project.interview.narrative_focus,
+        "stilvorgaben": project.interview.tone,
+        "kapitelrohfassung_markdown": draft.markdown,
+        "freigegebene_reviewbefunde": [
+            {
+                "fokus": review.focus,
+                "befunde": review.findings,
+                "aenderungsvorschlaege": review.change_suggestions,
+                "restrisiken": review.residual_risks,
+            }
+            for review in reviews
+        ],
     }
     return template + "\n\n## Konkreter Auftrag\n\n" + json.dumps(
         payload,

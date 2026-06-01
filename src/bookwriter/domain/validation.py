@@ -167,6 +167,26 @@ def validate_chapter_approval(project: BookProject, chapter_number: int) -> Vali
     return ValidationResult(ok=not blockers, blockers=blockers)
 
 
+def validate_chapter_revision_readiness(project: BookProject, chapter_number: int) -> ValidationResult:
+    blockers: list[str] = []
+    draft = next(
+        (item for item in project.chapter_drafts if item.chapter_number == chapter_number),
+        None,
+    )
+    if draft is None:
+        blockers.append("Chapter draft is required before revision.")
+    required = {focus.value for focus in READING_SAMPLE_SEQUENCE}
+    completed = {
+        review.focus
+        for review in project.chapter_reviews
+        if review.chapter_number == chapter_number and review.status == ApprovalStatus.APPROVED
+    }
+    missing = sorted(required - completed)
+    if missing:
+        blockers.append(f"Missing approved chapter review runs before revision: {', '.join(missing)}.")
+    return ValidationResult(ok=not blockers, blockers=blockers)
+
+
 def validate_export_readiness(project: BookProject) -> ValidationResult:
     blockers = validate_outline(project).blockers
     if project.stage != WorkflowStage.EXPORT_PREPARATION:

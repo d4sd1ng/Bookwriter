@@ -53,4 +53,5 @@ Eigenständige Bookwriter-Projektstruktur erstellt.
 13. Modellausgaben fuer Kapitelreviews anhand echter Buchkapitel benchmarken und Qualitaetsgates schaerfen.
 14. Prompt fuer `reading_sample_review` mit echten Kapitelrohfassungen benchmarken: Minimal-Smoke-Test ueber Ollama-Chat liefert valides JSON, aber der produktive Review-Prompt bleibt `needs_revision`.
 15. Externen Reviewpfad fuer kapitelweise Leseproben implementieren und mit Kostenprofil absichern.
+16. Separaten Kapitel-Revisionsschritt nach fuenf freigegebenen Reviews implementieren.
 15. Review-Modell reparieren oder ersetzen: lokal ist aktuell kein Review-Modell freigegeben (`gpt-oss:20b` EOF, `qwen3:14b` Timeout, `mistral-small3.2:24b` CPU-Timeout).

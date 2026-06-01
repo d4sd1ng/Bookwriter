@@ -2,7 +2,12 @@ from __future__ import annotations
 
 from bookwriter.agents.concept_agent import BookConceptAgent
 from bookwriter.agents.brainstorm_agent import BrainstormAgent
-from bookwriter.agents.chapter_agent import ChapterBriefingAgent, ChapterDraftAgent, ChapterReviewAgent
+from bookwriter.agents.chapter_agent import (
+    ChapterBriefingAgent,
+    ChapterDraftAgent,
+    ChapterRevisionAgent,
+    ChapterReviewAgent,
+)
 from bookwriter.agents.market_agent import MarketAssessmentAgent
 from bookwriter.agents.outline_agent import OutlineAgent
 from bookwriter.agents.plot_agent import PlotAgent, TreatmentAgent
@@ -17,6 +22,7 @@ from bookwriter.domain.validation import (
     validate_chapter_briefing_readiness,
     validate_chapter_draft_readiness,
     validate_chapter_review_readiness,
+    validate_chapter_revision_readiness,
     validate_development_foundation,
     validate_interview,
     validate_plotting_readiness,
@@ -37,6 +43,10 @@ class Orchestrator:
         self.chapter_briefing_agent = ChapterBriefingAgent()
         self.chapter_draft_agent = ChapterDraftAgent()
         self.chapter_review_agent = ChapterReviewAgent(
+            model_runtime=model_runtime,
+            requested_model=review_model,
+        )
+        self.chapter_revision_agent = ChapterRevisionAgent(
             model_runtime=model_runtime,
             requested_model=review_model,
         )
@@ -266,6 +276,27 @@ class Orchestrator:
         else:
             review.status = ApprovalStatus.APPROVED
             project.blockers = []
+        project.touch()
+        return project
+
+    def revise_chapter(self, project: BookProject, chapter_number: int) -> BookProject:
+        validation = validate_chapter_revision_readiness(project, chapter_number)
+        if not validation.ok:
+            apply_blockers(project, validation)
+            return project
+        draft = self._find_draft(project, chapter_number)
+        reviews = [
+            review
+            for review in project.chapter_reviews
+            if review.chapter_number == chapter_number and review.status == ApprovalStatus.APPROVED
+        ]
+        result = self.chapter_revision_agent.run(project, draft, reviews)
+        project.chapter_drafts = [
+            item for item in project.chapter_drafts if item.chapter_number != chapter_number
+        ]
+        project.chapter_drafts.append(result.output)
+        project.status = result.status
+        project.blockers = result.output.open_points if result.status == ApprovalStatus.BLOCKED else []
         project.touch()
         return project
 

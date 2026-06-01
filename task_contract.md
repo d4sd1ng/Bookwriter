@@ -306,6 +306,9 @@ Ein Auftrag ist abgeschlossen, wenn:
 12. Fehlt `OPENAI_API_KEY`, wird der Lauf blockiert und nicht simuliert.
 13. Ohne explizites Kostenlimit gilt fuer externe Review-Laeufe das Standardlimit aus `config/token_costs.toml`.
 14. Fuer ein Kapitel mit fuenf externen Review-Laeufen gilt `default_external_chapter_review_limit` als Planungsbudget.
+15. `gpt-5-mini` ist fuer externe Leseproben standardmaessig nutzbar, aber Grammatikbefunde ersetzen keine finale menschliche oder toolgestuetzte Sprachkorrektur.
+16. Nach fuenf Review-Laeufen muss ein separater Ueberarbeitungsschritt die freigegebenen Befunde in eine neue Kapitelversion umsetzen.
+17. Der Ueberarbeitungsschritt darf nicht starten, bevor alle fuenf Review-Foki fuer das Kapitel freigegeben sind.
 
 ## Qualitaetsregeln fuer Modelle
 

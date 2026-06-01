@@ -9,6 +9,7 @@ default_external_review_run_limit = 0.02
 default_external_chapter_review_limit = 0.10
 default_external_full_chapter_limit = 0.15
 default_external_review_completion_tokens = 4096
+default_external_revision_completion_tokens = 8192
 external_review_budget_note = "Realistic default for 5 chapter review runs with gpt-5-mini: about 0.02-0.10 USD depending on chapter length."
 
 [models."gpt-oss:20b"]

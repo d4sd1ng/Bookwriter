@@ -167,6 +167,37 @@ def test_chapter_pipeline_approves_after_five_reviews() -> None:
     assert updated.outline[0].status == ApprovalStatus.APPROVED
 
 
+def test_chapter_revision_blocks_until_all_reviews_are_approved() -> None:
+    orchestrator = Orchestrator()
+    project = _outlined_project(orchestrator)
+    project = orchestrator.prepare_chapter_briefing(project, 1)
+    project = orchestrator.approve_chapter_briefing(project, 1)
+    project = orchestrator.draft_chapter(project, 1)
+    project = orchestrator.review_chapter(project, 1, READING_SAMPLE_SEQUENCE[0])
+    project = orchestrator.approve_chapter_review(project, 1, READING_SAMPLE_SEQUENCE[0])
+
+    updated = orchestrator.revise_chapter(project, 1)
+
+    assert updated.status == ApprovalStatus.BLOCKED
+    assert any("Missing approved chapter review runs before revision" in blocker for blocker in updated.blockers)
+
+
+def test_chapter_revision_creates_revised_draft_after_five_reviews() -> None:
+    orchestrator = Orchestrator()
+    project = _outlined_project(orchestrator)
+    project = orchestrator.prepare_chapter_briefing(project, 1)
+    project = orchestrator.approve_chapter_briefing(project, 1)
+    project = orchestrator.draft_chapter(project, 1)
+    for focus in READING_SAMPLE_SEQUENCE:
+        project = orchestrator.review_chapter(project, 1, focus)
+        project = orchestrator.approve_chapter_review(project, 1, focus)
+
+    updated = orchestrator.revise_chapter(project, 1)
+
+    assert updated.status == ApprovalStatus.PENDING_REVIEW
+    assert "## Ueberarbeitungshinweise" in updated.chapter_drafts[0].markdown
+
+
 def _outlined_project(orchestrator: Orchestrator):
     project = orchestrator.create_project("Guide", interview())
     project = orchestrator.approve_concept(project)

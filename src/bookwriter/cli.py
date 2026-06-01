@@ -48,6 +48,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return run_review_chapter(args)
     if args.command == "approve-review":
         return run_approve_review(args)
+    if args.command == "revise-chapter":
+        return run_revise_chapter(args)
     if args.command == "approve-chapter":
         return run_approve_chapter(args)
     if args.command == "market":
@@ -171,6 +173,18 @@ def build_parser() -> argparse.ArgumentParser:
         required=True,
         choices=[focus.value for focus in ReadingSampleFocus],
     )
+
+    revise_chapter = subparsers.add_parser(
+        "revise-chapter",
+        help="Revise a chapter after all five approved review runs.",
+    )
+    revise_chapter.add_argument("project_id")
+    revise_chapter.add_argument("--chapter", type=int, required=True)
+    revise_chapter.add_argument("--use-ollama", action="store_true")
+    revise_chapter.add_argument("--use-openai", action="store_true")
+    revise_chapter.add_argument("--model", help="Override the configured revision model.")
+    revise_chapter.add_argument("--timeout-seconds", type=int)
+    revise_chapter.add_argument("--max-estimated-cost", type=float)
 
     approve_chapter = subparsers.add_parser("approve-chapter", help="Approve chapter after all reviews.")
     approve_chapter.add_argument("project_id")
@@ -422,6 +436,21 @@ def run_approve_review(args: argparse.Namespace) -> int:
     return 0 if not updated.blockers else 2
 
 
+def run_revise_chapter(args: argparse.Namespace) -> int:
+    store = JsonProjectStore()
+    project = _load_project(args.project_id, store)
+    if project is None:
+        return 2
+    updated = Orchestrator(
+        model_runtime=_model_runtime(args),
+        review_model=args.model,
+    ).revise_chapter(project, args.chapter)
+    path = store.save(updated)
+    _print_project_summary(updated)
+    print(f"Saved: {path}")
+    return 0 if not updated.blockers else 2
+
+
 def run_approve_chapter(args: argparse.Namespace) -> int:
     store = JsonProjectStore()
     project = _load_project(args.project_id, store)
@@ -517,6 +546,10 @@ def run_usage(args: argparse.Namespace) -> int:
     print(
         "Default external review completion tokens: "
         f"{catalog.default_external_review_completion_tokens()}"
+    )
+    print(
+        "Default external revision completion tokens: "
+        f"{catalog.default_external_revision_completion_tokens()}"
     )
     return 0
 

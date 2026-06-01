@@ -242,5 +242,21 @@ Runtime-Anpassung: GPT-5-Modelle erhalten keine benutzerdefinierte Temperatur, n
 
 Folge: Naechster Schritt ist die fachliche Qualitaetsbewertung der Befunde. Wenn `gpt-5-mini` nicht reicht, wird `gpt-5` als hoeherwertiger, aber teurerer Reviewpfad getestet.
 
+## 2026-06-01 - Kapitelrevision als eigener Pipeline-Schritt
+
+Entscheidung: Bookwriter bekommt einen separaten `revise-chapter`-Schritt nach den fuenf freigegebenen Review-Laeufen.
+
+Begruendung: Review und Ueberarbeitung sind unterschiedliche Aufgaben. Die fuenf Leseproben sollen Befunde erzeugen; erst danach setzt ein Revisionsagent die freigegebenen Befunde in eine neue Kapitelversion um.
+
+Folge: `revise-chapter` blockiert, bis alle fuenf Review-Foki fuer das Kapitel approved sind. Der Revisionsagent erzeugt eine neue Kapitelversion und ersetzt nicht die Review-Freigaben.
+
+## 2026-06-01 - Kapitelrevision Smoke-Test erfolgreich
+
+Entscheidung: Der Revisionspfad nutzt fuer GPT-5-Modelle ein separates Completion-Limit von 8192 Tokens und das Full-Chapter-Budget.
+
+Begruendung: Kapitelrevision erzeugt eine vollstaendige Kapitelversion und darf nicht durch das engere einzelne Reviewlauf-Limit begrenzt werden.
+
+Ergebnis: Der Smoke-Test mit `gpt-5-mini` aus Rohfassung plus fuenf freigegebenen Reviewbefunden erzeugte eine neue Kapitelversion mit Status `pending_review`, ohne offene Punkte, fuer 0.004073 USD.
+
 ### Konsequenz
 `config/model_profiles.toml` enthaelt lokale Health-Blocker. Kapitel-Leseproben duerfen erst mit einem Modell laufen, das den Health-Check und anschliessend den fuenfteiligen Leseproben-Benchmark besteht.

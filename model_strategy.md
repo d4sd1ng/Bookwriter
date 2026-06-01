@@ -210,6 +210,7 @@ GPT-5-Runtime-Hinweis:
 - Fuer GPT-5-Modelle wird keine benutzerdefinierte `temperature` gesendet.
 - Fuer GPT-5-Modelle wird `reasoning_effort = minimal` gesetzt.
 - Das externe Completion-Limit fuer Reviewlaeufe liegt standardmaessig bei `4096`, weil Reasoning-Tokens auf das Completion-Limit angerechnet werden.
+- Fuer Kapitelrevisionen liegt das externe Completion-Limit standardmaessig bei `8192`, weil eine vollstaendige Kapitelversion erzeugt wird.
 
 ## Aktueller lokaler Stand
 
@@ -225,3 +226,7 @@ Fuer produktive Review-Aufgaben ist aktuell kein lokales Modell freigegeben. Nae
 Update 2026-06-01: Der externe Reviewpfad ist als OpenAI-kompatibler Runtime-Adapter vorgesehen. Standardmodell ist `gpt-5-mini`; Kostenprofile fuer `gpt-5-mini`, `gpt-5` und `gpt-4.1-mini` sind in `config/token_costs.toml` gepflegt.
 
 Update 2026-06-01: Der komplette 5er-Reviewbenchmark mit `gpt-5-mini` ist erfolgreich durchgelaufen. Alle fuenf Foki lieferten strukturierte Befunde mit Status `pending_review`; die erfolgreichen fuenf Laeufe kosteten zusammen 0.013879 USD.
+
+Update 2026-06-01: Ein detaillierter Qualitaetslauf bestaetigt `gpt-5-mini` als Standardpfad fuer externe kapitelweise Leseproben. Einschraenkung: Grammatikbefunde muessen manuell oder mit einem spaeteren Grammatiktool nachkontrolliert werden, weil einzelne Vorschlaege fragwuerdig waren.
+
+Update 2026-06-01: Der Kapitel-Revisionspfad mit `gpt-5-mini` wurde erfolgreich getestet. Aus Rohfassung plus fuenf freigegebenen Reviewbefunden entstand eine neue Kapitelversion mit Status `pending_review`; Kosten 0.004073 USD.

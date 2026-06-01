@@ -137,6 +137,9 @@ class TokenCostCatalog:
     def default_external_review_completion_tokens(self) -> int:
         return int(self.data["defaults"].get("default_external_review_completion_tokens", 4096))
 
+    def default_external_revision_completion_tokens(self) -> int:
+        return int(self.data["defaults"].get("default_external_revision_completion_tokens", 8192))
+
 
 class TokenUsageLedger:
     def __init__(self, path: Path | str | None = None) -> None:

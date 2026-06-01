@@ -8,6 +8,7 @@ PROMPTS = [
     "outline_prompt.md",
     "chapter_briefing_prompt.md",
     "chapter_writer_prompt.md",
+    "chapter_revision_prompt.md",
     "editor_prompt.md",
     "consistency_check_prompt.md",
     "export_preparation_prompt.md",

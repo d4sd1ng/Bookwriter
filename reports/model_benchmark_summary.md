@@ -93,3 +93,24 @@ Report: `reports/reading_sample_benchmark_openai_gpt5mini_all.json`
 Die fuenf erfolgreichen Reviewlaeufe kosteten zusammen 0.013879 USD. Einschliesslich zweier API-Fehlversuche bei der Runtime-Kalibrierung liegt der Ledger fuer dieses Benchmarkprojekt bei 0.019505 USD.
 
 Bewertung: Externer Reviewpfad ist technisch nutzbar und deutlich schneller als lokale Ollama-Reviews. Naechster Schritt ist die Qualitaetsbewertung der Befunde und danach die Integration in echte Projektkapitel.
+
+### Detaillierter Qualitaetslauf
+
+Ein weiterer 5er-Lauf wurde mit Detailausgabe fuer Befunde und Aenderungsvorschlaege gespeichert:
+
+- Report: `reports/reading_sample_benchmark_openai_gpt5mini_detailed.json`
+- Erfolgreiche 5er-Pruefung: 0.014013 USD
+- Status: alle Foki `pending_review`
+
+Qualitaetsentscheidung: `gpt-5-mini` ist fuer externe kapitelweise Leseproben als Standardpfad geeignet. Der Grammatiklauf braucht jedoch manuelle Nachkontrolle oder spaeter ein dediziertes Grammatiktool, weil einzelne Grammatikvorschlaege fragwuerdig waren. Details stehen in `reports/review_quality_assessment.md`.
+
+### Kapitelrevision
+
+Der neue Revisionspfad wurde mit den fuenf detaillierten Reviewbefunden getestet:
+
+- Report: `reports/chapter_revision_openai_gpt5mini_smoke.json`
+- Status: `pending_review`
+- Kosten: 0.004073 USD
+- Ergebnis: ueberarbeitete Kapitelversion ohne offene Punkte
+
+Fuer `chapter_revision` nutzt der OpenAI-Adapter ein separates externes Completion-Limit von 8192 Tokens und das Full-Chapter-Budget statt des engeren einzelnen Reviewlauf-Limits.

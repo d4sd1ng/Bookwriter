@@ -155,3 +155,20 @@ def test_openai_runtime_keeps_temperature_for_legacy_chat_models(tmp_path, monke
 
     assert runtime.body is not None
     assert runtime.body["temperature"] == 0.2
+
+
+def test_openai_runtime_uses_revision_output_and_cost_budget(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    runtime = FakeOpenAIRuntime(TokenUsageLedger(path=tmp_path / "usage.jsonl"))
+    runtime.max_estimated_cost = None
+
+    runtime.invoke(
+        ModelInvocation(
+            task="chapter_revision",
+            prompt="Bitte Kapitel ueberarbeiten.",
+            model="gpt-5-mini",
+        )
+    )
+
+    assert runtime.body is not None
+    assert runtime.body["max_completion_tokens"] == 8192

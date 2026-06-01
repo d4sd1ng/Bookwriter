@@ -87,6 +87,7 @@ bookwriter review-chapter <project_id> --chapter 1 --focus fehlerkorrektur
 bookwriter review-chapter <project_id> --chapter 1 --focus fehlerkorrektur --use-ollama
 bookwriter review-chapter <project_id> --chapter 1 --focus fehlerkorrektur --use-openai --model gpt-5-mini --max-estimated-cost 0.01
 bookwriter approve-review <project_id> --chapter 1 --focus fehlerkorrektur
+bookwriter revise-chapter <project_id> --chapter 1 --use-openai --model gpt-5-mini --max-estimated-cost 0.15
 bookwriter approve-chapter <project_id> --chapter 1
 bookwriter token-log --project-id <project_id> --task reading_sample_review --model gpt-oss:20b --input-tokens 12000 --output-tokens 1800
 bookwriter usage --project-id <project_id>
@@ -133,3 +134,7 @@ Outline entsteht erst nach freigegebenem Konzept, freigegebenem Plot und freigeg
 ## Kapitelpipeline
 
 Jedes Kapitel laeuft ueber ein freigegebenes Kapitelbriefing, eine Rohfassung und fuenf getrennte Review-Runs. Die Kapitel-Freigabe blockiert, bis Fehlerkorrektur, Logikfehler, Spannungsbogen, Schreibstil und Grammatik als einzelne Reviews freigegeben sind.
+
+Nach den fuenf freigegebenen Review-Runs erzeugt `revise-chapter` eine ueberarbeitete Kapitelversion aus Rohfassung und Reviewbefunden. Dieser Schritt ist getrennt von der Reviewbewertung.
+
+Fuer externe Kapitelrevisionen nutzt der Adapter ein groesseres Completion-Limit (`8192`), weil eine vollstaendige Kapitelversion erzeugt wird. Der erste Revisions-Smoke-Test mit `gpt-5-mini` kostete `0.004073 USD`.
