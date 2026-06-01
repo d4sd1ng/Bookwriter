@@ -38,13 +38,18 @@ class OpenAIChatRuntime:
 
         profile = self.profiles.tasks[invocation.task]
         model = invocation.model or self.model
-        output_limit = self.max_completion_tokens or profile.max_output_tokens
+        catalog = TokenCostCatalog()
+        output_limit = self.max_completion_tokens or _default_output_limit(
+            model,
+            profile.max_output_tokens,
+            catalog,
+        )
         system_prompt = invocation.system_prompt or (
             "Du bist ein Bookwriter-Agent. Antworte ausschliesslich mit validem JSON, "
             "ohne Markdown, ohne Erklaertext und ohne Codeblock."
         )
         input_tokens_estimate = estimate_tokens(system_prompt + "\n" + invocation.prompt)
-        self._validate_cost_profile(model, input_tokens_estimate, output_limit)
+        self._validate_cost_profile(model, input_tokens_estimate, output_limit, catalog)
 
         body: dict[str, object] = {
             "model": model,
@@ -52,10 +57,14 @@ class OpenAIChatRuntime:
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": invocation.prompt},
             ],
-            "temperature": profile.temperature,
             "max_completion_tokens": output_limit,
             "store": False,
         }
+        if _supports_custom_temperature(model):
+            body["temperature"] = profile.temperature
+        reasoning_effort = _reasoning_effort(model)
+        if reasoning_effort:
+            body["reasoning_effort"] = reasoning_effort
         if invocation.expected_json:
             body["response_format"] = {"type": "json_object"}
 
@@ -97,8 +106,8 @@ class OpenAIChatRuntime:
         model: str,
         input_tokens_estimate: int,
         output_limit: int,
+        catalog: TokenCostCatalog,
     ) -> None:
-        catalog = TokenCostCatalog()
         try:
             estimated_cost = catalog.estimate_cost(model, input_tokens_estimate, output_limit)
         except KeyError as missing_profile:
@@ -161,3 +170,21 @@ def _usage_value(usage: object, key: str, fallback: int) -> int:
         return fallback
     value = usage.get(key)
     return int(value) if value is not None else fallback
+
+
+def _supports_custom_temperature(model: str) -> bool:
+    return not model.startswith("gpt-5")
+
+
+def _reasoning_effort(model: str) -> str:
+    if model.startswith("gpt-5.1"):
+        return "none"
+    if model.startswith("gpt-5"):
+        return "minimal"
+    return ""
+
+
+def _default_output_limit(model: str, task_limit: int, catalog: TokenCostCatalog) -> int:
+    if model.startswith("gpt-5"):
+        return max(task_limit, catalog.default_external_review_completion_tokens())
+    return task_limit

@@ -134,6 +134,9 @@ class TokenCostCatalog:
     def default_external_full_chapter_limit(self) -> float:
         return float(self.data["defaults"].get("default_external_full_chapter_limit", 0.15))
 
+    def default_external_review_completion_tokens(self) -> int:
+        return int(self.data["defaults"].get("default_external_review_completion_tokens", 4096))
+
 
 class TokenUsageLedger:
     def __init__(self, path: Path | str | None = None) -> None:

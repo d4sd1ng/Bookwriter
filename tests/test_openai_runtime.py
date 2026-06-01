@@ -65,7 +65,9 @@ def test_openai_runtime_logs_measured_tokens_and_costs(tmp_path, monkeypatch) ->
     assert records[0].estimated_cost == 0.00009
     assert runtime.body is not None
     assert runtime.body["response_format"] == {"type": "json_object"}
-    assert runtime.body["max_completion_tokens"] == 768
+    assert runtime.body["max_completion_tokens"] == 4096
+    assert runtime.body["reasoning_effort"] == "minimal"
+    assert "temperature" not in runtime.body
 
 
 def test_openai_runtime_blocks_unknown_external_cost_profile(tmp_path, monkeypatch) -> None:
@@ -137,3 +139,19 @@ def test_openai_runtime_uses_default_review_budget(tmp_path, monkeypatch) -> Non
     )
 
     assert runtime.body is not None
+
+
+def test_openai_runtime_keeps_temperature_for_legacy_chat_models(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    runtime = FakeOpenAIRuntime(TokenUsageLedger(path=tmp_path / "usage.jsonl"))
+
+    runtime.invoke(
+        ModelInvocation(
+            task="reading_sample_review",
+            prompt="Bitte JSON pruefen.",
+            model="gpt-4.1-mini",
+        )
+    )
+
+    assert runtime.body is not None
+    assert runtime.body["temperature"] == 0.2

@@ -80,6 +80,8 @@ Update 2026-05-31: `gpt-oss:20b` wurde neu gezogen und ist wieder lauffaehig, sc
 
 Update 2026-06-01: Der Reading-Sample-Prompt wurde auf kompakte Befundausgabe umgestellt. Die vollstaendige Kapitelneufassung wurde entfernt, die Ausgabe auf maximal 8 Probleme und 5 Aenderungsvorschlaege begrenzt und `max_output_tokens = 768` gesetzt. Der Benchmarkauftrag umfasst nur noch ca. 1.913 geschaetzte Tokens inklusive Testkapitel. Trotzdem blockiert `qwen3:14b` nach 240 Sekunden, auch mit deaktiviertem Thinking. `qwen2.5:7b` blockiert denselben Auftrag nach 120 Sekunden und braucht fuer einen Minimaltest ca. 71 Sekunden. Damit ist der lokale Reviewpfad aktuell runtime-limitiert, nicht nur prompt-limitiert.
 
+Update 2026-06-01: Der externe Reviewpfad mit `gpt-5-mini` hat alle fuenf Leseprobenfoki fuer den Benchmarkfall erfolgreich erzeugt. Der Prompt lieferte pro Fokus strukturierte JSON-Ausgabe mit 5-7 Befunden und 5 Aenderungsvorschlaegen. Die erfolgreiche 5er-Pruefung kostete zusammen 0.013879 USD. Fuer GPT-5-Modelle nutzt der Adapter `reasoning_effort = minimal` und ein externes Completion-Limit von 4096 Tokens, weil zu niedrige Limits nur Reasoning-Tokens verbrauchten und keinen sichtbaren JSON-Content erzeugten.
+
 Naechste Pruefpunkte:
 
 - System-/Rollenanweisung fuer echte Kapitelreviews weiter benchmarken.
@@ -88,3 +90,4 @@ Naechste Pruefpunkte:
 - Pro Fokus echte Testkapitel gegen `gpt-oss:20b` und `qwen3:14b` vergleichen.
 - Naechstes lauffaehiges Review-Modell erst per Health-Check freigeben, dann Promptqualitaet bewerten.
 - Externen Reviewpfad mit Kostenprofil und Tokenmonitoring vorbereiten, wenn lokale CPU-Ausfuehrung nicht beschleunigt werden kann.
+- Qualitaet der `gpt-5-mini`-Befunde fachlich bewerten und danach als produktiven Reviewpfad freigeben oder auf `gpt-5` eskalieren.

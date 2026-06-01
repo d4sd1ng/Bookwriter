@@ -1,0 +1,109 @@
+{
+  "results": [
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "fehlerkorrektur",
+      "status": "pending_review",
+      "findings": 6,
+      "change_suggestions": 5,
+      "residual_risks": [
+        "Wenn die Handwerker-Anekdote ohne Klärung bleibt, verwirrt sie Leser und schwächt Argumentation.",
+        "Tautologische/Platzhalterformulierungen mindern Glaubwürdigkeit gegenüber professionaler Zielgruppe."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2037,
+      "output_tokens": 1226,
+      "estimated_cost": "0.002961",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 1 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3263.",
+        "Estimated cost: 0.002961 USD"
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "logikfehler",
+      "status": "pending_review",
+      "findings": 5,
+      "change_suggestions": 5,
+      "residual_risks": [
+        "Ohne Korrektur bleibt die Glaubwürdigkeit des Kapitels bei praktischen Entscheidungsbeispielen geschwächt und Leser könnten die Nützlichkeit der empfohlenen Vorgehensweise anzweifeln.",
+        "Ungeklärte Widersprüche im Beispiel könnten Verwirrung verursachen und das Kapitelziel (Warum Ergebnis statt Tools) abschwächen."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2035,
+      "output_tokens": 1249,
+      "estimated_cost": "0.003007",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 2 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3284.",
+        "Estimated cost: 0.003007 USD"
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "spannungsbogen",
+      "status": "pending_review",
+      "findings": 5,
+      "change_suggestions": 5,
+      "residual_risks": [
+        "Ohne Ergänzung der Handlungsfolge bleibt die Anekdote irritierend und schwächt die Glaubwürdigkeit des Arguments.",
+        "Wenn Einstieg nicht prägnant gestaltet wird, besteht Risiko, dass Leser (Berater) zu schnell abspringen, weil Nutzen nicht sofort erkennbar ist."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2034,
+      "output_tokens": 1037,
+      "estimated_cost": "0.002583",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 3 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3071.",
+        "Estimated cost: 0.002583 USD"
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "schreibstil",
+      "status": "pending_review",
+      "findings": 5,
+      "change_suggestions": 5,
+      "residual_risks": [
+        "Wenn Anekdote nicht klar verknüpft wird, verliert Kapitel an Glaubwürdigkeit und praktischen Nutzen.",
+        "Ohne Straffung bleibt Ton inkonsistent und entfernt vom 'direkt, praktisch'-Stil."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2033,
+      "output_tokens": 999,
+      "estimated_cost": "0.002506",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 4 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3032.",
+        "Estimated cost: 0.002506 USD"
+      ]
+    },
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "grammatik",
+      "status": "pending_review",
+      "findings": 7,
+      "change_suggestions": 5,
+      "residual_risks": [
+        "Wenn Umlaute systembedingt nicht geändert werden dürfen, bleibt Text inkonsistent und wirkt unprofessionell.",
+        "Stilkorrekturen (z. B. Straffung) könnten geringe inhaltliche Nuancen verändern; prüfen, dass Ziel und Ton erhalten bleiben."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2032,
+      "output_tokens": 1157,
+      "estimated_cost": "0.002822",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 5 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3189.",
+        "Estimated cost: 0.002822 USD"
+      ]
+    }
+  ]
+}

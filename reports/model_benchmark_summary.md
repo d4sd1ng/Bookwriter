@@ -65,3 +65,31 @@ Die aktuelle lokale Ausfuehrung ist fuer interaktive Kapitelreviews nicht tragba
 ### Entscheidung
 
 Lokale Review-Modelle bleiben fuer produktive Leseproben blockiert. Der naechste sinnvolle Schritt ist ein externer Review-Runtime-Pfad mit Tokenmonitoring und Kostenprofil oder ein deutlich kleineres lokales Modell nur als Vorfilter, nicht als finale fachliche Reviewinstanz.
+
+## 2026-06-01 Externer Reviewpfad
+
+### OpenAI `gpt-5-mini`
+
+Der externe Reviewpfad wurde mit `gpt-5-mini` gegen den Benchmarkfall `consulting_practical_guide_chapter_1` getestet.
+
+Wichtige Runtime-Anpassung:
+
+- `gpt-5-mini` akzeptiert keine benutzerdefinierte Temperatur im Chat-Completions-Aufruf; der Adapter sendet fuer GPT-5-Modelle keine `temperature`.
+- GPT-5-Modelle verbrauchen Reasoning-Tokens innerhalb des Completion-Limits. Der Adapter setzt deshalb `reasoning_effort = minimal` und nutzt fuer externe GPT-5-Reviews standardmaessig `4096` Completion-Tokens.
+- Der Kosten-Schutz bleibt aktiv: Standardlimit pro Reviewlauf `0.02 USD`.
+
+Ergebnis:
+
+| Fokus | Status | Befunde | Vorschlaege | Kosten |
+|---|---|---:|---:|---:|
+| `fehlerkorrektur` | pending_review | 6 | 5 | 0.002961 USD |
+| `logikfehler` | pending_review | 5 | 5 | 0.003007 USD |
+| `spannungsbogen` | pending_review | 5 | 5 | 0.002583 USD |
+| `schreibstil` | pending_review | 5 | 5 | 0.002506 USD |
+| `grammatik` | pending_review | 7 | 5 | 0.002822 USD |
+
+Report: `reports/reading_sample_benchmark_openai_gpt5mini_all.json`
+
+Die fuenf erfolgreichen Reviewlaeufe kosteten zusammen 0.013879 USD. Einschliesslich zweier API-Fehlversuche bei der Runtime-Kalibrierung liegt der Ledger fuer dieses Benchmarkprojekt bei 0.019505 USD.
+
+Bewertung: Externer Reviewpfad ist technisch nutzbar und deutlich schneller als lokale Ollama-Reviews. Naechster Schritt ist die Qualitaetsbewertung der Befunde und danach die Integration in echte Projektkapitel.

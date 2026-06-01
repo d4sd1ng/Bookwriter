@@ -205,6 +205,12 @@ Budgetannahmen fuer `gpt-5-mini`:
 
 Diese Werte sind bewusst hoeher als der kurze Benchmarkfall, weil echte Kapitel laenger sind und jeder der fuenf Prueflaeufe eigenen Input und Output erzeugt.
 
+GPT-5-Runtime-Hinweis:
+
+- Fuer GPT-5-Modelle wird keine benutzerdefinierte `temperature` gesendet.
+- Fuer GPT-5-Modelle wird `reasoning_effort = minimal` gesetzt.
+- Das externe Completion-Limit fuer Reviewlaeufe liegt standardmaessig bei `4096`, weil Reasoning-Tokens auf das Completion-Limit angerechnet werden.
+
 ## Aktueller lokaler Stand
 
 Am 2026-05-31 lokal verfuegbar:
@@ -217,3 +223,5 @@ Am 2026-05-31 lokal verfuegbar:
 Fuer produktive Review-Aufgaben ist aktuell kein lokales Modell freigegeben. Naechster Schritt ist ein schnelleres Review-Modell mit mindestens 32k Kontext oder ein externer Reviewpfad mit Kostenprofil.
 
 Update 2026-06-01: Der externe Reviewpfad ist als OpenAI-kompatibler Runtime-Adapter vorgesehen. Standardmodell ist `gpt-5-mini`; Kostenprofile fuer `gpt-5-mini`, `gpt-5` und `gpt-4.1-mini` sind in `config/token_costs.toml` gepflegt.
+
+Update 2026-06-01: Der komplette 5er-Reviewbenchmark mit `gpt-5-mini` ist erfolgreich durchgelaufen. Alle fuenf Foki lieferten strukturierte Befunde mit Status `pending_review`; die erfolgreichen fuenf Laeufe kosteten zusammen 0.013879 USD.

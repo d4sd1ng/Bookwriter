@@ -514,6 +514,10 @@ def run_usage(args: argparse.Namespace) -> int:
         "Default external chapter review budget: "
         f"{catalog.default_external_chapter_review_limit():.2f} {summary.currency}"
     )
+    print(
+        "Default external review completion tokens: "
+        f"{catalog.default_external_review_completion_tokens()}"
+    )
     return 0
 
 

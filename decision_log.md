@@ -232,5 +232,15 @@ Begruendung: `0.01 USD` pro Kapitel ist fuer kurze Benchmarktexte erreichbar, ab
 
 Folge: Ohne explizites `--max-estimated-cost` blockiert der OpenAI-Adapter erst oberhalb des konfigurierten Reviewlauf-Limits. Fuer laengere Kapitel kann das Limit bewusst mit `--max-estimated-cost 0.05` oder `0.10` pro Lauf erhoeht werden.
 
+## 2026-06-01 - GPT-5-mini Reviewbenchmark erfolgreich
+
+Entscheidung: `gpt-5-mini` bleibt der Standardkandidat fuer externe kapitelweise Leseproben.
+
+Begruendung: Der komplette 5er-Benchmark fuer ein Testkapitel lief erfolgreich durch. Alle Fokuslaeufe (`fehlerkorrektur`, `logikfehler`, `spannungsbogen`, `schreibstil`, `grammatik`) lieferten strukturierte JSON-Ausgaben mit Status `pending_review`. Die erfolgreichen fuenf Laeufe kosteten zusammen 0.013879 USD.
+
+Runtime-Anpassung: GPT-5-Modelle erhalten keine benutzerdefinierte Temperatur, nutzen `reasoning_effort = minimal` und ein externes Completion-Limit von 4096 Tokens. Niedrigere Limits fuehrten zu unvollstaendiger beziehungsweise leerer sichtbarer Ausgabe, weil Completion-Tokens durch Reasoning verbraucht wurden.
+
+Folge: Naechster Schritt ist die fachliche Qualitaetsbewertung der Befunde. Wenn `gpt-5-mini` nicht reicht, wird `gpt-5` als hoeherwertiger, aber teurerer Reviewpfad getestet.
+
 ### Konsequenz
 `config/model_profiles.toml` enthaelt lokale Health-Blocker. Kapitel-Leseproben duerfen erst mit einem Modell laufen, das den Health-Check und anschliessend den fuenfteiligen Leseproben-Benchmark besteht.

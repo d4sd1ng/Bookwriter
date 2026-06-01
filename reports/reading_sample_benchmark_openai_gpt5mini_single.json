@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "case_id": "consulting_practical_guide_chapter_1",
+      "focus": "fehlerkorrektur",
+      "status": "pending_review",
+      "findings": 6,
+      "change_suggestions": 5,
+      "residual_risks": [
+        "Wenn die Handwerker-Anekdote ohne Klärung bleibt, verwirrt sie Leser und schwächt Argumentation.",
+        "Tautologische/Platzhalterformulierungen mindern Glaubwürdigkeit gegenüber professionaler Zielgruppe."
+      ],
+      "model": "gpt-5-mini-2025-08-07",
+      "input_tokens": 2037,
+      "output_tokens": 1226,
+      "estimated_cost": "0.002961",
+      "currency": "USD",
+      "notes": [
+        "Model-backed chapter review run 1 created with gpt-5-mini-2025-08-07.",
+        "Tokens logged: 3263.",
+        "Estimated cost: 0.002961 USD"
+      ]
+    }
+  ]
+}
