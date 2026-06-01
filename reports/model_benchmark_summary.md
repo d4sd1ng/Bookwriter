@@ -33,3 +33,35 @@ Naechste Optionen:
 1. Kleineres Reviewmodell mit mindestens 32K Kontext testen.
 2. Prompt fuer Benchmark-Ausgaben weiter reduzieren und mit hartem Output-Limit testen.
 3. Externes Reviewmodell nur mit Kostenprofil und Tokenmonitoring freigeben.
+
+## 2026-06-01
+
+### Kompakter Reading-Sample-Prompt
+
+Der Prompt `reading_sample_review_prompt.md` wurde auf kompakte Befundausgabe umgestellt:
+
+- keine vollstaendige Kapitel-Neufassung
+- maximal 8 erkannte Probleme
+- maximal 5 Aenderungsvorschlaege
+- hartes Output-Limit: `max_output_tokens = 768`
+- Qwen3-Kurzreview-Grenze: `secondary_review_max_input_tokens = 12000`
+
+Gemessene Promptgroesse fuer den Benchmarkfall `consulting_practical_guide_chapter_1`:
+
+- kompletter Auftrag inklusive Prompt, JSON und Testkapitel: ca. 1.913 Tokens
+- Kapitelrohfassung allein: ca. 357 Tokens
+
+### Benchmark-Ergebnisse
+
+- `qwen3:14b` mit kompaktem Prompt, Fokus `fehlerkorrektur`, Health-Gate nur fuer den Benchmarkprozess deaktiviert: Timeout nach 240 Sekunden.
+- `qwen3:14b` mit direktem Ollama-Chat-Aufruf und `think: false`: Timeout nach 240 Sekunden.
+- `qwen2.5:7b` als direkte Baseline fuer denselben kompakten Reviewauftrag: Timeout nach 120 Sekunden.
+- `qwen2.5:7b` Minimaltest `Gib nur OK aus.`: ca. 71 Sekunden.
+
+### Bewertung
+
+Die aktuelle lokale Ausfuehrung ist fuer interaktive Kapitelreviews nicht tragbar. Der kompakte Prompt ist nicht mehr der Hauptengpass; selbst kurze lokale Modellaufrufe sind auf CPU zu langsam.
+
+### Entscheidung
+
+Lokale Review-Modelle bleiben fuer produktive Leseproben blockiert. Der naechste sinnvolle Schritt ist ein externer Review-Runtime-Pfad mit Tokenmonitoring und Kostenprofil oder ein deutlich kleineres lokales Modell nur als Vorfilter, nicht als finale fachliche Reviewinstanz.

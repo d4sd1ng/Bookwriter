@@ -61,7 +61,7 @@ class OllamaRuntime:
             "num_ctx": runtime_context_tokens,
         }
         if profile.requires_structured_output:
-            options["num_predict"] = 2048
+            options["num_predict"] = profile.max_output_tokens
 
         body = {
             "model": selection.model,

@@ -13,6 +13,7 @@ class ModelTaskProfile:
     reasoning_effort: str
     temperature: float
     requires_structured_output: bool
+    max_output_tokens: int = 2048
     minimum_context_tokens: int = 0
     preferred_context_tokens: int = 0
     requires_thinking: bool = False
@@ -54,6 +55,7 @@ def load_model_profiles(path: Path | str = "config/model_profiles.toml") -> Mode
             reasoning_effort=profile["reasoning_effort"],
             temperature=float(profile["temperature"]),
             requires_structured_output=bool(profile["requires_structured_output"]),
+            max_output_tokens=int(profile.get("max_output_tokens", 2048)),
             minimum_context_tokens=int(profile.get("minimum_context_tokens", 0)),
             preferred_context_tokens=int(profile.get("preferred_context_tokens", 0)),
             requires_thinking=bool(profile.get("requires_thinking", False)),

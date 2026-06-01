@@ -201,5 +201,13 @@ Lokale Modell-Health-Checks blockieren aktuell alle Review-Kandidaten.
 ### Begründung
 Ein installiertes Modell reicht nicht. `gpt-oss:20b` ist nach Neu-Pull wieder lauffaehig, laeuft fuer Review-Prompts aber zu langsam. `qwen3:14b` laeuft fuer Review-Prompts ebenfalls zu langsam und `mistral-small3.2:24b` ist auf CPU fuer interaktive Nutzung nicht tragbar.
 
+## 2026-06-01 - Reading-Sample-Prompt kompakt, lokaler Reviewpfad weiter blockiert
+
+Entscheidung: Der Reading-Sample-Prompt bleibt kompakt und gibt nur Befunde plus punktuelle Korrekturanweisungen aus. Vollstaendige Kapitelneufassungen werden nicht im Leseprobenlauf erzeugt.
+
+Begruendung: Der neue Benchmarkauftrag liegt bei ca. 1.913 geschaetzten Tokens inklusive Testkapitel. Trotzdem laufen `qwen3:14b` mit kompaktem Prompt und `think: false` sowie `qwen2.5:7b` lokal nicht innerhalb der gesetzten Timeouts fertig. `qwen2.5:7b` braucht selbst fuer einen Minimaltest rund 71 Sekunden.
+
+Folge: Lokale Review-Modelle bleiben fuer produktive Kapitel-Leseproben blockiert. Fuer nutzbare Reviews braucht Bookwriter entweder einen externen Modellpfad mit Token-/Kostenmonitoring oder deutlich leistungsfaehigere lokale Inferenz.
+
 ### Konsequenz
 `config/model_profiles.toml` enthaelt lokale Health-Blocker. Kapitel-Leseproben duerfen erst mit einem Modell laufen, das den Health-Check und anschliessend den fuenfteiligen Leseproben-Benchmark besteht.

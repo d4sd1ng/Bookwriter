@@ -188,6 +188,7 @@ def test_ollama_runtime_logs_measured_tokens(tmp_path) -> None:
     assert records[0].run_focus == "grammatik"
     assert runtime.body is not None
     assert runtime.body["format"] == "json"
+    assert runtime.body["options"]["num_predict"] == 768
     messages = runtime.body["messages"]
     assert isinstance(messages, list)
     assert messages[0]["role"] == "system"

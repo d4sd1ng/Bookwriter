@@ -51,7 +51,7 @@ reason = "Re-pulled successfully on 2026-05-31 and minimal run works, but readin
 
 [model_health."qwen3:14b"]
 approved_for_runtime = false
-reason = "Local reading_sample_review benchmark timed out after 120 and 180 seconds on 2026-05-31."
+reason = "Local reading_sample_review benchmark timed out after 120/180 seconds on 2026-05-31 and after 240 seconds with compact prompt plus think=false on 2026-06-01."
 
 [model_health."mistral-small3.2:24b"]
 approved_for_runtime = false
@@ -59,7 +59,7 @@ reason = "Installed on 2026-05-31, but even minimal local run timed out after 18
 
 [model_health."qwen2.5:7b"]
 approved_for_runtime = true
-reason = "Local smoke test completed, but model remains forbidden for review tasks."
+reason = "Local smoke test completed, but minimal OK run took about 71 seconds on 2026-06-01 and model remains forbidden for review tasks."
 
 [[candidate_models]]
 name = "qwen3:30b"
@@ -161,13 +161,14 @@ alternative_model = "qwen3:14b"
 reasoning_effort = "high"
 temperature = 0.2
 requires_structured_output = true
+max_output_tokens = 768
 minimum_context_tokens = 32768
 preferred_context_tokens = 131072
 requires_thinking = true
 allow_secondary_model = false
 allow_secondary_review_model = true
-secondary_review_max_input_tokens = 30000
-long_text_strategy = "single_chapter_full_context"
+secondary_review_max_input_tokens = 12000
+long_text_strategy = "single_chapter_full_context_compact_findings"
 
 [tasks.consistency_review]
 model = "gpt-oss:20b"

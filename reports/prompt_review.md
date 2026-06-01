@@ -78,6 +78,8 @@ Nach Umstellung auf den Chat-Endpunkt mit System-Anweisung lieferte `gpt-oss:20b
 
 Update 2026-05-31: `gpt-oss:20b` wurde neu gezogen und ist wieder lauffaehig, scheitert aber fuer einen echten Leseproben-Fokus am 300-Sekunden-Timeout. `qwen3:14b` und `mistral-small3.2:24b` liefen fuer Review- bzw. Minimaltests auf CPU in 120/180 Sekunden nicht fertig. Damit ist aktuell kein lokales Review-Modell freigegeben; Prompt-Optimierung allein reicht nicht, solange kein ausreichend schnelles Review-Modell vorhanden ist.
 
+Update 2026-06-01: Der Reading-Sample-Prompt wurde auf kompakte Befundausgabe umgestellt. Die vollstaendige Kapitelneufassung wurde entfernt, die Ausgabe auf maximal 8 Probleme und 5 Aenderungsvorschlaege begrenzt und `max_output_tokens = 768` gesetzt. Der Benchmarkauftrag umfasst nur noch ca. 1.913 geschaetzte Tokens inklusive Testkapitel. Trotzdem blockiert `qwen3:14b` nach 240 Sekunden, auch mit deaktiviertem Thinking. `qwen2.5:7b` blockiert denselben Auftrag nach 120 Sekunden und braucht fuer einen Minimaltest ca. 71 Sekunden. Damit ist der lokale Reviewpfad aktuell runtime-limitiert, nicht nur prompt-limitiert.
+
 Naechste Pruefpunkte:
 
 - System-/Rollenanweisung fuer echte Kapitelreviews weiter benchmarken.
@@ -85,3 +87,4 @@ Naechste Pruefpunkte:
 - Beispielantwort nur als Schema, nicht als interpretierbarer Inhalt.
 - Pro Fokus echte Testkapitel gegen `gpt-oss:20b` und `qwen3:14b` vergleichen.
 - Naechstes lauffaehiges Review-Modell erst per Health-Check freigeben, dann Promptqualitaet bewerten.
+- Externen Reviewpfad mit Kostenprofil und Tokenmonitoring vorbereiten, wenn lokale CPU-Ausfuehrung nicht beschleunigt werden kann.
