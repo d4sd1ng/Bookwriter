@@ -10,6 +10,13 @@ def test_local_ollama_models_have_zero_api_cost() -> None:
     assert catalog.estimate_cost("qwen3:14b", input_tokens=10_000, output_tokens=2_000) == 0
 
 
+def test_external_openai_model_cost_profile_is_configured() -> None:
+    catalog = TokenCostCatalog()
+
+    assert catalog.profile_for("gpt-5-mini").provider == "openai"
+    assert catalog.estimate_cost("gpt-5-mini", input_tokens=10_000, output_tokens=2_000) == 0.0065
+
+
 def test_token_usage_ledger_summarizes_project_usage(tmp_path) -> None:
     ledger = TokenUsageLedger(path=tmp_path / "usage.jsonl")
     ledger.append(

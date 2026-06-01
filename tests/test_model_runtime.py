@@ -184,6 +184,7 @@ def test_ollama_runtime_logs_measured_tokens(tmp_path) -> None:
     records = ledger.records("project-1")
     assert output.input_tokens == 12
     assert output.output_tokens == 4
+    assert output.metadata["estimated_cost"] == "0.000000"
     assert len(records) == 1
     assert records[0].run_focus == "grammatik"
     assert runtime.body is not None

@@ -16,6 +16,7 @@ from bookwriter.domain.review_runs import ReadingSampleFocus
 from bookwriter.domain.token_usage import TokenUsageLedger, TokenUsageRecord
 from bookwriter.domain.validation import validate_development_foundation
 from bookwriter.runtime.ollama_runtime import OllamaRuntime
+from bookwriter.runtime.openai_runtime import OpenAIChatRuntime
 from bookwriter.storage.json_store import JsonProjectStore
 from bookwriter.workflows.book_project import BookProjectWorkflow
 
@@ -153,7 +154,14 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Run the review through the configured local Ollama model and log tokens.",
     )
+    review_chapter.add_argument(
+        "--use-openai",
+        action="store_true",
+        help="Run the review through the external OpenAI runtime and log tokens/costs.",
+    )
     review_chapter.add_argument("--model", help="Override the configured review model.")
+    review_chapter.add_argument("--timeout-seconds", type=int)
+    review_chapter.add_argument("--max-estimated-cost", type=float)
 
     approve_review = subparsers.add_parser("approve-review", help="Approve one chapter review.")
     approve_review.add_argument("project_id")
@@ -218,9 +226,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     benchmark = subparsers.add_parser(
         "benchmark-reading-sample",
-        help="Run reading-sample prompt benchmarks against Ollama.",
+        help="Run reading-sample prompt benchmarks against a configured model runtime.",
     )
-    benchmark.add_argument("--use-ollama", action="store_true", required=True)
+    benchmark.add_argument("--use-ollama", action="store_true")
+    benchmark.add_argument("--use-openai", action="store_true")
     benchmark.add_argument("--case-file", default="benchmarks/reading_sample_cases.toml")
     benchmark.add_argument(
         "--focus",
@@ -228,6 +237,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     benchmark.add_argument("--model", help="Override the configured benchmark model.")
     benchmark.add_argument("--timeout-seconds", type=int, default=180)
+    benchmark.add_argument("--max-estimated-cost", type=float)
     benchmark.add_argument("--output", default="reports/reading_sample_benchmark.json")
     return parser
 
@@ -582,7 +592,7 @@ def run_foundation_check(args: argparse.Namespace) -> int:
 def run_benchmark_reading_sample(args: argparse.Namespace) -> int:
     runtime = _model_runtime(args)
     if runtime is None:
-        print("Benchmark requires --use-ollama.")
+        print("Benchmark requires --use-ollama or --use-openai.")
         return 2
     cases = load_reading_sample_cases(args.case_file)
     focus = ReadingSampleFocus(args.focus) if args.focus else None
@@ -596,7 +606,8 @@ def run_benchmark_reading_sample(args: argparse.Namespace) -> int:
     for item in results:
         print(
             f"- {item['case_id']} / {item['focus']}: {item['status']} "
-            f"({item['input_tokens']} in, {item['output_tokens']} out)"
+            f"({item['input_tokens']} in, {item['output_tokens']} out, "
+            f"{item.get('estimated_cost', '0.000000')} {item.get('currency', '')})"
         )
     return 2 if blocked else 0
 
@@ -613,6 +624,15 @@ def _print_foundation_validation(project: BookProject) -> int:
 
 
 def _model_runtime(args: argparse.Namespace):
+    if getattr(args, "use_openai", False):
+        runtime = OpenAIChatRuntime.from_config()
+        if getattr(args, "model", None):
+            runtime.model = args.model
+        if getattr(args, "timeout_seconds", None):
+            runtime.timeout_seconds = args.timeout_seconds
+        if getattr(args, "max_estimated_cost", None) is not None:
+            runtime.max_estimated_cost = args.max_estimated_cost
+        return runtime
     if getattr(args, "use_ollama", False):
         timeout_seconds = getattr(args, "timeout_seconds", None)
         if timeout_seconds:

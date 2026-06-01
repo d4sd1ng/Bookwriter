@@ -205,6 +205,7 @@ class ChapterReviewAgent:
             notes=[
                 f"Model-backed chapter review run {run_number} created with {output.model}.",
                 f"Tokens logged: {output.input_tokens + output.output_tokens}.",
+                _cost_note(output.metadata),
             ],
         )
 
@@ -279,3 +280,10 @@ def _as_string_list(value: object) -> list[str]:
     if isinstance(value, str):
         return [value] if value.strip() else []
     return [str(value)]
+
+
+def _cost_note(metadata: dict[str, str]) -> str:
+    estimated_cost = metadata.get("estimated_cost")
+    if not estimated_cost:
+        return "Estimated cost: not available."
+    return f"Estimated cost: {estimated_cost} {metadata.get('currency', '')}".strip()

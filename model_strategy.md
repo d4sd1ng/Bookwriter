@@ -2,7 +2,7 @@
 
 ## Entscheidung
 
-Der Bookwriter nutzt mehrere Ollama-Modelle je nach Aufgabe.
+Der Bookwriter nutzt mehrere lokale Ollama-Modelle je nach Aufgabe und einen externen Reviewpfad fuer qualitaetskritische Leseproben, solange lokale Inferenz zu langsam ist.
 
 Geplantes Primaermodell:
 
@@ -19,6 +19,12 @@ Optional bei ausreichend Hardware:
 - `qwen3:14b` als sekundäres Review-Modell fuer kurze Kapitel
 - `mistral-small3.2:24b` als optionaler Kandidat fuer Instruction-Following-Pruefungen
 - `qwen3:30b` als optionaler Long-Context-Kandidat nach Hardwaretest
+
+Externer Reviewpfad:
+
+- Standard: `gpt-5-mini`
+- hoeherwertiger Kandidat nach Kostenfreigabe: `gpt-5`
+- Fallback/Kostenvergleich: `gpt-4.1-mini`
 
 ## Begruendung
 
@@ -62,6 +68,8 @@ Optional bei ausreichend Hardware:
 | Amazon KDP | `gpt-oss:20b` fuer Checkliste | kein automatischer Upload ohne finale Freigabe |
 
 Wichtig: `gpt-oss:20b` wurde am 2026-05-31 neu gezogen und ist wieder lauffaehig. Fuer die Review-Pipeline bleibt es trotzdem blockiert, weil ein einzelner echter Leseproben-Fokus nach 300 Sekunden nicht fertig wurde. Das Modell bleibt als Zielprofil dokumentiert, ist aber lokal nicht fuer Reviews freigegeben.
+
+Bis ein lokales Review-Modell ausreichend schnell laeuft, werden produktive kapitelweise Reviewlaeufe ueber den externen Runtime-Adapter ausgefuehrt. Der Adapter nutzt den wiederverwendbaren Text-Analysis-Agent-Contract, aber fuehrt die eigentliche LLM-Pruefung ueber ein externes Modell aus.
 
 ## Review-Modellregeln
 
@@ -187,6 +195,8 @@ Lokale Ollama-Modelle haben API-Kosten von `0`. Hardware-, Strom- und Zeitkosten
 
 Externe Modelle duerfen erst genutzt werden, wenn ein aktuelles Preisprofil in `config/token_costs.toml` eingetragen und freigegeben ist.
 
+Der OpenAI-Adapter nutzt Chat Completions mit JSON-Ausgabe, setzt ein hartes Completion-Limit aus dem Taskprofil und schreibt gemessene `prompt_tokens` und `completion_tokens` in denselben Ledger wie lokale Ollama-Laeufe. Ein optionales `--max-estimated-cost` blockiert den Lauf vor dem API-Aufruf, wenn die Schaetzung das Limit ueberschreitet.
+
 ## Aktueller lokaler Stand
 
 Am 2026-05-31 lokal verfuegbar:
@@ -197,3 +207,5 @@ Am 2026-05-31 lokal verfuegbar:
 - `mistral-small3.2:24b`
 
 Fuer produktive Review-Aufgaben ist aktuell kein lokales Modell freigegeben. Naechster Schritt ist ein schnelleres Review-Modell mit mindestens 32k Kontext oder ein externer Reviewpfad mit Kostenprofil.
+
+Update 2026-06-01: Der externe Reviewpfad ist als OpenAI-kompatibler Runtime-Adapter vorgesehen. Standardmodell ist `gpt-5-mini`; Kostenprofile fuer `gpt-5-mini`, `gpt-5` und `gpt-4.1-mini` sind in `config/token_costs.toml` gepflegt.

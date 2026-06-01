@@ -209,5 +209,20 @@ Begruendung: Der neue Benchmarkauftrag liegt bei ca. 1.913 geschaetzten Tokens i
 
 Folge: Lokale Review-Modelle bleiben fuer produktive Kapitel-Leseproben blockiert. Fuer nutzbare Reviews braucht Bookwriter entweder einen externen Modellpfad mit Token-/Kostenmonitoring oder deutlich leistungsfaehigere lokale Inferenz.
 
+## 2026-06-01 - Externer Review-Runtime-Adapter
+
+Entscheidung: Bookwriter erhaelt einen externen OpenAI-kompatiblen Runtime-Adapter fuer kapitelweise Review-Laeufe.
+
+Begruendung: Lokale Modelle sind fuer den geforderten Reviewprozess nicht ausreichend schnell. Der bestehende Shared-Agent-Contract bleibt erhalten: Der Text Analysis Agent liefert fachliche Reviewausgaben an den Orchestrator, waehrend Token Monitoring und Token Cost Calculator ueber den gemeinsamen Ledger und `config/token_costs.toml` umgesetzt werden.
+
+Regeln:
+
+- Standardmodell fuer externe Reviews ist `gpt-5-mini`.
+- Hoeherwertige Reviews koennen mit `gpt-5` gestartet werden, wenn das Kostenlimit passt.
+- Jeder externe Lauf braucht ein Kostenprofil.
+- Jeder externe Lauf kann mit `--max-estimated-cost` vor dem API-Aufruf begrenzt werden.
+- Gemessene API-Tokens werden im Ledger gespeichert.
+- Ohne `OPENAI_API_KEY` blockiert der Lauf.
+
 ### Konsequenz
 `config/model_profiles.toml` enthaelt lokale Health-Blocker. Kapitel-Leseproben duerfen erst mit einem Modell laufen, das den Health-Check und anschliessend den fuenfteiligen Leseproben-Benchmark besteht.

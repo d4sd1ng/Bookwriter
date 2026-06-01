@@ -63,6 +63,16 @@ def run_reading_sample_benchmark(
                     "model": model_output.model if model_output else "",
                     "input_tokens": model_output.input_tokens if model_output else 0,
                     "output_tokens": model_output.output_tokens if model_output else 0,
+                    "estimated_cost": (
+                        model_output.metadata.get("estimated_cost", "0.000000")
+                        if model_output
+                        else "0.000000"
+                    ),
+                    "currency": (
+                        model_output.metadata.get("currency", "")
+                        if model_output
+                        else ""
+                    ),
                     "notes": result.notes,
                 }
             )

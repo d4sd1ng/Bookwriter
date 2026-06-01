@@ -300,6 +300,10 @@ Ein Auftrag ist abgeschlossen, wenn:
 6. Cloud- oder API-Modelle duerfen nur mit aktuellem Kostenprofil genutzt werden.
 7. Wenn Tokenverbrauch oder Kosten nicht ermittelt werden koennen, muss der Lauf als unvollstaendig markiert werden.
 8. Ollama-Laeufe nutzen gemessene `prompt_eval_count` und `eval_count`, falls der Server diese Werte liefert.
+9. Externe Review-Laeufe nutzen den OpenAI-kompatiblen Runtime-Adapter nur mit freigegebenem Kostenprofil in `config/token_costs.toml`.
+10. Externe Review-Laeufe muessen vor dem API-Aufruf gegen `--max-estimated-cost` pruefbar sein.
+11. OpenAI-Review-Laeufe protokollieren gemessene `prompt_tokens` und `completion_tokens` im gemeinsamen Token-Ledger.
+12. Fehlt `OPENAI_API_KEY`, wird der Lauf blockiert und nicht simuliert.
 
 ## Qualitaetsregeln fuer Modelle
 

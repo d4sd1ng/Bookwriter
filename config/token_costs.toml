@@ -1,5 +1,5 @@
 [defaults]
-currency = "EUR"
+currency = "USD"
 ledger_path = "data/token_usage.jsonl"
 local_api_cost_per_million_input_tokens = 0.0
 local_api_cost_per_million_output_tokens = 0.0
@@ -35,3 +35,21 @@ provider = "ollama"
 api_cost_per_million_input_tokens = 0.0
 api_cost_per_million_output_tokens = 0.0
 cost_note = "Candidate local Ollama model after installation. API token cost is 0."
+
+[models."gpt-5-mini"]
+provider = "openai"
+api_cost_per_million_input_tokens = 0.25
+api_cost_per_million_output_tokens = 2.0
+cost_note = "External OpenAI review model. Pricing verified against official OpenAI pricing docs on 2026-06-01."
+
+[models."gpt-5"]
+provider = "openai"
+api_cost_per_million_input_tokens = 1.25
+api_cost_per_million_output_tokens = 10.0
+cost_note = "External OpenAI higher-quality review model. Pricing verified against official OpenAI pricing docs on 2026-06-01."
+
+[models."gpt-4.1-mini"]
+provider = "openai"
+api_cost_per_million_input_tokens = 0.40
+api_cost_per_million_output_tokens = 1.60
+cost_note = "External OpenAI fallback review model. Pricing verified against official OpenAI pricing docs on 2026-06-01."

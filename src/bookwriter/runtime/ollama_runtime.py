@@ -99,7 +99,7 @@ class OllamaRuntime:
             },
         )
         if invocation.project_id:
-            self.ledger.append(
+            record = self.ledger.append(
                 TokenUsageRecord(
                     project_id=invocation.project_id,
                     task=invocation.task,
@@ -111,6 +111,8 @@ class OllamaRuntime:
                     run_focus=invocation.run_focus,
                 )
             )
+            output.metadata["estimated_cost"] = f"{record.estimated_cost:.6f}"
+            output.metadata["currency"] = record.currency
         return output
 
     def _post_chat(self, body: dict[str, object]) -> dict[str, object]:
